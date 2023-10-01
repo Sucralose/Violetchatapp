@@ -105,6 +105,17 @@
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
+        <TextView
+            android:id="@+id/forgotPasswordText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="Forgot password?"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/_13ssp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
     </LinearLayout>
 
 </ScrollView>

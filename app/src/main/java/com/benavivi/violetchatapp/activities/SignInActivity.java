@@ -31,10 +31,10 @@ public class SignInActivity extends AppCompatActivity {
 	@Override
 	protected void onStart () {
 		super.onStart();
-		/*if(FirebaseManager.isSignedIn()){
+		if(FirebaseManager.isSignedIn()){
 			Intent mainActivityIntent = new Intent(SignInActivity.this, MainActivity.class);
 			startActivity(mainActivityIntent);
-		}*/
+		}
 	}
 
 	private void setLisenters(){
@@ -43,7 +43,25 @@ public class SignInActivity extends AppCompatActivity {
 			if(isValidSignInData())
 				signIn();
 		});
+		binding.forgotPasswordText.setOnClickListener(view -> {
+			if (isValidEmail())
+				sendPasswordReset();
+		});
 	}
+
+	private void sendPasswordReset () {
+		loading(true);
+		firebaseAuth.sendPasswordResetEmail(binding.inputEmailAddress.getText().toString())
+			.addOnSuccessListener(unused -> {
+				showShortToast("Please check your email for a password reset.");
+				loading(false);
+			})
+			.addOnFailureListener(e -> {
+				showShortToast(e.getMessage());
+				loading(false);
+			});
+	}
+
 
 	private void signIn () {
 		loading(true);
@@ -73,20 +91,29 @@ public class SignInActivity extends AppCompatActivity {
 	}
 
 	private boolean isValidSignInData(){
-		if(binding.inputEmailAddress.getText().toString().isEmpty()){
-			showShortToast("Please enter your email address");
-		}
-		//Use builtin regex to determine if is valid address
-		if(!Patterns.EMAIL_ADDRESS.matcher(binding.inputEmailAddress.getText().toString()).matches()){
-			showShortToast("Please enter a valid email address");
+		if(!isValidEmail())
 			return false;
-		}
 		if(binding.inputPassword.getText().toString().isEmpty() ){
 			showShortToast("Please enter your password");
 			return false;
 		}
 		return true;
 	}
+
+	private boolean isValidEmail () {
+		if(binding.inputEmailAddress.getText().toString().isEmpty()){
+			showShortToast("Please enter your email address");
+			return false;
+		}
+		//Use builtin regex to determine if is valid address
+		if(!Patterns.EMAIL_ADDRESS.matcher(binding.inputEmailAddress.getText().toString()).matches()){
+			showShortToast("Please enter a valid email address");
+			return false;
+		}
+		return true;
+	}
+
+
 	private void showShortToast(String message){
 		Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
 	}

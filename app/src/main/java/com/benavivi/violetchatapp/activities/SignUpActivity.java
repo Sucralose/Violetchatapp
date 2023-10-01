@@ -15,9 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.benavivi.violetchatapp.databinding.ActivitySignUpBinding;
 import com.benavivi.violetchatapp.utilities.Constants;
 import com.benavivi.violetchatapp.utilities.FirebaseManager;
-import com.benavivi.violetchatapp.utilities.PreferenceManager;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -40,6 +38,15 @@ public class SignUpActivity extends AppCompatActivity {
 		setListeners();
 	}
 
+	@Override
+	protected void onStart () {
+		super.onStart();
+		if(FirebaseManager.isSignedIn()){
+			Intent mainActivityIntent = new Intent(SignUpActivity.this, MainActivity.class);
+			startActivity(mainActivityIntent);
+		}
+	}
+
 	private void setListeners () {
 		binding.signInText.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(),SignInActivity.class)));
 		binding.signUpButton.setOnClickListener(view -> { if(isValidSignUpDetails()) signUp(); });
@@ -59,7 +66,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 		firebaseAuth.createUserWithEmailAndPassword(binding.inputEmailAddress.getText().toString(), binding.inputPassword.getText().toString())
 			.addOnSuccessListener(authResult -> {
-				FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+				//FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 				FirebaseManager.updateUserProfile(binding.inputDisplayName.getText().toString(),profilePictureImageUri);
 				addToUserFirestore();
 			})

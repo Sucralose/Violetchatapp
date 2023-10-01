@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "49492325055",
+    "project_id": "voilet-chatapp",
+    "storage_bucket": "voilet-chatapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49492325055:android:42d016ce94ed127c638c0a",
+        "android_client_info": {
+          "package_name": "com.benavivi.violetchatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "49492325055-ga2k5b71hbj453cmb3j1fqqd3hi0hln2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.benavivi.violetchatapp",
+            "certificate_hash": "d6232640d6fdb6c19bfd94521b7d8170223923b7"
+          }
+        },
+        {
+          "client_id": "49492325055-tnhcn12gfv53s10eiqg4rjnl07qh2n51.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPWw6LEBm2GYkWbVXF2Zi89AZXh3JXd-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "49492325055-tnhcn12gfv53s10eiqg4rjnl07qh2n51.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

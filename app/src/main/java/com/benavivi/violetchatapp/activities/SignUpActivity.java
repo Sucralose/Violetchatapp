@@ -1,8 +1,6 @@
 package com.benavivi.violetchatapp.activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,25 +14,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.benavivi.violetchatapp.databinding.ActivitySignUpBinding;
 import com.benavivi.violetchatapp.utilities.Constants;
-import com.benavivi.violetchatapp.utilities.ImageFunctions;
+import com.benavivi.violetchatapp.utilities.FirebaseManager;
 import com.benavivi.violetchatapp.utilities.PreferenceManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity {
 
 	private ActivitySignUpBinding binding;
 
-	private PreferenceManager preferenceManager;
 	private FirebaseFirestore firestoreDatabase;
 	private FirebaseAuth firebaseAuth;
-	private String encodedImage;
+	private Uri profilePictureImageUri;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -42,7 +36,6 @@ public class SignUpActivity extends AppCompatActivity {
 		binding = ActivitySignUpBinding.inflate(getLayoutInflater());
 		firestoreDatabase = FirebaseFirestore.getInstance();
 		firebaseAuth = FirebaseAuth.getInstance();
-		preferenceManager = new PreferenceManager(getApplicationContext());
 		setContentView(binding.getRoot());
 		setListeners();
 	}
@@ -63,29 +56,29 @@ public class SignUpActivity extends AppCompatActivity {
 
 	private void signUp(){
 		loading(true);
-		HashMap<String,Object> user = new HashMap<>();
-		user.put(Constants.UserConstants.KEY_NAME, binding.inputDisplayName.getText().toString());
-		user.put(Constants.UserConstants.KEY_EMAIL,binding.inputEmailAddress.getText().toString());
-		user.put(Constants.UserConstants.KEY_PASSWORD, binding.inputPassword.getText().toString());
-		user.put(Constants.UserConstants.KEY_IMAGE , encodedImage);
 
-
-		firebaseAuth.createUserWithEmailAndPassword((String) user.get(Constants.UserConstants.KEY_EMAIL), (String) user.get(Constants.UserConstants.KEY_PASSWORD))
+		firebaseAuth.createUserWithEmailAndPassword(binding.inputEmailAddress.getText().toString(), binding.inputPassword.getText().toString())
 			.addOnSuccessListener(authResult -> {
 				FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-				user.put(Constants.UserConstants.KEY_USER_ID, firebaseUser.getUid());
-				addToFirestore(user);
+				FirebaseManager.updateUserProfile(binding.inputDisplayName.getText().toString(),profilePictureImageUri);
+				addToUserFirestore();
 			})
 			.addOnFailureListener(e -> {
 				showShortToast(e.getMessage());
 				loading(false);
 			});
 		}
-	private void addToFirestore (HashMap<String, Object> user) {
+
+	private void addToUserFirestore () {
+		HashMap<String,Object> user = new HashMap<>();
+		user.put(Constants.UserConstants.KEY_NAME, binding.inputDisplayName.getText().toString());
+		user.put(Constants.UserConstants.KEY_EMAIL,binding.inputEmailAddress.getText().toString());
+		user.put(Constants.UserConstants.KEY_IMAGE , profilePictureImageUri);
+
+
 		firestoreDatabase.collection(Constants.UserConstants.KEY_COLLECTION_USER)
 			.add(user)
 			.addOnSuccessListener(documentReference -> {
-				addToPreferenceManager(user);
 				Intent goToChatsIntent = new Intent(getApplicationContext(), MainActivity.class);
 				startActivity(goToChatsIntent);
 				loading(false);
@@ -95,14 +88,6 @@ public class SignUpActivity extends AppCompatActivity {
 				loading(false);
 			});
 	}
-	private void addToPreferenceManager (HashMap<String, Object> user) {
-		preferenceManager.putBoolean(Constants.UserConstants.KEY_IS_SIGNED_IN,true);
-		preferenceManager.putString(Constants.UserConstants.KEY_USER_ID, (String) user.get(Constants.UserConstants.KEY_USER_ID));
-		preferenceManager.putString(Constants.UserConstants.KEY_NAME, (String) user.get(Constants.UserConstants.KEY_NAME));
-		preferenceManager.putString(Constants.UserConstants.KEY_EMAIL,  (String) user.get(Constants.UserConstants.KEY_EMAIL));
-		preferenceManager.putString(Constants.UserConstants.KEY_PASSWORD,  (String) user.get(Constants.UserConstants.KEY_PASSWORD));
-		preferenceManager.putString(Constants.UserConstants.KEY_IMAGE,  (String) user.get(Constants.UserConstants.KEY_IMAGE));
-	}
 
 
 	//Image Picker handler
@@ -110,23 +95,15 @@ public class SignUpActivity extends AppCompatActivity {
 		new ActivityResultContracts.StartActivityForResult(),
 		result ->{
 			if(result.getData() != null){
-				Uri imageUri = result.getData().getData();
-				try{
-					InputStream inputStream = getContentResolver().openInputStream(Objects.requireNonNull(imageUri));
-					Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-					binding.profileImage.setImageBitmap(bitmap);
-					binding.addImageText.setVisibility(View.GONE);
-					encodedImage = ImageFunctions.encodeBitmapImage(bitmap);
-				}catch (FileNotFoundException error){
-					error.printStackTrace();
-				}
+				profilePictureImageUri = result.getData().getData();
+				binding.profileImage.setImageURI(profilePictureImageUri);
 			}
 		}
 	);
 
 
 	private boolean isValidSignUpDetails(){
-		if(encodedImage==null){
+		if(profilePictureImageUri==null){
 			showShortToast("Please select a profile picture");
 			return false;
 		}

@@ -97,6 +97,9 @@ public class FirebaseManager {
 	public static Task<AuthResult> signIn(String email, String password){
 		return FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password);
 	}
+	public static Task<Void> sendPasswordReset(String email){
+		return FirebaseAuth.getInstance().sendPasswordResetEmail(email);
+	}
 
 	private static void addToUserFirestore (String email, String displayName, Uri profilePictureImageUri) {
 		HashMap<String,Object> user = new HashMap<>();

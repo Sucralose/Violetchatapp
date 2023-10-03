@@ -10,19 +10,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.benavivi.violetchatapp.databinding.ActivitySignInBinding;
 import com.benavivi.violetchatapp.utilities.FirebaseManager;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class SignInActivity extends AppCompatActivity {
 
 	private ActivitySignInBinding binding;
-	private FirebaseAuth firebaseAuth;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		binding = ActivitySignInBinding.inflate(getLayoutInflater());
-		firebaseAuth= FirebaseAuth.getInstance();
 		setContentView(binding.getRoot());
 		setLisenters();
 	}
@@ -50,15 +47,12 @@ public class SignInActivity extends AppCompatActivity {
 
 	private void sendPasswordReset () {
 		loading(true);
-		firebaseAuth.sendPasswordResetEmail(binding.inputEmailAddress.getText().toString())
-			.addOnSuccessListener(unused -> {
-				showShortToast("Please check your email for a password reset.");
-				loading(false);
-			})
-			.addOnFailureListener(e -> {
-				showShortToast(e.getMessage());
-				loading(false);
-			});
+		FirebaseManager.sendPasswordReset(binding.inputEmailAddress.getText().toString())
+				     .addOnCompleteListener(task -> {
+					     loading(false);
+					     String msg = task.isSuccessful() ? "Please check your email address for the password reset" : task.getResult().toString();
+					     showShortToast(msg);
+				     });
 	}
 
 

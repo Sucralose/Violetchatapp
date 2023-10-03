@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.benavivi.violetchatapp.R;
@@ -14,6 +13,7 @@ import com.benavivi.violetchatapp.fragments.ChatsFragment;
 import com.benavivi.violetchatapp.fragments.ContactsFragment;
 import com.benavivi.violetchatapp.fragments.GroupsFragment;
 import com.benavivi.violetchatapp.fragments.RequestsFragment;
+import com.benavivi.violetchatapp.fragments.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
 	}
 
-	@SuppressLint("NonConstantResourceId")
 	private void setListeners () {
 		binding.mainBottomNavigationView.setOnItemSelectedListener(item ->{
 			//Switch requires constant values, therefore I have to use if else.
@@ -50,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
 			if(item.getItemId() == R.id.requestsNavbarMenuItem)
 				replaceFragments(new RequestsFragment());
+
+			if(item.getItemId() == R.id.settingsNavbarMenuItem)
+				replaceFragments(new SettingsFragment());
 
 			return true;
 		});

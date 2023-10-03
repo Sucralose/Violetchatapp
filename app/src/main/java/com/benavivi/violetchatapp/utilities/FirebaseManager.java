@@ -1,19 +1,14 @@
 package com.benavivi.violetchatapp.utilities;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
-import com.benavivi.violetchatapp.activities.MainActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
@@ -53,12 +48,9 @@ public class FirebaseManager {
 							  .setPhotoUri(profilePictureImageUri)
 							  .build();
 		user.updateProfile(profileUpdates)
-			.addOnCompleteListener(new OnCompleteListener<Void>() {
-				@Override
-				public void onComplete(@NonNull Task<Void> task) {
-					if (task.isSuccessful()) {
-						Log.d("UPDATEUserProfile", "User profile updated.");
-					}
+			.addOnCompleteListener(task -> {
+				if (task.isSuccessful()) {
+					Log.d("UPDATEUserProfile", "User profile updated.");
 				}
 			});
 	}
@@ -80,16 +72,16 @@ public class FirebaseManager {
 		return FirebaseAuth.getInstance().getCurrentUser().getUid();
 	}
 
-	public static Uri getUserUrlImage(){
+	/*public static Uri getUserUriImage (){
 		return FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
-	}
+	}*/
 
 	public static Task<AuthResult> signUp(String email, String password, String displayName, Uri profilePictureImageUri){
 		return FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
 			.addOnSuccessListener(authResult -> {
 				//FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+				addUserToRealtimeFirebaseDatabase(email,displayName,profilePictureImageUri);
 				updateUserProfile(displayName,profilePictureImageUri);
-				addToUserFirestore(email, displayName, profilePictureImageUri);
 			});
 
 	}
@@ -101,7 +93,7 @@ public class FirebaseManager {
 		return FirebaseAuth.getInstance().sendPasswordResetEmail(email);
 	}
 
-	private static void addToUserFirestore (String email, String displayName, Uri profilePictureImageUri) {
+	/*private static void addToUserFirestore (String email, String displayName, Uri profilePictureImageUri) {
 		HashMap<String,Object> user = new HashMap<>();
 		user.put(Constants.UserConstants.KEY_NAME, displayName);
 		user.put(Constants.UserConstants.KEY_EMAIL, email);
@@ -115,6 +107,25 @@ public class FirebaseManager {
 			.addOnFailureListener(e -> {
 				Log.e("FB_TAG",e.getMessage());
 			});
+	}*/
+
+	private static void addUserToRealtimeFirebaseDatabase(String email,String displayName,Uri imageUri){
+		HashMap<String,String> userMap = new HashMap<>();
+		userMap.put(Constants.FirebaseConstants.KEY_EMAIL,email);
+		userMap.put(Constants.FirebaseConstants.KEY_IMAGE,imageUri.toString());
+		userMap.put(Constants.FirebaseConstants.KEY_NAME,displayName);
+		FirebaseDatabase.getInstance(Constants.FirebaseConstants.DATABASE_LINK).getReference()
+			.child(Constants.FirebaseConstants.KEY_COLLECTION_USER)
+				.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+					.setValue(userMap);
+	}
+
+	private static void updateRealtimeDatabaseForUser(){
+		HashMap<String,String> userMap = new HashMap<>();
+		FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+		userMap.put(Constants.FirebaseConstants.KEY_EMAIL, currentFirebaseUser.getEmail());
+		userMap.put(Constants.FirebaseConstants.KEY_IMAGE,currentFirebaseUser.getPhotoUrl().toString());
+		userMap.put(Constants.FirebaseConstants.KEY_NAME, currentFirebaseUser.getDisplayName());
 	}
 
 

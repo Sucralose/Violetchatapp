@@ -5,15 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".activities.MainActivity">
+    tools:context=".activities.MainActivity"
+    tools:ignore="ExtraText"
+    >
 
+    //0dp height will fill in the blanks (because of the constraints)
     <FrameLayout
         android:id="@+id/mainFragmentViewLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/mainBottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
     </FrameLayout>
 
@@ -21,9 +26,13 @@
         android:id="@+id/mainBottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        android:background="@drawable/background_bottom_navbar"
+        app:itemIconTint="@color/primary_dark"
+        app:itemRippleColor="@color/primary_text"
+        app:itemTextColor="@color/primary_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/main_nav_bar_menu"
-        />
+        app:menu="@menu/main_nav_bar_menu" />
 </androidx.constraintlayout.widget.ConstraintLayout>

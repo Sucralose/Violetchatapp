@@ -2,7 +2,6 @@ package com.benavivi.violetchatapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
@@ -65,18 +64,15 @@ public class SignInActivity extends AppCompatActivity {
 
 	private void signIn () {
 		loading(true);
-		Log.d("TAG","StartedSignIn");
-		firebaseAuth.signInWithEmailAndPassword(binding.inputEmailAddress.getText().toString(),binding.inputPassword.getText().toString())
-			.addOnSuccessListener(authResult -> {
-				//FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-				Intent mainActivityIntent = new Intent(SignInActivity.this, MainActivity.class);
-				startActivity(mainActivityIntent);
-				loading(false);
-			})
-			.addOnFailureListener(e -> {
-				showShortToast(e.getMessage());
-				loading(false);
-			});
+		FirebaseManager.signIn(binding.inputEmailAddress.getText().toString(),binding.inputPassword.getText().toString())
+				     .addOnCompleteListener(task -> {
+					     loading(false);
+					     if(task.isSuccessful()){
+						     Intent mainActivityIntent = new Intent(SignInActivity.this, MainActivity.class);
+						     startActivity(mainActivityIntent);
+					     } else
+						     showShortToast(task.getException().getMessage());
+				     });
 	}
 
 	private void loading(Boolean isLoading){

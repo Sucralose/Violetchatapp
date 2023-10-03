@@ -13,27 +13,17 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.benavivi.violetchatapp.databinding.ActivitySignUpBinding;
-import com.benavivi.violetchatapp.utilities.Constants;
 import com.benavivi.violetchatapp.utilities.FirebaseManager;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
 
 public class SignUpActivity extends AppCompatActivity {
 
 	private ActivitySignUpBinding binding;
-
-	private FirebaseFirestore firestoreDatabase;
-	private FirebaseAuth firebaseAuth;
 	private Uri profilePictureImageUri;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		binding = ActivitySignUpBinding.inflate(getLayoutInflater());
-		firestoreDatabase = FirebaseFirestore.getInstance();
-		firebaseAuth = FirebaseAuth.getInstance();
 		setContentView(binding.getRoot());
 		setListeners();
 	}
@@ -41,10 +31,6 @@ public class SignUpActivity extends AppCompatActivity {
 	@Override
 	protected void onStart () {
 		super.onStart();
-		if(FirebaseManager.isSignedIn()){
-			Intent mainActivityIntent = new Intent(SignUpActivity.this, MainActivity.class);
-			startActivity(mainActivityIntent);
-		}
 	}
 
 	private void setListeners () {
@@ -64,37 +50,21 @@ public class SignUpActivity extends AppCompatActivity {
 	private void signUp(){
 		loading(true);
 
-		firebaseAuth.createUserWithEmailAndPassword(binding.inputEmailAddress.getText().toString(), binding.inputPassword.getText().toString())
-			.addOnSuccessListener(authResult -> {
-				//FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-				FirebaseManager.updateUserProfile(binding.inputDisplayName.getText().toString(),profilePictureImageUri);
-				addToUserFirestore();
-			})
-			.addOnFailureListener(e -> {
-				showShortToast(e.getMessage());
+		 FirebaseManager.signUp(binding.inputEmailAddress.getText().toString(),
+				   binding.inputPassword.getText().toString(),
+				   binding.inputDisplayName.getText().toString(),
+				   profilePictureImageUri)
+			.addOnCompleteListener(task -> {
 				loading(false);
+				if(task.isSuccessful()){
+					Intent goToChatsIntent = new Intent(getApplicationContext(), MainActivity.class);
+					startActivity(goToChatsIntent);
+				}
+				else
+					showShortToast(task.getException().getMessage());
 			});
+
 		}
-
-	private void addToUserFirestore () {
-		HashMap<String,Object> user = new HashMap<>();
-		user.put(Constants.UserConstants.KEY_NAME, binding.inputDisplayName.getText().toString());
-		user.put(Constants.UserConstants.KEY_EMAIL,binding.inputEmailAddress.getText().toString());
-		user.put(Constants.UserConstants.KEY_IMAGE , profilePictureImageUri);
-
-
-		firestoreDatabase.collection(Constants.UserConstants.KEY_COLLECTION_USER)
-			.add(user)
-			.addOnSuccessListener(documentReference -> {
-				Intent goToChatsIntent = new Intent(getApplicationContext(), MainActivity.class);
-				startActivity(goToChatsIntent);
-				loading(false);
-			})
-			.addOnFailureListener(e -> {
-				showShortToast(e.getMessage());
-				loading(false);
-			});
-	}
 
 
 	//Image Picker handler
@@ -128,7 +98,7 @@ public class SignUpActivity extends AppCompatActivity {
 			return false;
 		}
 		if(binding.inputPassword.getText().toString().length() <6 ){
-			showShortToast("Your password must be atleast 6 digits.");
+			showShortToast("Your password must be at-least 6 digits.");
 			return false;
 		}
 		if(binding.inputConfirmPassword.getText().toString().isEmpty()){

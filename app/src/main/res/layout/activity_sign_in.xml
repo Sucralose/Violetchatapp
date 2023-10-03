@@ -8,6 +8,7 @@
     android:overScrollMode="never"
     android:padding="@dimen/_24sdp"
     android:scrollbars="none"
+    android:background="@color/white"
     tools:context=".activities.SignInActivity">
 
     <LinearLayout
@@ -49,6 +50,7 @@
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
             android:textColor="@color/primary_text"
+            android:textColorHint="@color/secondary_text"
             android:textSize="@dimen/_13ssp"
             tools:ignore="HardcodedText" />
 
@@ -65,6 +67,7 @@
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
             android:textColor="@color/primary_text"
+            android:textColorHint="@color/secondary_text"
             android:textSize="@dimen/_13ssp"
             tools:ignore="HardcodedText" />
         <FrameLayout

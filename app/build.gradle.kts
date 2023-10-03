@@ -51,21 +51,18 @@ dependencies {
       implementation("com.google.firebase:firebase-firestore")
 //      implementation("com.google.firebase:firebase-core")
 
-
-
-
-      //Scaleable size units
+      //---Scaleable size units
       implementation("com.intuit.sdp:sdp-android:1.1.0")
       implementation("com.intuit.ssp:ssp-android:1.1.0")
 
-      //Rounded image view
+      //---Rounded image view
       implementation("com.makeramen:roundedimageview:2.3.0")
 
-      //Multidex
+      //---Multidex
       implementation("androidx.multidex:multidex:2.0.1")
 
 //      //Preference datastore - androidx
-//      implementation("androidx.datastore:datastore-preferences-core:1.0.0")
+      implementation("androidx.datastore:datastore-preferences-core:1.0.0")
 
 
 }

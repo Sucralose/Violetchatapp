@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Chats"
+        android:icon="@drawable/chat_icon_24"
+        android:id="@+id/chatsNavbarMenuItem"
+        />
+    <item android:title="Groups"
+        android:icon="@drawable/groups_icon_24"
+        android:id="@+id/groupsNavbarMenuItem"
+        />
+    <item android:title="Contacts"
+        android:icon="@drawable/contacts_icon_24"
+        android:id="@+id/contactsNavbarMenuItem"
+        />
+    <item android:title="Requests"
+        android:icon="@drawable/requests_icon_24"
+        android:id="@+id/requestsNavbarMenuItem"
+        />
+</menu>

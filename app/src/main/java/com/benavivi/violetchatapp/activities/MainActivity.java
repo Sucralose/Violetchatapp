@@ -1,11 +1,19 @@
 package com.benavivi.violetchatapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.benavivi.violetchatapp.R;
 import com.benavivi.violetchatapp.databinding.ActivityMainBinding;
+import com.benavivi.violetchatapp.fragments.ChatsFragment;
+import com.benavivi.violetchatapp.fragments.ContactsFragment;
+import com.benavivi.violetchatapp.fragments.GroupsFragment;
+import com.benavivi.violetchatapp.fragments.RequestsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,14 +27,42 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
 		binding = ActivityMainBinding.inflate(getLayoutInflater());
-		setUpToolbar();
+		setContentView(binding.getRoot());
+
+		setListeners();
+		replaceFragments(new ChatsFragment());
 
 	}
 
-	private void setUpToolbar () {
-		setSupportActionBar(findViewById(R.id.mainPageToolBar));
-		getSupportActionBar().setTitle("Violet Chat");
+	@SuppressLint("NonConstantResourceId")
+	private void setListeners () {
+		binding.mainBottomNavigationView.setOnItemSelectedListener(item ->{
+			//Switch requires constant values, therefore I have to use if else.
+			if(item.getItemId() == R.id.chatsNavbarMenuItem)
+				replaceFragments(new ChatsFragment());
+
+			if(item.getItemId() == R.id.groupsNavbarMenuItem)
+				replaceFragments(new GroupsFragment());
+
+			if(item.getItemId() == R.id.contactsNavbarMenuItem)
+				replaceFragments(new ContactsFragment());
+
+			if(item.getItemId() == R.id.requestsNavbarMenuItem)
+				replaceFragments(new RequestsFragment());
+
+			return true;
+		});
 	}
+
+	private void replaceFragments(Fragment fragment){
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		fragmentTransaction.replace(R.id.mainFragmentViewLayout,fragment);
+		fragmentTransaction.commit();
+
+
+	}
+
+
 }

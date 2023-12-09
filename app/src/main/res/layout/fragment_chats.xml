@@ -4,13 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ChatsFragment"
-    android:background="#00fdff"
+    android:background="@color/white"
     >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="CHATS FRAGMENT" />
+        android:id="@+id/chatsRecyclerView"/>
 
 </FrameLayout>

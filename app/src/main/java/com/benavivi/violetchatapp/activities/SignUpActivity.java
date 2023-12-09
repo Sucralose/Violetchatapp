@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.benavivi.violetchatapp.databinding.ActivitySignUpBinding;
 import com.benavivi.violetchatapp.utilities.FirebaseManager;
+import static com.benavivi.violetchatapp.utilities.Constants.UserConstants.*;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -26,6 +27,7 @@ public class SignUpActivity extends AppCompatActivity {
 		binding = ActivitySignUpBinding.inflate(getLayoutInflater());
 		setContentView(binding.getRoot());
 		setListeners();
+
 	}
 
 	@Override
@@ -74,6 +76,7 @@ public class SignUpActivity extends AppCompatActivity {
 			if(result.getData() != null){
 				profilePictureImageUri = result.getData().getData();
 				binding.profileImage.setImageURI(profilePictureImageUri);
+				binding.addImageText.setVisibility(View.INVISIBLE);
 			}
 		}
 	);
@@ -84,8 +87,8 @@ public class SignUpActivity extends AppCompatActivity {
 			showShortToast("Please select a profile picture");
 			return false;
 		}
-		if(binding.inputDisplayName.getText().toString().isEmpty()){
-			showShortToast("Please enter your display name");
+		if(! (binding.inputDisplayName.getText().toString().length() >= MIN_DISPLAY_NAME_LENGTH && binding.inputDisplayName.getText().toString().length() <= MAX_DISPLAY_NAME_LENGTH) ){
+			showShortToast("Your display name must be between " + MIN_DISPLAY_NAME_LENGTH + " and " + MAX_DISPLAY_NAME_LENGTH + " Characters.");
 			return false;
 		}
 		if(binding.inputEmailAddress.getText().toString().isEmpty()){
@@ -97,8 +100,8 @@ public class SignUpActivity extends AppCompatActivity {
 			showShortToast("Please enter a valid email address");
 			return false;
 		}
-		if(binding.inputPassword.getText().toString().length() <6 ){
-			showShortToast("Your password must be at-least 6 digits.");
+		if(! (binding.inputPassword.getText().toString().length() >= MIN_PASSWORD_LENGTH && binding.inputPassword.getText().toString().length() <= MAX_PASSWORD_LENGTH) ){
+			showShortToast("Your password must be between " + MIN_PASSWORD_LENGTH + " and " + MAX_PASSWORD_LENGTH + " Characters.");
 			return false;
 		}
 		if(binding.inputConfirmPassword.getText().toString().isEmpty()){

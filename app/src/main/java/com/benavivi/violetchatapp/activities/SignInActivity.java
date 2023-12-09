@@ -21,7 +21,7 @@ public class SignInActivity extends AppCompatActivity {
 
 		binding = ActivitySignInBinding.inflate(getLayoutInflater());
 		setContentView(binding.getRoot());
-		setLisenters();
+			setLisenters();
 	}
 
 	@Override

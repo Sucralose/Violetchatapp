@@ -7,10 +7,8 @@
     android:background="#ff0088"
     >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
+        android:id="@+id/groupsListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="GROUPS FRAMGENT" />
-
+        android:layout_height="match_parent" />
 </FrameLayout>

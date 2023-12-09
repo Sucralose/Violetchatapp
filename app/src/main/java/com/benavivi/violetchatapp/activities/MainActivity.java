@@ -1,23 +1,22 @@
 package com.benavivi.violetchatapp.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 
-import com.benavivi.violetchatapp.R;
 import com.benavivi.violetchatapp.databinding.ActivityMainBinding;
 import com.benavivi.violetchatapp.fragments.ChatsFragment;
-import com.benavivi.violetchatapp.fragments.ContactsFragment;
-import com.benavivi.violetchatapp.fragments.GroupsFragment;
-import com.benavivi.violetchatapp.fragments.RequestsFragment;
 import com.benavivi.violetchatapp.fragments.SettingsFragment;
+import com.benavivi.violetchatapp.utilities.MyViewPagerAdapter;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 public class MainActivity extends AppCompatActivity {
 
 	private ActivityMainBinding binding;
+	private MyViewPagerAdapter myAdapter;
 	@Override
 	protected void onStart () {
 		super.onStart();
@@ -30,31 +29,71 @@ public class MainActivity extends AppCompatActivity {
 		binding = ActivityMainBinding.inflate(getLayoutInflater());
 		setContentView(binding.getRoot());
 
-		setListeners();
-		replaceFragments(new ChatsFragment());
+		/*setListeners();*/
+		CreateViewPagerAdapter();
+		BindViewPager();
+		CreateTabLayoutMediator();
+	}
+
+	private void CreateTabLayoutMediator () {
+		new TabLayoutMediator(
+			binding.tabLayout,
+			binding.viewPager,
+			new TabLayoutMediator.TabConfigurationStrategy() {
+				@Override
+				public void onConfigureTab (@NonNull TabLayout.Tab tab, int position) {
+					switch (position){
+						case 0:
+							tab.setText("Chats");
+							break;
+						case 1:
+							tab.setText("Settings");
+							break;
+					}
+				}
+			}
+		).attach();
+	}
+
+	private void BindViewPager () {
+		binding.viewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+		binding.viewPager.setAdapter(myAdapter);
 
 	}
 
-	private void setListeners () {
-		binding.mainBottomNavigationView.setOnItemSelectedListener(item ->{
-			//Switch requires constant values, therefore I have to use if else.
-			if(item.getItemId() == R.id.chatsNavbarMenuItem)
-				replaceFragments(new ChatsFragment());
+	private void CreateViewPagerAdapter () {
+		myAdapter = new MyViewPagerAdapter(
+			getSupportFragmentManager(),
+			getLifecycle());
 
-			if(item.getItemId() == R.id.groupsNavbarMenuItem)
-				replaceFragments(new GroupsFragment());
 
-			if(item.getItemId() == R.id.contactsNavbarMenuItem)
-				replaceFragments(new ContactsFragment());
+		myAdapter.addFragment(new ChatsFragment());
+		myAdapter.addFragment(new SettingsFragment());
+	}
 
-			if(item.getItemId() == R.id.requestsNavbarMenuItem)
-				replaceFragments(new RequestsFragment());
+	/*private void setListeners () {
+		binding.mainBottomNavigationView.setOnItemSelectedListener(item ->{return bottomNavigationViewHandler(item);});
 
-			if(item.getItemId() == R.id.settingsNavbarMenuItem)
-				replaceFragments(new SettingsFragment());
+	}
 
-			return true;
-		});
+	private boolean bottomNavigationViewHandler(MenuItem item){
+		//Switch requires constant values, therefore I have to use if else.
+		if(item.getItemId() == R.id.chatsNavbarMenuItem)
+			replaceFragments(new ChatsFragment());
+
+		if(item.getItemId() == R.id.groupsNavbarMenuItem)
+			replaceFragments(new GroupsFragment());
+
+		if(item.getItemId() == R.id.contactsNavbarMenuItem)
+			replaceFragments(new ContactsFragment());
+
+		if(item.getItemId() == R.id.requestsNavbarMenuItem)
+			replaceFragments(new RequestsFragment());
+
+		if(item.getItemId() == R.id.settingsNavbarMenuItem)
+			replaceFragments(new SettingsFragment());
+
+		return true;
 	}
 
 	private void replaceFragments(Fragment fragment){
@@ -62,9 +101,6 @@ public class MainActivity extends AppCompatActivity {
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.replace(R.id.mainFragmentViewLayout,fragment);
 		fragmentTransaction.commit();
-
-
 	}
-
-
+*/
 }

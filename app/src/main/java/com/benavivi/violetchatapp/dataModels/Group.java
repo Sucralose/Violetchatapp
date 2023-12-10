@@ -28,11 +28,11 @@ public class Group {
 		this.membersList = new ArrayList<String>();
 		membersList.add(adminID);
 	}
-	public Group (String adminID, String chatID, String chatName, Message lastMessage, String imageURL, long creationDate, boolean isPrivateMessages,ArrayList<String> membersList) {
+	public Group (String adminID, String chatID, String chatName, String imageURL, long creationDate, boolean isPrivateMessages,ArrayList<String> membersList) {
 		this.adminID = adminID;
 		this.chatID = chatID;
 		this.chatName = chatName;
-		this.lastMessage = lastMessage;
+		this.lastMessage = null;
 		this.imageURL = imageURL;
 		this.creationDate = creationDate;
 		this.isPrivateMessages = isPrivateMessages;

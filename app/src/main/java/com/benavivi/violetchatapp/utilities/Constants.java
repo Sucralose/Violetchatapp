@@ -16,6 +16,7 @@ public class Constants {
 		public static final String KEY_USER_PROFILE_IMAGE ="ProfileImage";
 		public static final String KEY_USER_CONTACTS_LIST="ContactsList";
 		public static final String KEY_USER_GROUPS_LIST="GroupsList";
+
 		public static final String COLLECTION_GROUP_DETAILS ="GroupsDetails";
 		public static final String KEY_GROUP_DETAILS_NAME ="GroupName";
 		public static final String KEY_GROUP_DETAILS_ICON ="GroupIcon";
@@ -24,6 +25,7 @@ public class Constants {
 		public static final String KEY_GROUP_DETAILS_CREATION_DATE="CreationDate";
 		public static final String KEY_GROUP_DETAIL_ADMIN_ID = "AdminID";
 		public static final String KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES="IsPrivateMessages";
+		public static final String KEY_GROUP_DETAILS_ID="GroupID";
 
 
 		public static final String COLLECTION_GROUP_MESSAGES="GroupMessages";

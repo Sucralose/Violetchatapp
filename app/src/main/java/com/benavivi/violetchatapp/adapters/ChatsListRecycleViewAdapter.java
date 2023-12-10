@@ -6,8 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.benavivi.violetchatapp.R;
@@ -15,20 +13,22 @@ import com.benavivi.violetchatapp.dataModels.Group;
 
 import java.util.ArrayList;
 
-public class ChatsListRecycleViewAdapter extends RecyclerView.Adapter<GroupViewHolder> {
+public class ChatsListRecycleViewAdapter extends RecyclerView.Adapter<GroupViewHolder> implements RecyclerViewOnClickInterface {
 	private final Context context;
+	private final RecyclerViewOnClickInterface recyclerViewInterface;
 	ArrayList<Group> groupsArrayList;
 
-	public ChatsListRecycleViewAdapter (Context context, ArrayList<Group> groupsArrayList) {
+	public ChatsListRecycleViewAdapter (Context context, ArrayList<Group> groupsArrayList, RecyclerViewOnClickInterface recyclerViewInterface) {
 		this.context = context;
 		this.groupsArrayList = groupsArrayList;
+		this.recyclerViewInterface = recyclerViewInterface;
 	}
 	@NonNull
 	@Override
 	public GroupViewHolder onCreateViewHolder (@NonNull ViewGroup parent, int viewType) {
 		LayoutInflater layoutInflater = LayoutInflater.from(context);
 		View view = layoutInflater.inflate(R.layout.layoutgroupitem, parent, false);
-		return new GroupViewHolder(view);
+		return new GroupViewHolder(view, recyclerViewInterface);
 	}
 
 	@Override
@@ -50,4 +50,8 @@ public class ChatsListRecycleViewAdapter extends RecyclerView.Adapter<GroupViewH
 	}
 
 
+	@Override
+	public void onRecyclerViewItemClick (int position) {
+
+	}
 }

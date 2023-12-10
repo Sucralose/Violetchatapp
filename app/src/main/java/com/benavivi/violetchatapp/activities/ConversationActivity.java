@@ -1,4 +1,4 @@
-package com.benavivi.violetchatapp.Activities;
+package com.benavivi.violetchatapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 

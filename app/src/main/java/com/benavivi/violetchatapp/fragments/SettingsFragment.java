@@ -1,4 +1,4 @@
-package com.benavivi.violetchatapp.Fragments;
+package com.benavivi.violetchatapp.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.benavivi.violetchatapp.Activities.SignInActivity;
+import com.benavivi.violetchatapp.activities.SignInActivity;
 import com.benavivi.violetchatapp.databinding.FragmentSettingsBinding;
-import com.benavivi.violetchatapp.Utilities.FirebaseManager;
+import com.benavivi.violetchatapp.utilities.FirebaseManager;
 
 public class SettingsFragment extends Fragment {
 	private FragmentSettingsBinding binding;

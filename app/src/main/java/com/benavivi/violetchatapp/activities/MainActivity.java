@@ -1,15 +1,24 @@
-package com.benavivi.violetchatapp.Activities;
+package com.benavivi.violetchatapp.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
+import com.benavivi.violetchatapp.R;
 import com.benavivi.violetchatapp.databinding.ActivityMainBinding;
-import com.benavivi.violetchatapp.Fragments.ChatsFragment;
-import com.benavivi.violetchatapp.Fragments.SettingsFragment;
-import com.benavivi.violetchatapp.Utilities.MyViewPagerAdapter;
+import com.benavivi.violetchatapp.fragments.ChatsFragment;
+import com.benavivi.violetchatapp.fragments.SettingsFragment;
+import com.benavivi.violetchatapp.adapters.MyViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -29,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 		binding = ActivityMainBinding.inflate(getLayoutInflater());
 		setContentView(binding.getRoot());
 
-		/*setListeners();*/
+		setListeners();
 		CreateViewPagerAdapter();
 		BindViewPager();
 		CreateTabLayoutMediator();
@@ -71,36 +80,35 @@ public class MainActivity extends AppCompatActivity {
 		myAdapter.addFragment(new SettingsFragment());
 	}
 
-	/*private void setListeners () {
-		binding.mainBottomNavigationView.setOnItemSelectedListener(item ->{return bottomNavigationViewHandler(item);});
+
+
+	private void showShortToast (String message) {
+		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+	}
+
+	private void setListeners () {
+		binding.mainActivityMenu.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick (View view) {
+				PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
+				popupMenu.setOnMenuItemClickListener(MainActivity.this::onMenuItemClick);
+				popupMenu.inflate(R.menu.main_activity_menu);
+				popupMenu.show();
+			}
+		});
 
 	}
 
-	private boolean bottomNavigationViewHandler(MenuItem item){
-		//Switch requires constant values, therefore I have to use if else.
-		if(item.getItemId() == R.id.chatsNavbarMenuItem)
-			replaceFragments(new ChatsFragment());
-
-		if(item.getItemId() == R.id.groupsNavbarMenuItem)
-			replaceFragments(new GroupsFragment());
-
-		if(item.getItemId() == R.id.contactsNavbarMenuItem)
-			replaceFragments(new ContactsFragment());
-
-		if(item.getItemId() == R.id.requestsNavbarMenuItem)
-			replaceFragments(new RequestsFragment());
-
-		if(item.getItemId() == R.id.settingsNavbarMenuItem)
-			replaceFragments(new SettingsFragment());
-
-		return true;
+	public boolean onMenuItemClick (MenuItem item) {
+		if(item.getItemId() == R.id.createNewGroupOption) {
+			showShortToast("New Group");
+			return true;
+		}
+		if(item.getItemId() == R.id.aboutOption) {
+				showShortToast("About");
+				return true;
+		}
+		return false;
 	}
 
-	private void replaceFragments(Fragment fragment){
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		fragmentTransaction.replace(R.id.mainFragmentViewLayout,fragment);
-		fragmentTransaction.commit();
-	}
-*/
 }

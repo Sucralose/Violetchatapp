@@ -1,4 +1,4 @@
-package com.benavivi.violetchatapp.Utilities;
+package com.benavivi.violetchatapp.utilities;
 
 public class Constants {
 	public static class UserConstants{
@@ -22,8 +22,18 @@ public class Constants {
 		public static final String KEY_GROUP_DETAILS_MEMBERS_LIST="MembersList";
 		public static final String KEY_GROUP_DETAILS_LAST_MESSAGE="LastMessage";
 		public static final String KEY_GROUP_DETAILS_CREATION_DATE="CreationDate";
-		public static final String KEY_GROUP_DETAIL_ADMINS_LIST = "AdminsList";
+		public static final String KEY_GROUP_DETAIL_ADMIN_ID = "AdminID";
 		public static final String KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES="IsPrivateMessages";
+
+
+		public static final String COLLECTION_GROUP_MESSAGES="GroupMessages";
+		public static final String SUB_COLLECTION_MESSAGES= "MessageCollection";
+
+		public static final String KEY_MESSAGE_SENDER_ID="SenderID";
+		public static final String KEY_MESSAGE_SENDER_NAME="SenderName";
+		public static final String KEY_MESSAGE_DATE="Date";
+		public static final String KEY_MESSAGE_TEXT="Text";
+
 
 
 	}

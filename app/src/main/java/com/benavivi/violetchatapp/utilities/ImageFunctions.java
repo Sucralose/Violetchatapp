@@ -1,4 +1,4 @@
-package com.benavivi.violetchatapp.Utilities;
+package com.benavivi.violetchatapp.utilities;
 
 import android.graphics.Bitmap;
 

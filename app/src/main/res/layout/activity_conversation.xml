@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.ConversationActivity">
+    tools:context=".activities.ConversationActivity"
+    android:animateLayoutChanges="true">
 
 
         <com.google.android.material.appbar.AppBarLayout
@@ -63,7 +64,7 @@
             android:layout_width="@dimen/_200sdp"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:layout_marginBottom="@dimen/_2sdp"
+            android:layout_margin="@dimen/_7sdp"
             android:background="@drawable/background_input"
             android:hint="Message"
             android:padding="@dimen/_6sdp"
@@ -85,10 +86,7 @@
             android:layout_width="@dimen/_53sdp"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/_7sdp"
-            android:layout_marginTop="@dimen/_7sdp"
-            android:layout_marginEnd="@dimen/_7sdp"
-            android:layout_marginBottom="@dimen/_7sdp"
+            android:layout_margin="@dimen/_7sdp"
             android:layout_toStartOf="@id/conversationEditText"
             android:background="@drawable/background_input"
             android:backgroundTint="@color/send_button"

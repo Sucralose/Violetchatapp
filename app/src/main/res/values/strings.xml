@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Violet Chat App</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="MAX_NAME_DISPLAY_LENGTH">25</string>
+
+    <string name="MESSAGE_CORNER_RADIUS">30sdp</string>
 </resources>

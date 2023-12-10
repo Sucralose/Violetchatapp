@@ -1,4 +1,4 @@
-package com.benavivi.violetchatapp.fragments;
+package com.benavivi.violetchatapp.Fragments;
 
 import android.os.Bundle;
 

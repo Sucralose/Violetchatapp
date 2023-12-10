@@ -1,23 +1,18 @@
-package com.benavivi.violetchatapp.utilities;
+package com.benavivi.violetchatapp.Utilities;
 
 import android.net.Uri;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
-import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.*;
+import static com.benavivi.violetchatapp.Utilities.Constants.FirebaseConstants.*;
 
 public class FirebaseManager {
 	public static void updateUserProfile (String displayName, Uri profilePictureImageUri) {

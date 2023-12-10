@@ -1,4 +1,4 @@
-package com.benavivi.violetchatapp.fragments;
+package com.benavivi.violetchatapp.Fragments;
 
 import android.os.Bundle;
 
@@ -9,9 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import com.benavivi.violetchatapp.R;
 import com.benavivi.violetchatapp.databinding.FragmentGroupsBinding;
-import com.benavivi.violetchatapp.databinding.FragmentSettingsBinding;
 
 import java.util.ArrayList;
 

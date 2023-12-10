@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.ConversationActivity">
+
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/conversationActivityAppBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+                
+                <androidx.appcompat.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/conversationActivityToolbar">
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/conversationBack"
+                      android:background="@drawable/arrow_back_icon_24"
+                      android:textSize="@dimen/_20ssp"
+                      android:backgroundTint="@color/white"
+                      android:layout_marginRight="@dimen/_10sdp"/>
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:id="@+id/conversationChatImage"
+                        android:background="@drawable/background_image"
+                        android:layout_marginRight="@dimen/_10sdp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/conversationTitle"
+                        android:textSize="@dimen/_17ssp"
+                        android:textColor="@color/white"
+                        android:text="Group Name"
+                        android:layout_marginRight="@dimen/_10sdp"/>
+
+                </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/conversationActivityAppBarLayout"
+        app:layout_constraintBottom_toTopOf="@id/conversationActionsBar"/>
+
+    <RelativeLayout
+        android:id="@+id/conversationActionsBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_60sdp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <EditText
+            android:id="@+id/conversationEditText"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:background="@drawable/background_input"
+            android:hint="Message"
+            android:padding="@dimen/_6sdp"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/_12ssp" />
+
+        <ImageButton
+            android:layout_width="@dimen/_53sdp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/_7sdp"
+            android:layout_toEndOf="@id/conversationEditText"
+            android:background="@drawable/background_input"
+            android:backgroundTint="@color/send_button"
+            android:src="@drawable/send_icon_24"
+            app:tint="@color/primary_light" />
+
+        <ImageButton
+            android:layout_width="@dimen/_53sdp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:layout_marginEnd="@dimen/_7sdp"
+            android:layout_marginBottom="@dimen/_7sdp"
+            android:layout_toStartOf="@id/conversationEditText"
+            android:background="@drawable/background_input"
+            android:backgroundTint="@color/send_button"
+            android:src="@drawable/attach_file_icon_24"
+            app:tint="@color/primary_light" />
+    </RelativeLayout>
+    
+
+  </androidx.constraintlayout.widget.ConstraintLayout>

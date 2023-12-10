@@ -1,4 +1,4 @@
-package com.benavivi.violetchatapp.activities;
+package com.benavivi.violetchatapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,9 +7,9 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.os.Bundle;
 
 import com.benavivi.violetchatapp.databinding.ActivityMainBinding;
-import com.benavivi.violetchatapp.fragments.ChatsFragment;
-import com.benavivi.violetchatapp.fragments.SettingsFragment;
-import com.benavivi.violetchatapp.utilities.MyViewPagerAdapter;
+import com.benavivi.violetchatapp.Fragments.ChatsFragment;
+import com.benavivi.violetchatapp.Fragments.SettingsFragment;
+import com.benavivi.violetchatapp.Utilities.MyViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 

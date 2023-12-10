@@ -1,4 +1,4 @@
-package com.benavivi.violetchatapp.utilities;
+package com.benavivi.violetchatapp.Utilities;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

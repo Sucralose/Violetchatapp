@@ -1,4 +1,4 @@
-package com.benavivi.violetchatapp.activities;
+package com.benavivi.violetchatapp.Activities;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -13,8 +13,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.benavivi.violetchatapp.databinding.ActivitySignUpBinding;
-import com.benavivi.violetchatapp.utilities.FirebaseManager;
-import static com.benavivi.violetchatapp.utilities.Constants.UserConstants.*;
+import com.benavivi.violetchatapp.Utilities.FirebaseManager;
+import static com.benavivi.violetchatapp.Utilities.Constants.UserConstants.*;
 
 public class SignUpActivity extends AppCompatActivity {
 

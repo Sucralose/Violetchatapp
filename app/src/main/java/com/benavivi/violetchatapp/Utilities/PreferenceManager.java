@@ -1,4 +1,4 @@
-package com.benavivi.violetchatapp.utilities;
+package com.benavivi.violetchatapp.Utilities;
 
 import android.content.Context;
 import android.content.SharedPreferences;

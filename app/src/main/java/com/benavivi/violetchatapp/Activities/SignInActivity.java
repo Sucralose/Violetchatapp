@@ -1,4 +1,4 @@
-package com.benavivi.violetchatapp.activities;
+package com.benavivi.violetchatapp.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.benavivi.violetchatapp.databinding.ActivitySignInBinding;
-import com.benavivi.violetchatapp.utilities.FirebaseManager;
+import com.benavivi.violetchatapp.Utilities.FirebaseManager;
 
 public class SignInActivity extends AppCompatActivity {
 

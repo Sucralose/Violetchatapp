@@ -1,4 +1,4 @@
-package com.benavivi.violetchatapp.utilities;
+package com.benavivi.violetchatapp.Utilities;
 
 public class Constants {
 	public static class UserConstants{

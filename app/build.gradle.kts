@@ -49,6 +49,9 @@ dependencies {
       implementation("com.google.firebase:firebase-database")
       implementation("com.google.firebase:firebase-firestore")
       implementation("com.google.firebase:firebase-storage")
+      implementation("com.firebaseui:firebase-ui-storage:8.0.2")
+      implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
+
 //      implementation("com.google.firebase:firebase-core")
 
       //---Scaleable size units

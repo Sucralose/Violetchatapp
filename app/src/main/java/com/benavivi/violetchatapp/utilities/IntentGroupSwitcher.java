@@ -5,19 +5,18 @@ import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.*
 import android.content.Context;
 import android.content.Intent;
 import com.benavivi.violetchatapp.dataModels.Group;
-import com.benavivi.violetchatapp.dataModels.Message;
 
 public class IntentGroupSwitcher {
 
 	public static Intent switchToIntent(Context context, Class<?> destination, Group group) {
 		Intent intent = new Intent(context, destination);
-		intent.putExtra(KEY_GROUP_DETAILS_NAME, group.getChatName());
+		intent.putExtra(KEY_GROUP_DETAILS_NAME, group.getName());
 		intent.putExtra(KEY_GROUP_DETAILS_ID, group.getChatID());
 		intent.putExtra(KEY_GROUP_DETAILS_ICON, group.getImageURL());
-		intent.putExtra(KEY_GROUP_DETAILS_MEMBERS_LIST, group.getMembersList());
+		//intent.putExtra(KEY_GROUP_DETAILS_MEMBERS_LIST, group.getMembersList());
 		intent.putExtra(KEY_GROUP_DETAIL_ADMIN_ID, group.getAdminID());
-		intent.putExtra(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES, group.isPrivateMessages());
-		intent.putExtra(KEY_GROUP_DETAILS_CREATION_DATE, group.getCreationDate());
+		intent.putExtra(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES, group.getIs_private_messages());
+		intent.putExtra(KEY_GROUP_DETAILS_CREATION_DATE, group.getCreation_date());
 		return intent;
 	}
 

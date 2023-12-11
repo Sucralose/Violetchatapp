@@ -2,114 +2,142 @@ package com.benavivi.violetchatapp.dataModels;
 
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_CREATION_DATE;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_ICON;
+import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_ID;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_LAST_MESSAGE;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_NAME;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAIL_ADMIN_ID;
+import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_DATE;
+import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_SENDER_ID;
+import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_SENDER_NAME;
+import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_TEXT;
+
+import com.google.firebase.firestore.PropertyName;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 public class Group {
-	private String adminID, chatID, chatName, imageURL;
-	private Message lastMessage;
-	private ArrayList<String> membersList;
-	private long creationDate;
+	private String adminID, chatID, name, imageURL;
+	private String lastMessageText,lastSenderName,lastSenderID;
+	private long lastMessageDate;
+	//private ArrayList<String> membersList;
+	private long creation_date;
 
-	private boolean isPrivateMessages;
-	public Group (String adminID, String chatID, String chatName, Message lastMessage, String imageURL, long creationDate, boolean isPrivateMessages) {
+	private boolean is_private_messages;
+
+	public Group () {
+		//Empty constructor for Firebase. (REQUIRED)
+	}
+	public Group (String adminID, String chatID, String name, Message lastMessage, String imageURL, long creation_date, boolean is_private_messages) {
 		this.adminID = adminID;
 		this.chatID = chatID;
-		this.chatName = chatName;
-		this.lastMessage = lastMessage;
+		this.name = name;
+
+		this.lastMessageDate = lastMessage.getDate();
+		this.lastMessageText = lastMessage.getMessageText();
+		this.lastSenderID = lastMessage.getSenderID();
+		this.lastSenderName = lastMessage.getSenderName();
+
 		this.imageURL = imageURL;
-		this.creationDate = creationDate;
-		this.isPrivateMessages = isPrivateMessages;
-		this.membersList = new ArrayList<String>();
-		membersList.add(adminID);
+		this.creation_date = creation_date;
+		this.is_private_messages = is_private_messages;
+		//this.membersList = new ArrayList<String>();
+		//membersList.add(adminID);
 	}
-	public Group (String adminID, String chatID, String chatName, String imageURL, long creationDate, boolean isPrivateMessages,ArrayList<String> membersList) {
+	public Group (String adminID, String chatID, String name, String imageURL, long creation_date, boolean is_private_messages, ArrayList<String> membersList) {
 		this.adminID = adminID;
 		this.chatID = chatID;
-		this.chatName = chatName;
-		this.lastMessage = null;
+		this.name = name;
+
+		this.lastMessageDate = 0;
+		this.lastMessageText = "";
+		this.lastSenderID = "";
+		this.lastSenderName = "";
+
+
 		this.imageURL = imageURL;
-		this.creationDate = creationDate;
-		this.isPrivateMessages = isPrivateMessages;
-		this.membersList = membersList;
+		this.creation_date = creation_date;
+		this.is_private_messages = is_private_messages;
+		//this.membersList = membersList;
 	}
 
 
-	public long getCreationDate () {
-		return creationDate;
+	@PropertyName(KEY_GROUP_DETAILS_CREATION_DATE)
+	public long getCreation_date () {
+		return creation_date;
+	}
+	@PropertyName(KEY_GROUP_DETAILS_CREATION_DATE)
+	public void setCreation_date (long creation_date) {
+		this.creation_date = creation_date;
 	}
 
-	public void setCreationDate (long creationDate) {
-		this.creationDate = creationDate;
+	@PropertyName(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES)
+	public boolean getIs_private_messages () {
+		return is_private_messages;
+	}
+	@PropertyName(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES)
+	public void setIs_private_messages (boolean is_private_messages) {
+		this.is_private_messages = is_private_messages;
 	}
 
-	public boolean isPrivateMessages () {
-		return isPrivateMessages;
-	}
-
-	public void setPrivateMessages (boolean privateMessages) {
-		isPrivateMessages = privateMessages;
-	}
-
-	public Group(Map<String,Object> groupMap, String groupID){
-
-		adminID = (String) groupMap.get(KEY_GROUP_DETAIL_ADMIN_ID);
-		chatID = groupID;
-		chatName = (String) groupMap.get(KEY_GROUP_DETAILS_NAME);
-		imageURL = (String) groupMap.get(KEY_GROUP_DETAILS_ICON);
-		creationDate = (long) groupMap.get(KEY_GROUP_DETAILS_CREATION_DATE);
-		isPrivateMessages = (boolean) groupMap.get(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES);
-		lastMessage = new Message((Map<String,Object>)groupMap.get(KEY_GROUP_DETAILS_LAST_MESSAGE),groupID);
-
-	}
-
+	@PropertyName(KEY_GROUP_DETAILS_ICON)
 	public String getImageURL () {
 		return imageURL;
 	}
-
+	@PropertyName(KEY_GROUP_DETAILS_ICON)
 	public void setImageURL (String imageURL) {
 		this.imageURL = imageURL;
 	}
 
+	@PropertyName(KEY_GROUP_DETAIL_ADMIN_ID)
 	public String getAdminID () {
 		return adminID;
 	}
-
+	@PropertyName(KEY_GROUP_DETAIL_ADMIN_ID)
 	public void setAdminID (String adminID) {
 		this.adminID = adminID;
 	}
 
+	@PropertyName(KEY_GROUP_DETAILS_ID)
 	public String getChatID () {
 		return chatID;
 	}
-
+	@PropertyName(KEY_GROUP_DETAILS_ID)
 	public void setChatID (String chatID) {
 		this.chatID = chatID;
 	}
 
-	public String getChatName () {
-		return chatName;
+	@PropertyName(KEY_GROUP_DETAILS_NAME)
+	public String getName () {
+		return name;
+	}
+	@PropertyName(KEY_GROUP_DETAILS_NAME)
+	public void setName (String chatName) {
+		this.name = chatName;
 	}
 
-	public void setChatName (String chatName) {
-		this.chatName = chatName;
-	}
-
+	@PropertyName(KEY_GROUP_DETAILS_LAST_MESSAGE)
 	public Message getLastMessage () {
-		return lastMessage;
+		return new Message(lastMessageText, lastSenderID, lastMessageDate,lastSenderName);
+	}
+	@PropertyName(KEY_GROUP_DETAILS_LAST_MESSAGE)
+	public void setLast_message(Map<String,Object> message) {
+		this.lastMessageDate = Long.parseLong(message.get(KEY_MESSAGE_DATE).toString());
+		this.lastMessageText = message.get(KEY_MESSAGE_TEXT).toString();
+		this.lastSenderID = message.get(KEY_MESSAGE_SENDER_ID).toString();
+		this.lastSenderName = message.get(KEY_MESSAGE_SENDER_NAME).toString();
 	}
 
-	public void setLastMessage (Message lastMessage) {
-		this.lastMessage = lastMessage;
+	public void setLast_message (Message lastMessage) {
+		this.lastMessageDate = lastMessage.getDate();
+		this.lastMessageText = lastMessage.getMessageText();
+		this.lastSenderID = lastMessage.getSenderID();
+		this.lastSenderName = lastMessage.getSenderName();
 	}
 
 
-	public ArrayList<String> getMembersList () {
+	/*public ArrayList<String> getMembersList () {
 		return membersList;
-	}
+	}*/
 }

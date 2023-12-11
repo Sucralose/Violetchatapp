@@ -2,11 +2,13 @@ package com.benavivi.violetchatapp.utilities;
 
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.*;
 
+import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.benavivi.violetchatapp.adapters.GroupListAdapter.ChatsListRecycleViewAdapter;
 import com.benavivi.violetchatapp.dataModels.Group;
 import com.benavivi.violetchatapp.dataModels.Message;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,10 +23,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-import java.util.ArrayList;
+
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -95,25 +97,15 @@ public class FirebaseManager {
 			});
 	}
 
-	public static void createNewGroup(String ownerUID, String groupName, String groupPhoto){
-		Group group = new Group(ownerUID,"-1",groupName,new Message("","","",100,"")
-			,groupPhoto, new Date().getTime(),false);
-		createNewGroup(group);
-	}
-	public static void createNewGroup(String ownerUID, String groupName, String groupPhoto,ArrayList<String> membersList){
-		Group group = new Group(ownerUID,"-1",groupName,new Message("","","",100,"")
-			,groupPhoto, new Date().getTime(),false);
-		createNewGroup(group);
-	}
-	private static void createNewGroup(Group group){
+	public static void createNewGroup(Group group){
 
 		Map<String,Object> groupDetail = new HashMap<>();
 		Map<String,Object> lastmessageDetail = new HashMap<>();
-		groupDetail.put(KEY_GROUP_DETAILS_NAME,group.getChatName());
+		groupDetail.put(KEY_GROUP_DETAILS_NAME,group.getName());
 		groupDetail.put(KEY_GROUP_DETAILS_ICON,group.getImageURL());
-		groupDetail.put(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES,group.isPrivateMessages());
-		groupDetail.put(KEY_GROUP_DETAILS_MEMBERS_LIST,group.getMembersList());
-		groupDetail.put(KEY_GROUP_DETAILS_CREATION_DATE,group.getCreationDate());
+		groupDetail.put(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES,group.getIs_private_messages());
+		groupDetail.put(KEY_GROUP_DETAILS_MEMBERS_LIST, Arrays.asList(group.getAdminID()));
+		groupDetail.put(KEY_GROUP_DETAILS_CREATION_DATE,group.getCreation_date());
 		groupDetail.put(KEY_GROUP_DETAIL_ADMIN_ID,group.getAdminID());
 
 		Message lastMessage = group.getLastMessage();
@@ -130,12 +122,16 @@ public class FirebaseManager {
 	}
 
 
-	public static Task<QuerySnapshot>  getUserGroupsDetails(){
-		Task <QuerySnapshot> task = FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS).whereArrayContains(KEY_GROUP_DETAILS_MEMBERS_LIST,getCurrentUserUid())
-					        .orderBy(KEY_GROUP_DETAILS_LAST_MESSAGE+"."+KEY_MESSAGE_DATE,Query.Direction.DESCENDING)
-			.get();
+	public static ChatsListRecycleViewAdapter  getUserGroupsDetailsAdapter(Context context){
 
-		return task;
+		Query query = FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS)
+				    .whereArrayContains(KEY_GROUP_DETAILS_MEMBERS_LIST,getCurrentUserUid())
+				    .orderBy(KEY_GROUP_DETAILS_LAST_MESSAGE+"."+KEY_MESSAGE_DATE,Query.Direction.DESCENDING);
+
+		FirestoreRecyclerOptions<Group> options = new FirestoreRecyclerOptions.Builder<Group>()
+							  .setQuery(query,Group.class).build();
+
+		return new ChatsListRecycleViewAdapter(options,context);
 
 	}
 
@@ -184,5 +180,9 @@ public class FirebaseManager {
 	}
 
 
+	public static Task<QuerySnapshot> getGroupDetailsData (String chatID) {
 
+		return FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS)
+			.whereEqualTo(KEY_GROUP_DETAILS_ID,chatID).get();
+	}
 }

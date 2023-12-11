@@ -15,6 +15,7 @@ import com.benavivi.violetchatapp.activities.ConversationActivity;
 import com.benavivi.violetchatapp.adapters.GroupListAdapter.ChatsListRecycleViewAdapter;
 import com.benavivi.violetchatapp.adapters.GroupListAdapter.RecyclerViewOnClickInterface;
 import com.benavivi.violetchatapp.dataModels.Group;
+import com.benavivi.violetchatapp.dataModels.Message;
 import com.benavivi.violetchatapp.databinding.FragmentChatsBinding;
 import com.benavivi.violetchatapp.utilities.FirebaseManager;
 import com.benavivi.violetchatapp.utilities.IntentGroupSwitcher;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 public class ChatsFragment extends Fragment implements RecyclerViewOnClickInterface {
 	FragmentChatsBinding binding;
 	ArrayList<Group> groupsArrayList;
+	ChatsListRecycleViewAdapter chatsListRecycleViewAdapter;
 
 	public ChatsFragment () {
 		// Required empty public constructor
@@ -41,40 +43,21 @@ public class ChatsFragment extends Fragment implements RecyclerViewOnClickInterf
 		binding = FragmentChatsBinding.inflate(inflater, container, false);
 		groupsArrayList = new ArrayList<>();
 
-		setUpRecyclerView();
-		gatherDataFromFirebase();
 
+		setUpRecyclerView();
+		setRecyclerViewAdapter();
 
 
 		return binding.getRoot();
 	}
 
-	private void gatherDataFromFirebase () {
-		FirebaseManager.getUserGroupsDetails()
-			.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-				@Override
-				public void onComplete (Task<QuerySnapshot> task) {
-					if(task.isSuccessful()){
-						task.getResult().getDocuments().forEach(documentSnapshot -> {
-							addGroupDetailsFromDocumentSnapshot(documentSnapshot);
-						});
-						setRecyclerViewAdapter(groupsArrayList);
 
-					}
-				}
-
-
-			});
+	private void setRecyclerViewAdapter () {
+		ChatsListRecycleViewAdapter adapter = FirebaseManager.getUserGroupsDetailsAdapter(getContext());
+		binding.chatsRecyclerView.setAdapter(adapter);
+		adapter.startListening();
 	}
 
-	private void setRecyclerViewAdapter (ArrayList<Group> groupsArrayList) {
-		binding.chatsRecyclerView.setAdapter(new ChatsListRecycleViewAdapter(getContext(), groupsArrayList, this));
-	}
-
-	private void addGroupDetailsFromDocumentSnapshot (DocumentSnapshot documentSnapshot) {
-		Group group = new Group(documentSnapshot.getData(), documentSnapshot.getReference().getId());
-		groupsArrayList.add(group);
-	}
 
 	private void setUpRecyclerView () {
 		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());

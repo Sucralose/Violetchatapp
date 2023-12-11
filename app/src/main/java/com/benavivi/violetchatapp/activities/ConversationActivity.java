@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.benavivi.violetchatapp.R;
 import com.benavivi.violetchatapp.databinding.ActivityConversationBinding;
 import com.benavivi.violetchatapp.utilities.IntentGroupSwitcher;
 
@@ -22,7 +21,7 @@ public class ConversationActivity extends AppCompatActivity {
 
 		 currentGroup = IntentGroupSwitcher.switchToGroup(getIntent());
 
-		binding.conversationTitle.setText(currentGroup.getChatName());
+		binding.conversationTitle.setText(currentGroup.getName());
 		binding.conversationBack.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick (View view) {

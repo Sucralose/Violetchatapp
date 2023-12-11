@@ -25,6 +25,7 @@ import com.benavivi.violetchatapp.utilities.IntentGroupSwitcher;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -46,28 +47,45 @@ public class ChatsFragment extends Fragment implements RecyclerViewOnClickInterf
 		binding = FragmentChatsBinding.inflate(inflater, container, false);
 		groupsArrayList = new ArrayList<>();
 
-		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-		binding.chatsRecyclerView.setLayoutManager(linearLayoutManager);
-		binding.chatsRecyclerView.setHasFixedSize(true);
-		binding.chatsRecyclerView.setAdapter(new ChatsListRecycleViewAdapter(getContext(), groupsArrayList, this));
+		setUpRecyclerView();
+		gatherDataFromFirebase();
 
+
+
+		return binding.getRoot();
+	}
+
+	private void gatherDataFromFirebase () {
 		FirebaseManager.getUserGroupsDetails()
 			.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 				@Override
 				public void onComplete (Task<QuerySnapshot> task) {
 					if(task.isSuccessful()){
 						task.getResult().getDocuments().forEach(documentSnapshot -> {
-							Group group = new Group(documentSnapshot.getData(), documentSnapshot.getReference().getId());
-							groupsArrayList.add(group);
+							addGroupDetailsFromDocumentSnapshot(documentSnapshot);
 						});
-						binding.chatsRecyclerView.setAdapter(new ChatsListRecycleViewAdapter(getContext(), groupsArrayList,ChatsFragment.this));
+						setRecyclerViewAdapter(groupsArrayList);
 
 					}
 				}
 
-			});
 
-		return binding.getRoot();
+			});
+	}
+
+	private void setRecyclerViewAdapter (ArrayList<Group> groupsArrayList) {
+		binding.chatsRecyclerView.setAdapter(new ChatsListRecycleViewAdapter(getContext(), groupsArrayList, this));
+	}
+
+	private void addGroupDetailsFromDocumentSnapshot (DocumentSnapshot documentSnapshot) {
+		Group group = new Group(documentSnapshot.getData(), documentSnapshot.getReference().getId());
+		groupsArrayList.add(group);
+	}
+
+	private void setUpRecyclerView () {
+		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+		binding.chatsRecyclerView.setLayoutManager(linearLayoutManager);
+		binding.chatsRecyclerView.setHasFixedSize(true);
 	}
 
 	private void showShortToast (String message) {

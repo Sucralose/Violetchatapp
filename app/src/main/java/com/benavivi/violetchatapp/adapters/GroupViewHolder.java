@@ -35,10 +35,8 @@ public class GroupViewHolder extends RecyclerView.ViewHolder {
 			public void onClick (View view) {
 				Intent intent = new Intent(view.getContext(), ConversationActivity.class);
 				int pos = getAdapterPosition();
-				if(recyclerViewOnClickInterface != null || pos == RecyclerView.NO_POSITION)
-					return;
-				else
-				recyclerViewOnClickInterface.onRecyclerViewItemClick(pos);
+				if(recyclerViewOnClickInterface != null && pos != RecyclerView.NO_POSITION)
+					recyclerViewOnClickInterface.onRecyclerViewItemClick(pos);
 
 			}
 		});

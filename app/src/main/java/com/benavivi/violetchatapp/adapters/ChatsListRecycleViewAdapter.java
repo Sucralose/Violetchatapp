@@ -37,8 +37,6 @@ public class ChatsListRecycleViewAdapter extends RecyclerView.Adapter<GroupViewH
 		holder.groupLastMessage.setText(groupsArrayList.get(position).getLastMessage().getFormatedMessage());
 		holder.groupLastmessageTime.setText(groupsArrayList.get(position).getLastMessage().getFormatedDate());
 
-
-
 	}
 	public Object getItem (int i) {
 		return groupsArrayList.get(i);

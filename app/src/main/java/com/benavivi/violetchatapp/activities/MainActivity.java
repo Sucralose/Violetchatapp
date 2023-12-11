@@ -15,6 +15,7 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.benavivi.violetchatapp.R;
+import com.benavivi.violetchatapp.adapters.RecyclerViewOnClickInterface;
 import com.benavivi.violetchatapp.databinding.ActivityMainBinding;
 import com.benavivi.violetchatapp.fragments.ChatsFragment;
 import com.benavivi.violetchatapp.fragments.SettingsFragment;

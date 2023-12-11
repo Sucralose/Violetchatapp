@@ -2,20 +2,15 @@ package com.benavivi.violetchatapp.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.benavivi.violetchatapp.R;
-import com.benavivi.violetchatapp.adapters.RecyclerViewOnClickInterface;
 import com.benavivi.violetchatapp.databinding.ActivityMainBinding;
 import com.benavivi.violetchatapp.fragments.ChatsFragment;
 import com.benavivi.violetchatapp.fragments.SettingsFragment;

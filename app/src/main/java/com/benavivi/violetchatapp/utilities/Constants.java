@@ -36,6 +36,8 @@ public class Constants {
 		public static final String KEY_MESSAGE_DATE="Date";
 		public static final String KEY_MESSAGE_TEXT="Text";
 
+		public static final String KEY_USER_PROFILE_IMAGE_STORAGE_REFERENCE = "UserProfileImages";
+
 
 
 	}

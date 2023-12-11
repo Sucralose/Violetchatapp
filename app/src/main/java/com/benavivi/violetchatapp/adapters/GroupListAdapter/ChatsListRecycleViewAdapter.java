@@ -1,4 +1,4 @@
-package com.benavivi.violetchatapp.adapters;
+package com.benavivi.violetchatapp.adapters.GroupListAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.benavivi.violetchatapp.R;
 import com.benavivi.violetchatapp.dataModels.Group;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -36,7 +37,7 @@ public class ChatsListRecycleViewAdapter extends RecyclerView.Adapter<GroupViewH
 		holder.groupName.setText(groupsArrayList.get(position).getChatName());
 		holder.groupLastMessage.setText(groupsArrayList.get(position).getLastMessage().getFormatedMessage());
 		holder.groupLastmessageTime.setText(groupsArrayList.get(position).getLastMessage().getFormatedDate());
-
+		Picasso.get().load(groupsArrayList.get(position).getImageURL()).into(holder.roundedImageView);
 	}
 	public Object getItem (int i) {
 		return groupsArrayList.get(i);

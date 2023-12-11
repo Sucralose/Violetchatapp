@@ -19,12 +19,11 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/conversationActivityToolbar">
 
-                  <TextView
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
+                  <ImageButton
+                      android:layout_width="@dimen/_30sdp"
+                      android:layout_height="@dimen/_30sdp"
                       android:id="@+id/conversationBack"
                       android:background="@drawable/arrow_back_icon_24"
-                      android:textSize="@dimen/_20ssp"
                       android:backgroundTint="@color/white"
                       android:layout_marginRight="@dimen/_10sdp"/>
 
@@ -69,7 +68,9 @@
             android:hint="Message"
             android:padding="@dimen/_6sdp"
             android:textColor="@color/primary_text"
-            android:textSize="@dimen/_12ssp" />
+            android:textSize="@dimen/_12ssp"
+            android:inputType="textLongMessage"
+            />
 
         <ImageButton
             android:layout_width="@dimen/_53sdp"

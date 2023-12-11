@@ -1,5 +1,8 @@
 package com.benavivi.violetchatapp.fragments;
 
+import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_USER_DISPLAY_NAME;
+import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_USER_PROFILE_IMAGE;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -10,10 +13,17 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.benavivi.violetchatapp.activities.SignInActivity;
 import com.benavivi.violetchatapp.databinding.FragmentSettingsBinding;
 import com.benavivi.violetchatapp.utilities.FirebaseManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.squareup.picasso.Picasso;
+
+import java.util.Map;
 
 public class SettingsFragment extends Fragment {
 	private FragmentSettingsBinding binding;
@@ -31,8 +41,19 @@ public class SettingsFragment extends Fragment {
 	}
 
 	private void personalizeTextAndImage () {
-		binding.usernameTextview.setText(FirebaseManager.getUserDisplayName());
-		//binding.profileImage.setImageURI(FirebaseManager.getUserUriImage()); //<-- TODO: Fix permission to get image URI or find a way around it
+		FirebaseManager.getCurrentUserData().addOnCompleteListener(
+				new OnCompleteListener<DocumentSnapshot>() {
+					@Override
+					public void onComplete (@NonNull Task<DocumentSnapshot> task) {
+						if (task.isSuccessful()) {
+							Map<String, Object> userData = task.getResult().getData();
+							if(!userData.get(KEY_USER_PROFILE_IMAGE).toString().isEmpty())
+								Picasso.get().load(userData.get(KEY_USER_PROFILE_IMAGE).toString()).into(binding.profileImage);
+							binding.usernameTextview.setText(userData.get(KEY_USER_DISPLAY_NAME).toString());
+
+							}
+						}
+				});
 	}
 
 	private void setListeners () {
@@ -46,9 +67,10 @@ public class SettingsFragment extends Fragment {
 	@Override
 	public View onCreateView (LayoutInflater inflater, ViewGroup container,
 			      Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-		//return inflater.inflate(R.layout.fragment_settings, container, false);
+		super.onCreateView(inflater, container, savedInstanceState);
 		binding = FragmentSettingsBinding.inflate(inflater,container,false);
+
+
 		return binding.getRoot();
 	}
 }

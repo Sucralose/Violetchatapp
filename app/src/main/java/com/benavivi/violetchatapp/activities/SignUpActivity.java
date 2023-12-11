@@ -77,6 +77,7 @@ public class SignUpActivity extends AppCompatActivity {
 				profilePictureImageUri = result.getData().getData();
 				binding.profileImage.setImageURI(profilePictureImageUri);
 				binding.addImageText.setVisibility(View.INVISIBLE);
+
 			}
 		}
 	);

@@ -1,4 +1,4 @@
-package com.benavivi.violetchatapp.adapters;
+package com.benavivi.violetchatapp.adapters.GroupListAdapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,8 +20,7 @@ public class GroupViewHolder extends RecyclerView.ViewHolder {
 
 
 	RoundedImageView roundedImageView;
-	TextView groupName,groupLastMessage,groupLastmessageTime;
-
+	 TextView groupName,groupLastMessage,groupLastmessageTime;
 	public GroupViewHolder (@NonNull View itemView , RecyclerViewOnClickInterface recyclerViewOnClickInterface) {
 		super(itemView);
 		roundedImageView = itemView.findViewById(R.id.layoutgroup_groupImage);

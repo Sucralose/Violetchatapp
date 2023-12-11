@@ -14,7 +14,6 @@ android {
             targetSdk = 33
             versionCode = 1
             versionName = "1.0"
-            multiDexEnabled=true
 
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
       }
@@ -49,6 +48,7 @@ dependencies {
       implementation("com.google.firebase:firebase-auth")
       implementation("com.google.firebase:firebase-database")
       implementation("com.google.firebase:firebase-firestore")
+      implementation("com.google.firebase:firebase-storage")
 //      implementation("com.google.firebase:firebase-core")
 
       //---Scaleable size units
@@ -58,8 +58,9 @@ dependencies {
       //---Rounded image view
       implementation("com.makeramen:roundedimageview:2.3.0")
 
-      //---Multidex
-      implementation("androidx.multidex:multidex:2.0.1")
+      //--Picasso - Image loading and caching library
+      implementation("com.squareup.picasso:picasso:2.8")
+
 
 //      //Preference datastore - androidx
       implementation("androidx.datastore:datastore-preferences-core:1.0.0")

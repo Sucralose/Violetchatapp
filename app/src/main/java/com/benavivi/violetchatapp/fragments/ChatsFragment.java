@@ -44,4 +44,16 @@ private void setUpRecyclerView ( ) {
 	adapter.startListening();
 }
 
+public void onStart ( ) {
+	super.onStart();
+	if ( adapter != null )
+		adapter.startListening();
+}
+
+public void onStop ( ) {
+	super.onStop();
+	if ( adapter != null )
+		adapter.stopListening();
+}
+
 }

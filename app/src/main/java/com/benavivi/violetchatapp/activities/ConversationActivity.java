@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.benavivi.violetchatapp.adapters.ConversationRecyclerViewAdapter;
 import com.benavivi.violetchatapp.dataModels.Group;
@@ -16,6 +17,7 @@ import com.benavivi.violetchatapp.utilities.IntentFactory;
 public class ConversationActivity extends AppCompatActivity {
 ActivityConversationBinding binding;
 ConversationRecyclerViewAdapter adapter;
+LinearLayoutManager linearLayoutManager;
 Group currentGroup;
 
 
@@ -26,26 +28,34 @@ protected void onCreate ( Bundle savedInstanceState ) {
 	setContentView(binding.getRoot());
 
 	currentGroup = IntentFactory.IntentToGroup(getIntent());
+	setRecyclerView();
 
 	binding.conversationTitle.setText(currentGroup.getName());
 	setListeners();
-	setRecyclerView();
 
 }
 
-protected void onDestroy ( ) {
-	super.onDestroy();
+protected void onStop ( ) {
+	super.onStop();
 	if ( adapter != null )
 		adapter.stopListening();
+}
+
+protected void onStart ( ) {
+	super.onStart();
+	if ( adapter != null )
+		adapter.startListening();
 }
 
 
 private void setRecyclerView ( ) {
 	adapter = FirebaseManager.getConversationAdapter(this, currentGroup.getChatID());
+	linearLayoutManager = new LinearLayoutManager(this);
+	linearLayoutManager.setReverseLayout(true);
 
-	LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-	binding.conversationRecyclerView.setLayoutManager(linearLayoutManager);
+
 	binding.conversationRecyclerView.setHasFixedSize(true);
+	binding.conversationRecyclerView.setLayoutManager(linearLayoutManager);
 
 	binding.conversationRecyclerView.setAdapter(adapter);
 	adapter.startListening();
@@ -74,6 +84,14 @@ private void setListeners ( ) {
 				sendMessage();
 				clearInput();
 			}
+		}
+	});
+
+
+	adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+		@Override
+		public void onItemRangeInserted ( int positionStart, int itemCount ) {
+			linearLayoutManager.smoothScrollToPosition(binding.conversationRecyclerView, null, 0);
 		}
 	});
 }

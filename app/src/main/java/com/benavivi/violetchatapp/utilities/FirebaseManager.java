@@ -230,7 +230,8 @@ public static Task<QuerySnapshot> getGroupDetailsData ( String chatID ) {
 public static ConversationRecyclerViewAdapter getConversationAdapter ( Context context, String chatID ) {
 	Query query = FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_MESSAGES)
 		              .document(chatID).collection(SUB_COLLECTION_MESSAGES)
-		              .orderBy(KEY_MESSAGE_DATE, Query.Direction.ASCENDING);
+		              .orderBy(KEY_MESSAGE_DATE, Query.Direction.DESCENDING)
+		              .limit(50);
 
 
 	FirestoreRecyclerOptions<Message> options = new FirestoreRecyclerOptions.Builder<Message>()

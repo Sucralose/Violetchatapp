@@ -21,6 +21,7 @@ import com.squareup.picasso.Picasso;
 public class ConversationRecyclerViewAdapter extends FirestoreRecyclerAdapter<Message,ConversationRecyclerViewAdapter.MessageViewHolder> {
 
 private final Context context;
+private final String currentUserUid = FirebaseManager.getCurrentUserUid();
 
 public ConversationRecyclerViewAdapter ( @NonNull FirestoreRecyclerOptions<Message> options, Context context ) {
 	super(options);
@@ -29,17 +30,18 @@ public ConversationRecyclerViewAdapter ( @NonNull FirestoreRecyclerOptions<Messa
 
 @Override
 protected void onBindViewHolder ( @NonNull ConversationRecyclerViewAdapter.MessageViewHolder holder, int position, @NonNull Message model ) {
-	if ( model.getSenderID().equals(FirebaseManager.getCurrentUserUid()) ) { //The author is the user
+	if ( model.getSenderID().equals(currentUserUid) ) { //The author is the user
 		holder.userMessageText.setText(model.getMessageText());
 		holder.userMessageTime.setText(model.getFormatedDate());
-		holder.senderMessageFrame.setVisibility(View.GONE);
-
+		holder.userMessageFrame.setVisibility(View.VISIBLE);
+		holder.senderMessageFrame.setVisibility(View.INVISIBLE);
 	} else { //The author is not the user
 		holder.senderMessageText.setText(model.getMessageText());
 		holder.senderMessageTime.setText(model.getFormatedDate());
 		holder.senderName.setText(model.getSenderName());
+		holder.senderMessageFrame.setVisibility(View.VISIBLE);
+		holder.userMessageFrame.setVisibility(View.INVISIBLE);
 		Picasso.get().load(model.getSenderImageURL()).into(holder.senderImage);
-		holder.userMessageFrame.setVisibility(View.GONE);
 	}
 }
 

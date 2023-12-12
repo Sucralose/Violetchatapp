@@ -13,99 +13,101 @@ import com.benavivi.violetchatapp.utilities.FirebaseManager;
 
 public class SignInActivity extends AppCompatActivity {
 
-	private ActivitySignInBinding binding;
+private ActivitySignInBinding binding;
 
-	@Override
-	protected void onCreate (Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+@Override
+protected void onCreate ( Bundle savedInstanceState ) {
+	super.onCreate(savedInstanceState);
 
-		binding = ActivitySignInBinding.inflate(getLayoutInflater());
-		setContentView(binding.getRoot());
-			setLisenters();
+	binding = ActivitySignInBinding.inflate(getLayoutInflater());
+	setContentView(binding.getRoot());
+	setListeners();
+}
+
+@Override
+protected void onStart ( ) {
+	super.onStart();
+	if ( FirebaseManager.isSignedIn() ) {
+		Intent mainActivityIntent = new Intent(SignInActivity.this, MainActivity.class);
+		startActivity(mainActivityIntent);
 	}
+}
 
-	@Override
-	protected void onStart () {
-		super.onStart();
-		if(FirebaseManager.isSignedIn()){
-			Intent mainActivityIntent = new Intent(SignInActivity.this, MainActivity.class);
-			startActivity(mainActivityIntent);
-		}
-	}
+private void setListeners ( ) {
+	binding.createNewAccountText.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), SignUpActivity.class)));
+	binding.signInButton.setOnClickListener(view -> {
+		if ( isValidSignInData() )
+			signIn();
+	});
+	binding.forgotPasswordText.setOnClickListener(view -> {
+		if ( isValidEmail() )
+			sendPasswordReset();
+	});
+}
 
-	private void setLisenters(){
-		binding.createNewAccountText.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(),SignUpActivity.class)));
-		binding.signInButton.setOnClickListener(view -> {
-			if(isValidSignInData())
-				signIn();
+private void sendPasswordReset ( ) {
+	loading(true);
+	FirebaseManager.sendPasswordReset(binding.inputEmailAddress.getText().toString())
+		.addOnCompleteListener(task -> {
+			loading(false);
+			String msg = task.isSuccessful() ? "Please check your email address for the password reset" : task.getResult().toString();
+			showShortToast(msg);
 		});
-		binding.forgotPasswordText.setOnClickListener(view -> {
-			if (isValidEmail())
-				sendPasswordReset();
+}
+
+
+private void signIn ( ) {
+	loading(true);
+	FirebaseManager.signIn(binding.inputEmailAddress.getText().toString(), binding.inputPassword.getText().toString())
+		.addOnCompleteListener(task -> {
+			loading(false);
+			if ( task.isSuccessful() ) {
+				Intent mainActivityIntent = new Intent(SignInActivity.this, MainActivity.class);
+				startActivity(mainActivityIntent);
+			} else
+				showShortToast(task.getException().getMessage());
 		});
+}
+
+private void loading ( Boolean isLoading ) {
+	if ( isLoading ) {
+		binding.signInButton.setVisibility(View.INVISIBLE);
+		binding.progressBar.setVisibility(View.VISIBLE);
+	} else {
+		binding.signInButton.setVisibility(View.VISIBLE);
+		binding.progressBar.setVisibility(View.INVISIBLE);
 	}
 
-	private void sendPasswordReset () {
-		loading(true);
-		FirebaseManager.sendPasswordReset(binding.inputEmailAddress.getText().toString())
-				     .addOnCompleteListener(task -> {
-					     loading(false);
-					     String msg = task.isSuccessful() ? "Please check your email address for the password reset" : task.getResult().toString();
-					     showShortToast(msg);
-				     });
+}
+
+private boolean isValidSignInData ( ) {
+	String password = binding.inputPassword.getText().toString();
+	if ( !isValidEmail() )
+		return false;
+	if ( password.isEmpty() ) {
+		showShortToast("Please enter your password");
+		return false;
 	}
+	return true;
+}
 
-
-	private void signIn () {
-		loading(true);
-		FirebaseManager.signIn(binding.inputEmailAddress.getText().toString(),binding.inputPassword.getText().toString())
-				     .addOnCompleteListener(task -> {
-					     loading(false);
-					     if(task.isSuccessful()){
-						     Intent mainActivityIntent = new Intent(SignInActivity.this, MainActivity.class);
-						     startActivity(mainActivityIntent);
-					     } else
-						     showShortToast(task.getException().getMessage());
-				     });
+private boolean isValidEmail ( ) {
+	String emailAddress = binding.inputEmailAddress.getText().toString();
+	if ( emailAddress.isEmpty() ) {
+		showShortToast("Please enter your email address");
+		return false;
 	}
-
-	private void loading(Boolean isLoading){
-		if(isLoading){
-			binding.signInButton.setVisibility(View.INVISIBLE);
-			binding.progressBar.setVisibility(View.VISIBLE);
-		}else{
-			binding.signInButton.setVisibility(View.VISIBLE);
-			binding.progressBar.setVisibility(View.INVISIBLE);
-		}
-
+	//Use builtin regex to determine if is valid address
+	if ( !Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches() ) {
+		showShortToast("Please enter a valid email address");
+		return false;
 	}
-
-	private boolean isValidSignInData(){
-		if(!isValidEmail())
-			return false;
-		if(binding.inputPassword.getText().toString().isEmpty() ){
-			showShortToast("Please enter your password");
-			return false;
-		}
-		return true;
-	}
-
-	private boolean isValidEmail () {
-		if(binding.inputEmailAddress.getText().toString().isEmpty()){
-			showShortToast("Please enter your email address");
-			return false;
-		}
-		//Use builtin regex to determine if is valid address
-		if(!Patterns.EMAIL_ADDRESS.matcher(binding.inputEmailAddress.getText().toString()).matches()){
-			showShortToast("Please enter a valid email address");
-			return false;
-		}
-		return true;
-	}
+	return true;
+}
 
 
-	private void showShortToast(String message){
-		Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
-	}
+private void showShortToast ( String message ) {
+	Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+}
 
 }

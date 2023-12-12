@@ -2,5 +2,4 @@
     <string name="app_name">Violet Chat</string>
     <string name="MAX_NAME_DISPLAY_LENGTH">25</string>
 
-    <string name="MESSAGE_CORNER_RADIUS">30sdp</string>
 </resources>

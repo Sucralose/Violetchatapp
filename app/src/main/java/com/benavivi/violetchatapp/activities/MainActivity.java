@@ -107,4 +107,8 @@ public boolean onMenuItemClick ( MenuItem item ) {
 	return false;
 }
 
+public void onDestroy ( ) {
+	super.onDestroy();
+}
+
 }

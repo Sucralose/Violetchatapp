@@ -13,6 +13,7 @@ import com.benavivi.violetchatapp.dataModels.Group;
 import com.benavivi.violetchatapp.databinding.ActivityConversationBinding;
 import com.benavivi.violetchatapp.utilities.FirebaseManager;
 import com.benavivi.violetchatapp.utilities.IntentFactory;
+import com.benavivi.violetchatapp.utilities.LinearLayoutManagerWrapper;
 
 public class ConversationActivity extends AppCompatActivity {
 ActivityConversationBinding binding;
@@ -50,7 +51,7 @@ protected void onStart ( ) {
 
 private void setRecyclerView ( ) {
 	adapter = FirebaseManager.getConversationAdapter(this, currentGroup.getChatID());
-	linearLayoutManager = new LinearLayoutManager(this);
+	linearLayoutManager = new LinearLayoutManagerWrapper(this);
 	linearLayoutManager.setReverseLayout(true);
 
 

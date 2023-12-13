@@ -32,6 +32,24 @@ public Group ( ) {
 	//Empty constructor for Firebase. (REQUIRED)
 }
 
+public Group ( Map<String,Object> groupModelData ) {
+	this.adminID = groupModelData.get(KEY_GROUP_DETAIL_ADMIN_ID).toString();
+	this.chatID = groupModelData.get(KEY_GROUP_DETAILS_ID).toString();
+	this.name = groupModelData.get(KEY_GROUP_DETAILS_NAME).toString();
+	this.imageURL = groupModelData.get(KEY_GROUP_DETAILS_ICON).toString();
+	this.creation_date = Long.parseLong(groupModelData.get(KEY_GROUP_DETAILS_CREATION_DATE).toString());
+	this.is_private_messages = Boolean.parseBoolean(groupModelData.get(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES).toString());
+
+	Map<String,Object> messageMap = (Map<String,Object>) groupModelData.get(KEY_GROUP_DETAILS_LAST_MESSAGE);
+
+	this.lastMessageDate = Long.parseLong(messageMap.get(KEY_MESSAGE_DATE).toString());
+	this.lastMessageText = messageMap.get(KEY_MESSAGE_TEXT).toString();
+	this.lastSenderID = messageMap.get(KEY_MESSAGE_SENDER_ID).toString();
+	this.lastSenderName = messageMap.get(KEY_MESSAGE_SENDER_NAME).toString();
+
+
+}
+
 public Group ( String adminID, String chatID, String name, Message lastMessage, String imageURL, long creation_date, boolean is_private_messages ) {
 	this.adminID = adminID;
 	this.chatID = chatID;

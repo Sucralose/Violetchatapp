@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.benavivi.violetchatapp.adapters.ChatsListRecycleViewAdapter;
 import com.benavivi.violetchatapp.databinding.FragmentChatsBinding;
 import com.benavivi.violetchatapp.utilities.FirebaseManager;
+import com.benavivi.violetchatapp.utilities.LinearLayoutManagerWrapper;
 
 public class ChatsFragment extends Fragment {
 FragmentChatsBinding binding;
@@ -35,7 +36,7 @@ public View onCreateView ( LayoutInflater inflater, ViewGroup container,
 
 
 private void setUpRecyclerView ( ) {
-	LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+	LinearLayoutManager linearLayoutManager = new LinearLayoutManagerWrapper(getContext());
 	binding.chatsRecyclerView.setLayoutManager(linearLayoutManager);
 	binding.chatsRecyclerView.setHasFixedSize(true);
 

@@ -24,14 +24,6 @@ protected void onCreate ( Bundle savedInstanceState ) {
 	setListeners();
 }
 
-@Override
-protected void onStart ( ) {
-	super.onStart();
-	if ( FirebaseManager.isSignedIn() ) {
-		Intent mainActivityIntent = new Intent(SignInActivity.this, MainActivity.class);
-		startActivity(mainActivityIntent);
-	}
-}
 
 private void setListeners ( ) {
 	binding.createNewAccountText.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), SignUpActivity.class)));

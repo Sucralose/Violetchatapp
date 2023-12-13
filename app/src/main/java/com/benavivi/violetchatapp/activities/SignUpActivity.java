@@ -44,10 +44,6 @@ protected void onCreate ( Bundle savedInstanceState ) {
 	setListeners();
 }
 
-@Override
-protected void onStart ( ) {
-	super.onStart();
-}
 
 private void setListeners ( ) {
 	binding.signInText.setOnClickListener(view -> startActivity(new Intent(this, SignInActivity.class)));

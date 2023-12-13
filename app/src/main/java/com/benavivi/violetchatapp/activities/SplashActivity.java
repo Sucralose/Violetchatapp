@@ -25,19 +25,14 @@ protected void onCreate ( Bundle savedInstanceState ) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_splash);
 
-	if ( getIntent().getExtras() == null )
-		regularSplashBehaviour();
+	if ( isValidNotificationIntent() )
+		MoveUserToNotificationChat();
 	else {
-		//Has leftover intent?
-		String st = getIntent().getExtras().getString(Constants.FirebaseConstants.NOTIFICATION_EXTRA_SENTFROMID);
-		if ( st != null && !st.isEmpty() ) //Entered from notification
-			enteredFromNotification();
-		else //bogus weird intent behaviour
-			regularSplashBehaviour();
+		MoveUserDependingOnAuth();
 	}
 }
 
-void regularSplashBehaviour ( ) {
+void MoveUserDependingOnAuth ( ) {
 	new Handler().postDelayed(( ) -> {
 		if ( FirebaseManager.isSignedIn() ) {
 			startActivity(new Intent(SplashActivity.this, MainActivity.class));
@@ -48,7 +43,7 @@ void regularSplashBehaviour ( ) {
 	}, 1000);
 }
 
-void enteredFromNotification ( ) {
+void MoveUserToNotificationChat ( ) {
 	String notificationGroupID = getIntent().getExtras().getString(Constants.FirebaseConstants.NOTIFICATION_EXTRA_SENTFROMID);
 	FirebaseManager.getGroupDetailsData(notificationGroupID)
 		.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -65,6 +60,12 @@ void enteredFromNotification ( ) {
 				}
 			}
 		});
+}
+
+boolean isValidNotificationIntent ( ) {
+	return getIntent().getExtras() != null
+		       && getIntent().getExtras().getString(Constants.FirebaseConstants.NOTIFICATION_EXTRA_SENTFROMID) != null
+		       && !getIntent().getExtras().getString(Constants.FirebaseConstants.NOTIFICATION_EXTRA_SENTFROMID).isEmpty();
 }
 
 }

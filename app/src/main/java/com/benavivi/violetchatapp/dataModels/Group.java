@@ -5,6 +5,7 @@ import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.K
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_ID;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_LAST_MESSAGE;
+import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_MEMBERS_LIST;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_NAME;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAIL_ADMIN_ID;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_DATE;
@@ -22,7 +23,7 @@ public class Group {
 private String adminID, chatID, name, imageURL;
 private String lastMessageText, lastSenderName, lastSenderID, lastMessageSenderImageURL;
 private long lastMessageDate;
-//private ArrayList<String> membersList;
+private ArrayList<String> membersList;
 private long creation_date;
 
 private boolean is_private_messages;
@@ -62,7 +63,7 @@ public Group ( String adminID, String chatID, String name, String imageURL, long
 	this.imageURL = imageURL;
 	this.creation_date = creation_date;
 	this.is_private_messages = is_private_messages;
-	//this.membersList = membersList;
+	this.membersList = membersList;
 }
 
 
@@ -146,6 +147,16 @@ public void setLast_message ( Message lastMessage ) {
 	this.lastSenderID = lastMessage.getSenderID();
 	this.lastSenderName = lastMessage.getSenderName();
 	this.lastMessageSenderImageURL = lastMessage.getSenderImageURL();
+}
+
+@PropertyName(KEY_GROUP_DETAILS_MEMBERS_LIST)
+public ArrayList<String> getMembersList ( ) {
+	return membersList;
+}
+
+@PropertyName(KEY_GROUP_DETAILS_MEMBERS_LIST)
+public void setMembersList ( ArrayList<String> membersList ) {
+	this.membersList = membersList;
 }
 
 

@@ -28,7 +28,7 @@ android {
             sourceCompatibility = JavaVersion.VERSION_1_8
             targetCompatibility = JavaVersion.VERSION_1_8
       }
-      buildFeatures{
+      buildFeatures {
             viewBinding = true
       }
 }
@@ -49,10 +49,12 @@ dependencies {
       implementation("com.google.firebase:firebase-database")
       implementation("com.google.firebase:firebase-firestore")
       implementation("com.google.firebase:firebase-storage")
+      implementation("com.google.firebase:firebase-messaging")
       implementation("com.firebaseui:firebase-ui-storage:8.0.2")
       implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
 
-//      implementation("com.google.firebase:firebase-core")
+      //Okhttp - for http requests
+      implementation("com.squareup.okhttp3:okhttp:4.11.0")
 
       //---Scaleable size units
       implementation("com.intuit.sdp:sdp-android:1.1.0")

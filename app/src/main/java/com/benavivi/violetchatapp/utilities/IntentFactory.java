@@ -28,7 +28,7 @@ public static Intent GroupToIntent ( Context context, Class<?> destination, Grou
 	intent.putExtra(KEY_GROUP_DETAILS_NAME, group.getName());
 	intent.putExtra(KEY_GROUP_DETAILS_ID, group.getChatID());
 	intent.putExtra(KEY_GROUP_DETAILS_ICON, group.getImageURL());
-	//intent.putExtra(KEY_GROUP_DETAILS_MEMBERS_LIST, group.getMembersList());
+	intent.putExtra(KEY_GROUP_DETAILS_MEMBERS_LIST, group.getMembersList());
 	intent.putExtra(KEY_GROUP_DETAIL_ADMIN_ID, group.getAdminID());
 	intent.putExtra(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES, group.getIs_private_messages());
 	intent.putExtra(KEY_GROUP_DETAILS_CREATION_DATE, group.getCreation_date());

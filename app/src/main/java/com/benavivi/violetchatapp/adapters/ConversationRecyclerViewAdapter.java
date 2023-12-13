@@ -30,6 +30,7 @@ public ConversationRecyclerViewAdapter ( @NonNull FirestoreRecyclerOptions<Messa
 
 @Override
 protected void onBindViewHolder ( @NonNull ConversationRecyclerViewAdapter.MessageViewHolder holder, int position, @NonNull Message model ) {
+
 	if ( model.getSenderID().equals(currentUserUid) ) { //The author is the user
 		holder.userMessageText.setText(model.getMessageText());
 		holder.userMessageTime.setText(model.getFormatedDate());

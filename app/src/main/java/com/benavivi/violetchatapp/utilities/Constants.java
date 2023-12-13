@@ -15,8 +15,7 @@ public static class FirebaseConstants {
 	public static final String KEY_USER_DISPLAY_NAME = "DisplayName";
 	public static final String KEY_USER_EMAIL_ADDRESS = "EmailAddress";
 	public static final String KEY_USER_PROFILE_IMAGE = "ProfileImage";
-	public static final String KEY_USER_CONTACTS_LIST = "ContactsList";
-	public static final String KEY_USER_GROUPS_LIST = "GroupsList";
+	public static final String KEY_USER_FCM_TOKEN = "FCM_Token";
 
 	public static final String COLLECTION_GROUP_DETAILS = "GroupsDetails";
 	public static final String KEY_GROUP_DETAILS_NAME = "GroupName";
@@ -43,6 +42,10 @@ public static class FirebaseConstants {
 	public static final String KEY_GROUP_ATTACHMENT_STORAGE_REFERENCE = "GroupAttachments";
 
 
+	public static final String NOTIFICATION_CHANNEL_ID = "notify";
+	public static final String NOTIFICATION_EXTRA_SENTFROMID = "sentFromID";
+	public static final String NOTIFICATION_PUSH_URL = "https://fcm.googleapis.com/fcm/send";
+	public static final String NOTIFICATION_API_KEY = "AAAAC4X48r8:APA91bEdbOMkUYcbwiWP7Y6vnLSTKU4dtgF625A0xsfvjfZNZmuxbDIlR-HcoLYJ0kmE_EWeF5WzWV3e6SuU6s_9qjWXtMPS-6WktO7k6f9yhfb6PEjQdeAL44d_q_MRBv7daENVOhaq";
 }
 
 public static class ApplicationConstants {

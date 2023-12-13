@@ -62,6 +62,7 @@ private void signIn ( ) {
 		.addOnCompleteListener(task -> {
 			loading(false);
 			if ( task.isSuccessful() ) {
+				FirebaseManager.updateFCMToken();
 				Intent mainActivityIntent = new Intent(SignInActivity.this, MainActivity.class);
 				startActivity(mainActivityIntent);
 			} else

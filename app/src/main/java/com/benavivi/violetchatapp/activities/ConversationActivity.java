@@ -74,6 +74,7 @@ private void setListeners ( ) {
 			Intent intent = new Intent(ConversationActivity.this, MainActivity.class);
 			if ( adapter != null ) adapter.stopListening();
 			startActivity(intent);
+			finish();
 
 		}
 	});

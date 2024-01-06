@@ -50,10 +50,12 @@ dependencies {
       implementation("com.google.firebase:firebase-firestore")
       implementation("com.google.firebase:firebase-storage")
       implementation("com.google.firebase:firebase-messaging")
+
+      //Firebase UI
       implementation("com.firebaseui:firebase-ui-storage:8.0.2")
       implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
 
-      //Okhttp - for http requests
+      //Okhttp - http requests
       implementation("com.squareup.okhttp3:okhttp:4.11.0")
 
       //---Scaleable size units
@@ -66,8 +68,7 @@ dependencies {
       //--Picasso - Image loading and caching library
       implementation("com.squareup.picasso:picasso:2.8")
 
-
-//      //Preference datastore - androidx
+      //Preference datastore - androidx
       implementation("androidx.datastore:datastore-preferences-core:1.0.0")
 
 

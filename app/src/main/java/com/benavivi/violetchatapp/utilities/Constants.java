@@ -51,6 +51,7 @@ public static class FirebaseConstants {
 public static class ApplicationConstants {
 
 	public static final String KEY_PREFERENCE_NAME = "VioletChatAppPreference";
+	public static final int SPLASH_DELAY_MILLISECONDS = 500;
 }
 
 }

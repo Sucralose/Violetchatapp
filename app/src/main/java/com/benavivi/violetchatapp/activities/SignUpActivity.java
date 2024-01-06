@@ -73,6 +73,7 @@ private void signUp ( ) {
 			if ( task.isSuccessful() ) {
 				Intent goToChatsIntent = new Intent(this, MainActivity.class);
 				startActivity(goToChatsIntent);
+				finish();
 			} else
 				showShortToast(task.getException().getLocalizedMessage());
 		});

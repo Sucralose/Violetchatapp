@@ -30,6 +30,7 @@ protected void onCreate ( Bundle savedInstanceState ) {
 	else {
 		MoveUserDependingOnAuth();
 	}
+
 }
 
 void MoveUserDependingOnAuth ( ) {
@@ -40,7 +41,7 @@ void MoveUserDependingOnAuth ( ) {
 			startActivity(new Intent(SplashActivity.this, SignInActivity.class));
 		}
 		finish();
-	}, 1000);
+	}, Constants.ApplicationConstants.SPLASH_DELAY_MILLISECONDS);
 }
 
 void MoveUserToNotificationChat ( ) {

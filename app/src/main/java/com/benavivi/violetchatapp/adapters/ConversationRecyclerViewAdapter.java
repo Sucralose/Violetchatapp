@@ -42,7 +42,8 @@ protected void onBindViewHolder ( @NonNull ConversationRecyclerViewAdapter.Messa
 		holder.senderName.setText(model.getSenderName());
 		holder.senderMessageFrame.setVisibility(View.VISIBLE);
 		holder.userMessageFrame.setVisibility(View.INVISIBLE);
-		Picasso.get().load(model.getSenderImageURL()).into(holder.senderImage);
+		if ( model.getSenderImageURL() != null && !model.getSenderImageURL().isEmpty() )
+			Picasso.get().load(model.getSenderImageURL()).into(holder.senderImage);
 	}
 }
 

@@ -38,10 +38,10 @@ private void setListeners ( ) {
 }
 
 private void sendPasswordReset ( ) {
-	loading(true);
+	ChangeUserInterfaceLoadingAppearance(true);
 	FirebaseManager.sendPasswordReset(binding.inputEmailAddress.getText().toString())
 		.addOnCompleteListener(task -> {
-			loading(false);
+			ChangeUserInterfaceLoadingAppearance(false);
 			String msg = task.isSuccessful() ? "Please check your email address for the password reset" : task.getResult().toString();
 			showShortToast(msg);
 		});
@@ -49,20 +49,21 @@ private void sendPasswordReset ( ) {
 
 
 private void signIn ( ) {
-	loading(true);
+	ChangeUserInterfaceLoadingAppearance(true);
 	FirebaseManager.signIn(binding.inputEmailAddress.getText().toString(), binding.inputPassword.getText().toString())
 		.addOnCompleteListener(task -> {
-			loading(false);
+			ChangeUserInterfaceLoadingAppearance(false);
 			if ( task.isSuccessful() ) {
 				FirebaseManager.updateFCMToken();
 				Intent mainActivityIntent = new Intent(SignInActivity.this, MainActivity.class);
 				startActivity(mainActivityIntent);
+				finish();
 			} else
 				showShortToast(task.getException().getMessage());
 		});
 }
 
-private void loading ( Boolean isLoading ) {
+private void ChangeUserInterfaceLoadingAppearance ( Boolean isLoading ) {
 	if ( isLoading ) {
 		binding.signInButton.setVisibility(View.INVISIBLE);
 		binding.progressBar.setVisibility(View.VISIBLE);
@@ -100,7 +101,7 @@ private boolean isValidEmail ( ) {
 
 
 private void showShortToast ( String message ) {
-	Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+	Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 }
 
 }

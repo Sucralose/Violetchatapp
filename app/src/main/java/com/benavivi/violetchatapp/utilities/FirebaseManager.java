@@ -264,4 +264,6 @@ public static void updateFCMToken ( ) {
 public static Task<DocumentSnapshot> getUserData ( String memberID ) {
 	return FirebaseFirestore.getInstance().collection(COLLECTION_USER).document(memberID).get();
 }
+
+
 }

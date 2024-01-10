@@ -90,15 +90,20 @@ private void setListeners ( ) {
 }
 
 public boolean onMenuItemClick ( MenuItem item ) {
-	if ( item.getItemId() == R.id.createNewGroupOption ) {
+	//Cannot use switch because R.id is not a constant.
+
+	int clickedItemId = item.getItemId();
+	boolean handledClick = false;
+	if ( clickedItemId == R.id.createNewGroupOption && !handledClick) {
 		showShortToast("New Group");
-		return true;
+		handledClick = true;
 	}
-	if ( item.getItemId() == R.id.aboutOption ) {
+	if ( clickedItemId == R.id.aboutOption && !handledClick) {
 		showShortToast("About");
-		return true;
+		handledClick = true;
 	}
-	return false;
+
+	return handledClick;
 }
 
 }

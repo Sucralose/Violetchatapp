@@ -24,12 +24,6 @@ private ActivityMainBinding binding;
 private MyViewPagerAdapter myAdapter;
 
 @Override
-protected void onStart ( ) {
-	super.onStart();
-}
-
-
-@Override
 protected void onCreate ( Bundle savedInstanceState ) {
 	super.onCreate(savedInstanceState);
 	binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -105,10 +99,6 @@ public boolean onMenuItemClick ( MenuItem item ) {
 		return true;
 	}
 	return false;
-}
-
-public void onDestroy ( ) {
-	super.onDestroy();
 }
 
 }

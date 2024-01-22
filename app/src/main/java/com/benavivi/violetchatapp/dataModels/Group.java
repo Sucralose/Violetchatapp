@@ -8,25 +8,21 @@ import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.K
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_MEMBERS_LIST;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_NAME;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAIL_ADMIN_ID;
-import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_DATE;
-import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_SENDER_ID;
-import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_SENDER_IMAGE_URL;
-import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_SENDER_NAME;
-import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_TEXT;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.PropertyName;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 public class Group {
 private String adminID, chatID, name, imageURL;
-private String lastMessageText, lastSenderName, lastSenderID, lastMessageSenderImageURL;
-private long lastMessageDate;
+private Message lastMessage;
 private ArrayList<String> membersList;
-private long creation_date;
+private Timestamp creation_date;
 
-private boolean is_private_messages;
+private boolean isPrivateMessages;
 
 public Group ( ) {
 	//Empty constructor for Firebase. (REQUIRED)
@@ -37,72 +33,56 @@ public Group ( Map<String,Object> groupModelData ) {
 	this.chatID = groupModelData.get(KEY_GROUP_DETAILS_ID).toString();
 	this.name = groupModelData.get(KEY_GROUP_DETAILS_NAME).toString();
 	this.imageURL = groupModelData.get(KEY_GROUP_DETAILS_ICON).toString();
-	this.creation_date = Long.parseLong(groupModelData.get(KEY_GROUP_DETAILS_CREATION_DATE).toString());
-	this.is_private_messages = Boolean.parseBoolean(groupModelData.get(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES).toString());
+	this.creation_date = (Timestamp) groupModelData.get(KEY_GROUP_DETAILS_CREATION_DATE);
+	this.isPrivateMessages = Boolean.parseBoolean(groupModelData.get(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES).toString());
 
-	Map<String,Object> messageMap = (Map<String,Object>) groupModelData.get(KEY_GROUP_DETAILS_LAST_MESSAGE);
-
-	this.lastMessageDate = Long.parseLong(messageMap.get(KEY_MESSAGE_DATE).toString());
-	this.lastMessageText = messageMap.get(KEY_MESSAGE_TEXT).toString();
-	this.lastSenderID = messageMap.get(KEY_MESSAGE_SENDER_ID).toString();
-	this.lastSenderName = messageMap.get(KEY_MESSAGE_SENDER_NAME).toString();
+	lastMessage = (Message) groupModelData.get(KEY_GROUP_DETAILS_LAST_MESSAGE);
 
 
 }
 
-public Group ( String adminID, String chatID, String name, Message lastMessage, String imageURL, long creation_date, boolean is_private_messages ) {
+public Group ( String adminID, String chatID, String name, Message lastMessage, String imageURL, Timestamp creationDate, boolean isPrivateMessages ) {
 	this.adminID = adminID;
 	this.chatID = chatID;
 	this.name = name;
-
-	this.lastMessageDate = lastMessage.getDate();
-	this.lastMessageText = lastMessage.getMessageText();
-	this.lastSenderID = lastMessage.getSenderID();
-	this.lastSenderName = lastMessage.getSenderName();
-
+	this.lastMessage = lastMessage;
 	this.imageURL = imageURL;
-	this.creation_date = creation_date;
-	this.is_private_messages = is_private_messages;
+	this.creation_date = creationDate;
+	this.isPrivateMessages = isPrivateMessages;
 	//this.membersList = new ArrayList<String>();
 	//membersList.add(adminID);
 }
 
-public Group ( String adminID, String chatID, String name, String imageURL, long creation_date, boolean is_private_messages, ArrayList<String> membersList ) {
+public Group ( String adminID, String chatID, String name, String imageURL, Timestamp creation_date, boolean is_private_messages, ArrayList<String> membersList ) {
 	this.adminID = adminID;
 	this.chatID = chatID;
 	this.name = name;
 
-	this.lastMessageDate = 0;
-	this.lastMessageText = "";
-	this.lastSenderID = "";
-	this.lastSenderName = "";
-
-
 	this.imageURL = imageURL;
 	this.creation_date = creation_date;
-	this.is_private_messages = is_private_messages;
+	this.isPrivateMessages = is_private_messages;
 	this.membersList = membersList;
 }
 
 
 @PropertyName(KEY_GROUP_DETAILS_CREATION_DATE)
-public long getCreation_date ( ) {
-	return creation_date;
+public Date getCreationDate ( ) {
+	return creation_date.toDate();
 }
 
 @PropertyName(KEY_GROUP_DETAILS_CREATION_DATE)
-public void setCreation_date ( long creation_date ) {
+public void setCreationDate ( Timestamp creation_date ) {
 	this.creation_date = creation_date;
 }
 
 @PropertyName(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES)
-public boolean getIs_private_messages ( ) {
-	return is_private_messages;
+public boolean getIsPrivateMessages( ) {
+	return isPrivateMessages;
 }
 
 @PropertyName(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES)
-public void setIs_private_messages ( boolean is_private_messages ) {
-	this.is_private_messages = is_private_messages;
+public void setIsPrivateMessages( boolean isPrivateMessages ) {
+	this.isPrivateMessages = isPrivateMessages;
 }
 
 @PropertyName(KEY_GROUP_DETAILS_ICON)
@@ -147,24 +127,20 @@ public void setName ( String chatName ) {
 
 @PropertyName(KEY_GROUP_DETAILS_LAST_MESSAGE)
 public Message getLastMessage ( ) {
-	return new Message(lastMessageText, lastSenderID, lastSenderName, lastMessageSenderImageURL, lastMessageDate);
+	return lastMessage;
 }
 
+
+//This is strictly for the firebase auto constructor.
+	//Collection returns Map of string object
+	//TODO: Check if the other setLastMessage (Message as input) works properly.
 @PropertyName(KEY_GROUP_DETAILS_LAST_MESSAGE)
-public void setLast_message ( Map<String,Object> message ) {
-	this.lastMessageDate = Long.parseLong(message.get(KEY_MESSAGE_DATE).toString());
-	this.lastMessageText = message.get(KEY_MESSAGE_TEXT).toString();
-	this.lastSenderID = message.get(KEY_MESSAGE_SENDER_ID).toString();
-	this.lastSenderName = message.get(KEY_MESSAGE_SENDER_NAME).toString();
-	this.lastMessageSenderImageURL = message.get(KEY_MESSAGE_SENDER_IMAGE_URL).toString();
+public void setLastMessage( Map<String,Object> message ) {
+	this.lastMessage = new Message( message );
 }
 
-public void setLast_message ( Message lastMessage ) {
-	this.lastMessageDate = lastMessage.getDate();
-	this.lastMessageText = lastMessage.getMessageText();
-	this.lastSenderID = lastMessage.getSenderID();
-	this.lastSenderName = lastMessage.getSenderName();
-	this.lastMessageSenderImageURL = lastMessage.getSenderImageURL();
+public void setLastMessage( Message lastMessage ) {
+	this.lastMessage = lastMessage;
 }
 
 @PropertyName(KEY_GROUP_DETAILS_MEMBERS_LIST)
@@ -177,8 +153,4 @@ public void setMembersList ( ArrayList<String> membersList ) {
 	this.membersList = membersList;
 }
 
-
-	/*public ArrayList<String> getMembersList () {
-		return membersList;
-	}*/
 }

@@ -3,6 +3,7 @@ package com.benavivi.violetchatapp.utilities;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.COLLECTION_GROUP_DETAILS;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.COLLECTION_GROUP_MESSAGES;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.COLLECTION_USER;
+import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.FIRST_CHAT_MESSAGE;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_CREATION_DATE;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_ICON;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_ID;
@@ -47,6 +48,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -136,9 +138,9 @@ public static void createNewGroup ( Group group ) {
 	Map<String,Object> lastmessageDetail = new HashMap<>();
 	groupDetail.put(KEY_GROUP_DETAILS_NAME, group.getName());
 	groupDetail.put(KEY_GROUP_DETAILS_ICON, group.getImageURL());
-	groupDetail.put(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES, group.getIs_private_messages());
+	groupDetail.put(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES, group.getIsPrivateMessages());
 	groupDetail.put(KEY_GROUP_DETAILS_MEMBERS_LIST, Collections.singletonList(group.getAdminID()));
-	groupDetail.put(KEY_GROUP_DETAILS_CREATION_DATE, group.getCreation_date());
+	groupDetail.put(KEY_GROUP_DETAILS_CREATION_DATE, group.getCreationDate());
 	groupDetail.put(KEY_GROUP_DETAIL_ADMIN_ID, group.getAdminID());
 
 	Message lastMessage = group.getLastMessage();
@@ -265,5 +267,21 @@ public static Task<DocumentSnapshot> getUserData ( String memberID ) {
 	return FirebaseFirestore.getInstance().collection(COLLECTION_USER).document(memberID).get();
 }
 
+public static void createGroup(Group group){
+	//Add to group details
+	FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS).document(group.getChatID( )).set(group);
+	//Add to group messages
+	FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_MESSAGES).document( group.getChatID() )
+		.collection(SUB_COLLECTION_MESSAGES)
+		.add(FIRST_CHAT_MESSAGE);
+}
+
+public static void removeUserFromGroup(Group group, String userID){
+	ArrayList<String> groupUserList = group.getMembersList();
+	groupUserList.remove(userID);
+	group.setMembersList(groupUserList);
+	FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS).document( group.getChatID() )
+		.set(groupUserList);
+}
 
 }

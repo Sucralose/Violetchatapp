@@ -42,8 +42,8 @@ public GroupViewHolder onCreateViewHolder ( @NonNull ViewGroup parent, int viewT
 protected void onBindViewHolder ( @NonNull GroupViewHolder holder, int position, @NonNull Group model ) {
 
 	holder.groupName.setText(model.getName());
-	holder.groupLastMessage.setText(model.getLastMessage().getFormatedMessage());
-	holder.groupLastMessageTime.setText(model.getLastMessage().getFormatedDate());
+	holder.groupLastMessage.setText(model.getLastMessage().getFormattedMessage());
+	holder.groupLastMessageTime.setText(model.getLastMessage().getFormattedDate());
 	Picasso.get().load(model.getImageURL()).into(holder.roundedImageView);
 	holder.itemView.setOnClickListener(new View.OnClickListener() {
 		@Override

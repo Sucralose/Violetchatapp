@@ -6,6 +6,7 @@ import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.K
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_SENDER_NAME;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_TEXT;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.PropertyName;
 
 import java.text.DateFormat;
@@ -20,14 +21,14 @@ private String senderName;
 
 
 private String senderImageURL;
-private long date;
+private Timestamp date;
 
 
 public Message ( ) {
 
 }
 
-public Message ( String message, String senderID, long date, String senderName ) {
+public Message ( String message, String senderID, Timestamp date, String senderName ) {
 	this.message = message;
 	this.senderID = senderID;
 	this.date = date;
@@ -35,7 +36,7 @@ public Message ( String message, String senderID, long date, String senderName )
 
 }
 
-public Message ( String message, String senderID, String senderName, String senderImageURL, long date ) {
+public Message ( String message, String senderID, String senderName, String senderImageURL, Timestamp date ) {
 	this.message = message;
 	this.senderID = senderID;
 	this.senderName = senderName;
@@ -46,7 +47,7 @@ public Message ( String message, String senderID, String senderName, String send
 public Message ( Map<String,Object> stringObjectMap ) {
 	this.message = stringObjectMap.get(KEY_MESSAGE_TEXT).toString();
 	this.senderID = stringObjectMap.get(KEY_MESSAGE_SENDER_ID).toString();
-	this.date = (long) stringObjectMap.get(KEY_MESSAGE_DATE);
+	this.date = (Timestamp) stringObjectMap.get(KEY_MESSAGE_DATE);
 	this.senderName = stringObjectMap.get(KEY_MESSAGE_SENDER_NAME).toString();
 	this.senderImageURL = stringObjectMap.get(KEY_MESSAGE_SENDER_IMAGE_URL).toString();
 
@@ -84,21 +85,21 @@ public void setSenderID ( String senderID ) {
 }
 
 @PropertyName(KEY_MESSAGE_DATE)
-public long getDate ( ) {
-	return this.date;
+public Date getDate ( ) {
+	return this.date.toDate();
 }
 
 @PropertyName(KEY_MESSAGE_DATE)
-public void setDate ( long date ) {
+public void setDate ( Timestamp date ) {
 	this.date = date;
 }
 
-public String getFormatedMessage ( ) {
+public String getFormattedMessage( ) {
 	return this.senderName + ": " + this.message;
 }
 
-public String getFormatedDate ( ) {
-	return DateFormat.getDateInstance().format(new Date(this.date));
+public String getFormattedDate( ) {
+	return DateFormat.getDateInstance( ).format(date.toDate() );
 }
 
 @PropertyName(KEY_MESSAGE_SENDER_IMAGE_URL)

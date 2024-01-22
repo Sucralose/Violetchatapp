@@ -33,12 +33,12 @@ protected void onBindViewHolder ( @NonNull ConversationRecyclerViewAdapter.Messa
 
 	if ( model.getSenderID().equals(currentUserUid) ) { //The author is the user
 		holder.userMessageText.setText(model.getMessageText());
-		holder.userMessageTime.setText(model.getFormatedDate());
+		holder.userMessageTime.setText(model.getFormattedDate());
 		holder.userMessageFrame.setVisibility(View.VISIBLE);
 		holder.senderMessageFrame.setVisibility(View.INVISIBLE);
 	} else { //The author is not the user
 		holder.senderMessageText.setText(model.getMessageText());
-		holder.senderMessageTime.setText(model.getFormatedDate());
+		holder.senderMessageTime.setText(model.getFormattedDate());
 		holder.senderName.setText(model.getSenderName());
 		holder.senderMessageFrame.setVisibility(View.VISIBLE);
 		holder.userMessageFrame.setVisibility(View.INVISIBLE);

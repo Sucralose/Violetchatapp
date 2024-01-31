@@ -9,6 +9,8 @@ import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.K
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_NAME;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAIL_ADMIN_ID;
 
+import android.os.Parcelable;
+
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.PropertyName;
 
@@ -70,10 +72,19 @@ public Date getCreationDate ( ) {
 	return creation_date.toDate();
 }
 
-@PropertyName(KEY_GROUP_DETAILS_CREATION_DATE)
+
+/*
 public void setCreationDate ( Timestamp creation_date ) {
 	this.creation_date = creation_date;
 }
+*/
+
+
+@PropertyName(KEY_GROUP_DETAILS_CREATION_DATE)
+public void setCreationDate ( long creation_date ) {
+	this.creation_date = new Timestamp(new Date( creation_date ));
+}
+
 
 @PropertyName(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES)
 public boolean getIsPrivateMessages( ) {
@@ -139,9 +150,9 @@ public void setLastMessage( Map<String,Object> message ) {
 	this.lastMessage = new Message( message );
 }
 
-public void setLastMessage( Message lastMessage ) {
+/*public void setLastMessage( Message lastMessage ) {
 	this.lastMessage = lastMessage;
-}
+}*/
 
 @PropertyName(KEY_GROUP_DETAILS_MEMBERS_LIST)
 public ArrayList<String> getMembersList ( ) {

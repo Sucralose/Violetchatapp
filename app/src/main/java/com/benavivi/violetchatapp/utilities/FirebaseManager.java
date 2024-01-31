@@ -134,27 +134,10 @@ private static void addToUserFirestore ( String email, String displayName, Uri p
 
 public static void createNewGroup ( Group group ) {
 
-	Map<String,Object> groupDetail = new HashMap<>();
-	Map<String,Object> lastmessageDetail = new HashMap<>();
-	groupDetail.put(KEY_GROUP_DETAILS_NAME, group.getName());
-	groupDetail.put(KEY_GROUP_DETAILS_ICON, group.getImageURL());
-	groupDetail.put(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES, group.getIsPrivateMessages());
-	groupDetail.put(KEY_GROUP_DETAILS_MEMBERS_LIST, Collections.singletonList(group.getAdminID()));
-	groupDetail.put(KEY_GROUP_DETAILS_CREATION_DATE, group.getCreationDate());
-	groupDetail.put(KEY_GROUP_DETAIL_ADMIN_ID, group.getAdminID());
-
-	Message lastMessage = group.getLastMessage();
-	lastmessageDetail.put(KEY_MESSAGE_SENDER_NAME, lastMessage.getSenderName());
-	lastmessageDetail.put(KEY_MESSAGE_SENDER_ID, lastMessage.getSenderID());
-	lastmessageDetail.put(KEY_MESSAGE_TEXT, lastMessage.getMessageText());
-	lastmessageDetail.put(KEY_MESSAGE_DATE, lastMessage.getDate());
-
-	groupDetail.put(KEY_GROUP_DETAILS_LAST_MESSAGE, lastmessageDetail);
-
 	String groupID = group.getChatID() == null ? UUID.randomUUID().toString() : group.getChatID();
-
+	group.setChatID(groupID);
 	FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS).document(groupID)
-		.set(groupDetail);
+		.set(group);
 
 
 }

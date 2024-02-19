@@ -1,5 +1,6 @@
 package com.benavivi.violetchatapp.dataModels;
 
+import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.FIRST_CHAT_MESSAGE;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_CREATION_DATE;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_ICON;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_ID;
@@ -8,8 +9,6 @@ import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.K
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_MEMBERS_LIST;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_NAME;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAIL_ADMIN_ID;
-
-import android.os.Parcelable;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.PropertyName;
@@ -64,29 +63,27 @@ public Group ( String adminID, String chatID, String name, String imageURL, Time
 	this.creation_date = creation_date;
 	this.isPrivateMessages = is_private_messages;
 	this.membersList = membersList;
+	this.lastMessage = FIRST_CHAT_MESSAGE;
+}
+
+public void setMessage( Message lastMessage ) {
+	this.lastMessage = lastMessage;
 }
 
 
-@PropertyName(KEY_GROUP_DETAILS_CREATION_DATE)
+	@PropertyName(KEY_GROUP_DETAILS_CREATION_DATE)
 public Date getCreationDate ( ) {
 	return creation_date.toDate();
 }
 
-
 /*
-public void setCreationDate ( Timestamp creation_date ) {
+@PropertyName(KEY_GROUP_DETAILS_CREATION_DATE)
+*/
+public void setCreation_date( Timestamp creation_date ) {
 	this.creation_date = creation_date;
 }
-*/
 
-
-@PropertyName(KEY_GROUP_DETAILS_CREATION_DATE)
-public void setCreationDate ( long creation_date ) {
-	this.creation_date = new Timestamp(new Date( creation_date ));
-}
-
-
-@PropertyName(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES)
+	@PropertyName(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES)
 public boolean getIsPrivateMessages( ) {
 	return isPrivateMessages;
 }
@@ -162,6 +159,11 @@ public ArrayList<String> getMembersList ( ) {
 @PropertyName(KEY_GROUP_DETAILS_MEMBERS_LIST)
 public void setMembersList ( ArrayList<String> membersList ) {
 	this.membersList = membersList;
+}
+
+public long recieveTimestampNumber(){
+	//return creation_date.getSeconds();
+	return 1;
 }
 
 }

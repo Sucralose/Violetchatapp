@@ -1,5 +1,6 @@
 package com.benavivi.violetchatapp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -95,8 +96,10 @@ public boolean onMenuItemClick ( MenuItem item ) {
 	int clickedItemId = item.getItemId();
 	boolean handledClick = false;
 	if ( clickedItemId == R.id.createNewGroupOption && !handledClick) {
-		showShortToast("New Group");
 		handledClick = true;
+		Intent intent = new Intent(this, CreateGroupActivity.class);
+		startActivity(intent);
+		finish();
 	}
 	if ( clickedItemId == R.id.aboutOption && !handledClick) {
 		showShortToast("About");

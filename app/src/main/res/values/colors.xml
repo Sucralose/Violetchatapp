@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary">#5E00BC</color>
-    <color name="primary_light">#8000FF</color>
+    <color name="primary_light">#8344C1</color>
+    <color name="primary_transparent_light">#9F8344C1</color>
     <color name="primary_dark">#3D007A</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#757575</color>
@@ -9,8 +10,8 @@
     <color name="input_background">#ECECEC</color>
     <color name="icon_background">#20FFFFFF</color>
     <color name="error">#B00020</color>
-    <color name="received_message_background">#5D80D5</color>
-    <color name="sent_message_background">#7786DC92</color>
+    <color name="received_message_background">#3968D9</color>
+    <color name="sent_message_background">#86DC92</color>
     <color name="send_button">#ADDD7C</color>
     
     

@@ -17,30 +17,31 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/conversationActivityToolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/primary_transparent_light">
 
             <ImageButton
                 android:id="@+id/conversationBack"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
-                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:background="@drawable/arrow_back_icon_24"
-                android:backgroundTint="@color/white" />
+                android:backgroundTint="@color/primary_dark" />
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/conversationChatImage"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:background="@drawable/background_image" />
 
             <TextView
                 android:id="@+id/conversationTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:text="Group Name"
-                android:textColor="@color/white"
+                android:textColor="@color/primary_dark"
                 android:textSize="@dimen/_17ssp" />
 
         </androidx.appcompat.widget.Toolbar>
@@ -61,7 +62,7 @@
 
         <EditText
             android:id="@+id/conversationEditText"
-            android:layout_width="@dimen/_200sdp"
+            android:layout_width="@dimen/_175sdp"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:layout_margin="@dimen/_7sdp"

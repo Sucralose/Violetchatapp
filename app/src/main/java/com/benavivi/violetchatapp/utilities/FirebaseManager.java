@@ -12,6 +12,7 @@ import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.K
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_MEMBERS_LIST;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_NAME;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAIL_ADMIN_ID;
+import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_PROFILE_IMAGE_STORAGE_REFERENCE;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_DATE;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_SENDER_ID;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_SENDER_IMAGE_URL;
@@ -37,6 +38,7 @@ import com.benavivi.violetchatapp.dataModels.Message;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -50,6 +52,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -132,15 +135,6 @@ private static void addToUserFirestore ( String email, String displayName, Uri p
 
 }
 
-public static void createNewGroup ( Group group ) {
-
-	String groupID = group.getChatID() == null ? UUID.randomUUID().toString() : group.getChatID();
-	group.setChatID(groupID);
-	FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS).document(groupID)
-		.set(group);
-
-
-}
 
 
 public static ChatsListRecycleViewAdapter getUserGroupsDetailsAdapter ( Context context ) {
@@ -151,6 +145,7 @@ public static ChatsListRecycleViewAdapter getUserGroupsDetailsAdapter ( Context 
 
 	FirestoreRecyclerOptions<Group> options = new FirestoreRecyclerOptions.Builder<Group>()
 		                                          .setQuery(query, Group.class).build();
+
 
 	return new ChatsListRecycleViewAdapter(options, context);
 
@@ -169,7 +164,7 @@ public static void sendMessage ( String message, Group group ) {
 		messageMap.put(KEY_MESSAGE_SENDER_IMAGE_URL, userMap.get(KEY_USER_PROFILE_IMAGE));
 		messageMap.put(KEY_MESSAGE_SENDER_ID, getCurrentUserUid());
 		messageMap.put(KEY_MESSAGE_SENDER_NAME, userMap.get(KEY_USER_DISPLAY_NAME));
-		messageMap.put(KEY_MESSAGE_DATE, new java.util.Date().getTime());
+		messageMap.put(KEY_MESSAGE_DATE, new Timestamp(new Date()));
 		messageMap.put(KEY_MESSAGE_TEXT, message);
 		FirebaseFirestore.getInstance()
 			.collection(COLLECTION_GROUP_MESSAGES).document(groupID).collection(SUB_COLLECTION_MESSAGES)
@@ -250,14 +245,6 @@ public static Task<DocumentSnapshot> getUserData ( String memberID ) {
 	return FirebaseFirestore.getInstance().collection(COLLECTION_USER).document(memberID).get();
 }
 
-public static void createGroup(Group group){
-	//Add to group details
-	FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS).document(group.getChatID( )).set(group);
-	//Add to group messages
-	FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_MESSAGES).document( group.getChatID() )
-		.collection(SUB_COLLECTION_MESSAGES)
-		.add(FIRST_CHAT_MESSAGE);
-}
 
 public static void removeUserFromGroup(Group group, String userID){
 	ArrayList<String> groupUserList = group.getMembersList();
@@ -266,5 +253,72 @@ public static void removeUserFromGroup(Group group, String userID){
 	FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS).document( group.getChatID() )
 		.set(groupUserList);
 }
+
+	public static String generateRandomChatID( ) {
+		return UUID.randomUUID().toString();
+	}
+
+	public static void createNewGroup( String chatName, Uri chatImageUri ) {
+		String id = generateRandomChatID();
+		ArrayList<String> membersList = new ArrayList<>();
+		membersList.add(FirebaseManager.getCurrentUserUid());
+		uploadChatImage(chatImageUri, id);
+		Group group = new Group(
+			FirebaseManager.getCurrentUserUid(),
+			id,
+			chatName,
+			"",
+			new Timestamp(new Date()),
+			false,
+			membersList
+		);
+		FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS).document(id)
+			.set(group);
+
+		FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_MESSAGES).document( id )
+			.collection(SUB_COLLECTION_MESSAGES)
+			.add(FIRST_CHAT_MESSAGE);
+
+		uploadChatImage(chatImageUri, id);
+
+	}
+
+	private static void uploadChatImage( Uri chatImageUri, String id ) {
+
+		StorageReference storageReference = FirebaseStorage.getInstance().getReference(KEY_GROUP_PROFILE_IMAGE_STORAGE_REFERENCE + "/" + id + ".jpg");
+		storageReference.putFile(chatImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+			@Override
+			public void onComplete ( @NonNull Task<UploadTask.TaskSnapshot> task ) {
+				if ( task.isSuccessful() ) {
+					task.getResult().getStorage().getDownloadUrl()
+						.addOnCompleteListener(uriTask -> {
+							if ( uriTask.isSuccessful() ) {
+								saveImageInChatDetails(uriTask.getResult().toString(),id);
+							}
+						});
+				}
+			}
+		});
+
+	}
+
+	private static void saveImageInChatDetails( String imageUrl, String id ) {
+		FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS).document(id)
+			.update(KEY_GROUP_DETAILS_ICON, imageUrl);
+	}
+
+	public static void createNewGroup ( Group group ) {
+
+		String groupID = group.getChatID() == null ? generateRandomChatID() : group.getChatID();
+		group.setChatID(groupID);
+		FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS).document(groupID)
+			.set(group);
+
+		FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_MESSAGES).document( group.getChatID() )
+			.collection(SUB_COLLECTION_MESSAGES)
+			.add(FIRST_CHAT_MESSAGE);
+
+
+	}
 
 }

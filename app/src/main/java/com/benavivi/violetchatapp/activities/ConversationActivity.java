@@ -14,6 +14,7 @@ import com.benavivi.violetchatapp.databinding.ActivityConversationBinding;
 import com.benavivi.violetchatapp.utilities.FirebaseManager;
 import com.benavivi.violetchatapp.utilities.IntentFactory;
 import com.benavivi.violetchatapp.utilities.LinearLayoutManagerWrapper;
+import com.squareup.picasso.Picasso;
 
 public class ConversationActivity extends AppCompatActivity {
 ActivityConversationBinding binding;
@@ -32,6 +33,8 @@ protected void onCreate ( Bundle savedInstanceState ) {
 	setRecyclerView();
 
 	binding.conversationTitle.setText(currentGroup.getName());
+	if ( currentGroup.getImageURL() != null && !currentGroup.getImageURL().isEmpty() )
+		Picasso.get().load(currentGroup.getImageURL()).into(binding.conversationChatImage);
 	setListeners();
 
 }

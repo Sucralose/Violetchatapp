@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_1sdp"
-        android:text="Create a new Group"
+        android:text="Create a new Chat"
         android:textColor="@color/primary_text"
         android:textSize="@dimen/_18ssp"
         android:textStyle="bold"
@@ -45,11 +45,11 @@
           />
 
       <TextView
-          android:id="@+id/addGroupImageText"
+          android:id="@+id/addChatImageText"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="center"
-          android:text="Add Group"
+          android:text="Add Chat Image"
           android:textColor="@color/secondary_text"
           android:textSize="@dimen/_10ssp"
           tools:ignore="HardcodedText" />
@@ -57,12 +57,12 @@
     </FrameLayout>
 
     <EditText
-        android:id="@+id/inputGroupName"
+        android:id="@+id/inputChatName"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_45sdp"
         android:layout_marginTop="@dimen/_20sdp"
         android:background="@drawable/background_input"
-        android:hint="Group Name"
+        android:hint="Chat Name"
         android:imeOptions="actionNext"
         android:importantForAutofill="no"
         android:inputType="text"
@@ -71,23 +71,6 @@
         android:textColor="@color/primary_text"
         android:textSize="@dimen/_13ssp"
         android:textColorHint="@color/secondary_text"
-        tools:ignore="HardcodedText" />
-
-    <EditText
-        android:id="@+id/inputUserEmailAddress"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_45sdp"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:background="@drawable/background_input"
-        android:hint="Add user (by email address_"
-        android:imeOptions="actionNext"
-        android:importantForAutofill="no"
-        android:inputType="textEmailAddress"
-        android:paddingStart="@dimen/_16sdp"
-        android:paddingEnd="@dimen/_16sdp"
-        android:textColor="@color/primary_text"
-        android:textColorHint="@color/secondary_text"
-        android:textSize="@dimen/_13ssp"
         tools:ignore="HardcodedText" />
 
 

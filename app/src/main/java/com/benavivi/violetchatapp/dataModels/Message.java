@@ -10,6 +10,8 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.PropertyName;
 
 import java.text.DateFormat;
+import java.time.Instant;
+import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import java.util.Map;
 
@@ -89,10 +91,12 @@ public Date getDate ( ) {
 	return this.date.toDate();
 }
 
+
 @PropertyName(KEY_MESSAGE_DATE)
 public void setDate ( Timestamp date ) {
-	this.date = date;
-}
+		this.date = date;
+	}
+
 
 public String getFormattedMessage( ) {
 	return this.senderName + ": " + this.message;
@@ -111,4 +115,10 @@ public String getSenderImageURL ( ) {
 public void setSenderImageURL ( String senderImageURL ) {
 	this.senderImageURL = senderImageURL;
 }
+
+public long recieveTimestampNumber ( ) {
+		return this.date.getSeconds();
+	}
+
+
 }

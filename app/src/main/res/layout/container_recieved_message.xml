@@ -7,7 +7,7 @@
     android:padding="@dimen/_4sdp">
 
 
-    <com.makeramen.roundedimageview.RoundedImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/recievedMessageProfileImage"
         android:layout_width="@dimen/_25sdp"
         android:layout_height="@dimen/_25sdp"
@@ -15,7 +15,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@id/recievedMessageText"
         app:layout_constraintStart_toStartOf="parent"
-
+        app:shapeAppearance="@style/circle"
         app:riv_oval="true" />
 
     <TextView

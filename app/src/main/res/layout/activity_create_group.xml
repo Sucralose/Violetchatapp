@@ -35,12 +35,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp">
 
-      <com.makeramen.roundedimageview.RoundedImageView
-          android:id="@+id/groupProfileImage"
+      <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/groupProfileImage"
           android:layout_width="@dimen/_80sdp"
           android:layout_height="@dimen/_80sdp"
-          android:background="@drawable/background_image"
+          android:src="@color/input_background"
           android:scaleType="centerCrop"
+          app:shapeAppearance="@style/circle"
           app:riv_oval="true"
           />
 

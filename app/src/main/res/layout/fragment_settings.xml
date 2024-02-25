@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.SettingsFragment"
-    android:layout_margin="@dimen/_10sdp"
-    >
+    android:layout_margin="@dimen/_10sdp">
 
 
     <LinearLayout
@@ -17,15 +17,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/background_input"
+            android:backgroundTint="@color/primary_transparent_light">
 
-            <com.makeramen.roundedimageview.RoundedImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/profileImage"
                 android:layout_width="@dimen/_90sdp"
                 android:layout_height="@dimen/_90sdp"
-                android:background="@drawable/background_image"
+                android:src="@color/input_background"
                 android:scaleType="centerCrop"
+                app:riv_oval="true"
+                app:shapeAppearanceOverlay="@style/circle"
                 />
+
 
             <TextView
                 android:id="@+id/usernameTextview"

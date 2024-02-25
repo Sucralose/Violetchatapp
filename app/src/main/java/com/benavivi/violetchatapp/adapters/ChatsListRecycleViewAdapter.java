@@ -16,6 +16,7 @@ import com.benavivi.violetchatapp.dataModels.Group;
 import com.benavivi.violetchatapp.utilities.IntentFactory;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
@@ -57,7 +58,7 @@ protected void onBindViewHolder ( @NonNull GroupViewHolder holder, int position,
 
 
 static class GroupViewHolder extends RecyclerView.ViewHolder {
-	RoundedImageView roundedImageView;
+	ShapeableImageView roundedImageView;
 	TextView groupName, groupLastMessage, groupLastMessageTime;
 
 	public GroupViewHolder ( @NonNull View itemView ) {

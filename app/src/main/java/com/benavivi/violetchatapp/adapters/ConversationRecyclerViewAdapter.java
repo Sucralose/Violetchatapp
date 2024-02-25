@@ -15,6 +15,7 @@ import com.benavivi.violetchatapp.dataModels.Message;
 import com.benavivi.violetchatapp.utilities.FirebaseManager;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
@@ -56,7 +57,7 @@ public ConversationRecyclerViewAdapter.MessageViewHolder onCreateViewHolder ( @N
 }
 
 static class MessageViewHolder extends RecyclerView.ViewHolder {
-	RoundedImageView senderImage;
+	ShapeableImageView senderImage;
 	TextView senderName, senderMessageText, senderMessageTime, userMessageText, userMessageTime;
 	FrameLayout senderMessageFrame, userMessageFrame;
 

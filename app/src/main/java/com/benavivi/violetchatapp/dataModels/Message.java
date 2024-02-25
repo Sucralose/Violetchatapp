@@ -10,6 +10,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.PropertyName;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
@@ -103,7 +104,9 @@ public String getFormattedMessage( ) {
 }
 
 public String getFormattedDate( ) {
-	return DateFormat.getDateInstance( ).format(date.toDate() );
+	String pattern = "dd/MM/yyyy HH:mm:ss";
+	return new SimpleDateFormat(pattern, java.util.Locale.ENGLISH).format(date.toDate());
+	//return DateFormat.getDateInstance( ).format(date.toDate() );
 }
 
 @PropertyName(KEY_MESSAGE_SENDER_IMAGE_URL)

@@ -28,13 +28,15 @@
                 android:background="@drawable/arrow_back_icon_24"
                 android:backgroundTint="@color/primary_dark" />
 
-            <com.makeramen.roundedimageview.RoundedImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/conversationChatImage"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:background="@drawable/background_image" />
-
+                android:src="@color/input_background"
+                android:scaleType="centerCrop"
+                app:shapeAppearance="@style/circle"
+                app:riv_oval="true"
+                />
             <TextView
                 android:id="@+id/conversationTitle"
                 android:layout_width="wrap_content"

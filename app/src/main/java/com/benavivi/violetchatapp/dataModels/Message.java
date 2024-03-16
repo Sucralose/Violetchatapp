@@ -106,7 +106,6 @@ public String getFormattedMessage( ) {
 public String getFormattedDate( ) {
 	String pattern = "dd/MM/yyyy HH:mm:ss";
 	return new SimpleDateFormat(pattern, java.util.Locale.ENGLISH).format(date.toDate());
-	//return DateFormat.getDateInstance( ).format(date.toDate() );
 }
 
 @PropertyName(KEY_MESSAGE_SENDER_IMAGE_URL)

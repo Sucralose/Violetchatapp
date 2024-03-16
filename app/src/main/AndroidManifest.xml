@@ -22,7 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Violetchatapp"
         tools:targetApi="31">
-
+        <activity
+            android:name=".activities.ChatSettingsActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
@@ -40,7 +42,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.CreateGroupActivity"
             android:exported="false"

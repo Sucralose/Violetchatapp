@@ -34,6 +34,7 @@ public static void sendPushNotification ( String message, Group group ) {
 	groupMembersList.remove(currentUserUid);
 
 	for ( String memberID : groupMembersList ) {
+		Log.i("Push Notification", memberID);
 		FirebaseManager.getUserData(memberID).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
 			@Override
 			public void onSuccess ( DocumentSnapshot documentSnapshot ) {

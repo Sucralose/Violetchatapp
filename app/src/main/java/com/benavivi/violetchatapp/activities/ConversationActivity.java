@@ -99,6 +99,14 @@ private void setListeners ( ) {
 			linearLayoutManager.smoothScrollToPosition(binding.conversationRecyclerView, null, 0);
 		}
 	});
+
+	binding.conversationTitle.setOnClickListener(new View.OnClickListener( ) {
+		@Override
+		public void onClick( View v ) {
+			Intent intent = IntentFactory.GroupToIntent(ConversationActivity.this,ChatSettingsActivity.class,currentGroup);
+			startActivity(intent);
+		}
+	});
 }
 
 private void clearInput ( ) {

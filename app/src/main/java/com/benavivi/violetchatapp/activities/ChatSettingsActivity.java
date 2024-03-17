@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -63,6 +64,14 @@ public class ChatSettingsActivity extends AppCompatActivity {
                                 ChatSettingsActivity.this.openAddUserAlertDialog();
                         }
                 });
+
+                binding.settingsRemoveUser.setOnClickListener(new View.OnClickListener( ) {
+                        @Override
+                        public void onClick( View v ) {
+                                removeUserAlertDialog();
+
+                        }
+                });
         }
 
         private void openAddUserAlertDialog( ) {
@@ -76,22 +85,63 @@ public class ChatSettingsActivity extends AppCompatActivity {
                 addUserDialogBuilder.setCancelable(true);
                 addUserDialogBuilder.setNegativeButton("Cancel", ( dialog, which ) -> dialog.dismiss());
                 addUserDialogBuilder.setPositiveButton("Add", ( dialog, which ) -> {
-                        String userToAdd = addUserEditText.getText( ).toString( );
-                        FirebaseManager.doesUserExist(userToAdd)
-                                        .addOnSuccessListener(documentSnapshot -> {
-
-                                                if ( documentSnapshot.isEmpty() || currentGroup.getMembersList().contains(documentSnapshot.getDocuments().get(0).getId()) )
-                                                        showShortToast("User does not exist or is already in the groupchat.");
-                                                else {
-                                                        String toAddUserID = documentSnapshot.getDocuments().get(0).getId();
-                                                        FirebaseManager.addUserToGroup(currentGroup, toAddUserID);
-                                                        showShortToast("User Added");
-                                                }
-                                        });
+                       ChatSettingsActivity.this.callAddUser(addUserEditText.getText().toString());
 
                 });
 
                 addUserDialogBuilder.show();
+        }
+
+        private void removeUserAlertDialog(){
+                AlertDialog.Builder removeUserDialogBuilder = new AlertDialog.Builder(this);
+                removeUserDialogBuilder.setTitle("Who would you like to remove?");
+
+                final EditText removeUserEditText = new EditText(this);
+                removeUserEditText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+
+                removeUserDialogBuilder.setView(removeUserEditText);
+                removeUserDialogBuilder.setCancelable(true);
+                removeUserDialogBuilder.setNegativeButton("Cancel", ( dialog, which ) -> dialog.dismiss());
+                removeUserDialogBuilder.setPositiveButton("Remove", ( dialog, which ) -> {
+                        String userToRemove = removeUserEditText.getText( ).toString( );
+                        ChatSettingsActivity.this.callRemoveUser(userToRemove);
+                });
+
+                removeUserDialogBuilder.show();
+        }
+
+        private void callAddUser( String userEmail ) {
+                FirebaseManager.doesUserExist(userEmail)
+                        .addOnSuccessListener(documentSnapshot -> {
+                                if ( documentSnapshot.isEmpty() || currentGroup.getMembersList().contains(documentSnapshot.getDocuments().get(0).getId()) )
+                                        showShortToast("User does not exist or is already in the groupchat.");
+                                else {
+                                        String toAddUserID = documentSnapshot.getDocuments().get(0).getId();
+                                        FirebaseManager.addUserToGroup(currentGroup, toAddUserID);
+                                        showShortToast("User Added");
+                                        updateMembersListScrollView();
+                                }
+                        });
+        }
+
+        private void callRemoveUser( String userEmail ) {
+                if( userEmail.equals( FirebaseManager.getUserEmail() ) ){
+                        showShortToast("You cannot remove yourself from the group.");
+                        return;
+                }
+
+                FirebaseManager.doesUserExist(userEmail)
+                        .addOnSuccessListener(documentSnapshot -> {
+
+                                if ( documentSnapshot.isEmpty() || !currentGroup.getMembersList().contains(documentSnapshot.getDocuments().get(0).getId()) )
+                                        showShortToast("User does not exist or is not in the groupchat.");
+                                else {
+                                        String toRemoveUserID = documentSnapshot.getDocuments().get(0).getId();
+                                        FirebaseManager.removeUserFromGroup(currentGroup, toRemoveUserID);
+                                        showShortToast("User Removed");
+                                        updateMembersListScrollView();
+                                }
+                        });
         }
 
 

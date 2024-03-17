@@ -38,6 +38,12 @@ public static void requestCameraPermission( Context context ) {
 	( (AppCompatActivity) context ).requestPermissions(new String[]{ android.Manifest.permission.CAMERA }, 0);
 }
 
+
+/**
+ * @param context
+ * @param pickImageFromGallery - Activity Result - What to do when choosing from gallery
+ * @param takePicture          - Activity Result - What to do when snapping a picture.
+ */
 public static void selectImage( Context context, ActivityResultLauncher<Intent> pickImageFromGallery, ActivityResultLauncher<Intent> takePicture ) {
 	final String[] options = { "Take Photo", "Choose from Gallery", "Cancel" };
 
@@ -55,7 +61,7 @@ private static void alertDialogOnClick( DialogInterface dialog, int item, Contex
 				requestCameraPermission(context);
 				break;
 			}
-			
+
 			Intent takeImageIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			takeImageIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 			takePicture.launch(takeImageIntent);

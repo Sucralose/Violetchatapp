@@ -37,6 +37,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -278,7 +279,6 @@ public static void createNewGroup( String chatName, Uri chatImageUri ) {
 		chatName,
 		"",
 		new Timestamp(new Date( )),
-		false,
 		membersList
 	);
 	FirebaseFirestore.getInstance( ).collection(COLLECTION_GROUP_DETAILS).document(id)
@@ -337,5 +337,16 @@ public static void setGroupName( Group currentGroup, String newName ) {
 
 public static void changeGroupImage( Group currentGroup, Uri newChatImageUri ) {
 	uploadChatImage(newChatImageUri, currentGroup.getChatID( ));
+}
+
+public static void changeCurrentUserDisplayName( String name ) {
+	FirebaseAuth.getInstance( ).getCurrentUser( ).updateProfile(new UserProfileChangeRequest.Builder( ).setDisplayName(name).build( ));
+
+	FirebaseFirestore.getInstance( ).collection(COLLECTION_USER).document(getCurrentUserUid( ))
+		.update(KEY_USER_DISPLAY_NAME, name);
+}
+
+public static void changeCurrentUserImage( Uri imageUri ) {
+	uploadUserProfileImage(imageUri);
 }
 }

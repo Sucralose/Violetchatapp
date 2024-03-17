@@ -4,7 +4,6 @@ import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.F
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_CREATION_DATE;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_ICON;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_ID;
-import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_LAST_MESSAGE;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_MEMBERS_LIST;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_NAME;
@@ -23,7 +22,6 @@ private Message lastMessage;
 private ArrayList<String> membersList;
 private Timestamp creation_date;
 
-private boolean isPrivateMessages;
 
 public Group( ) {
 	//Empty constructor for Firebase. (REQUIRED)
@@ -35,33 +33,30 @@ public Group( Map<String, Object> groupModelData ) {
 	this.name = groupModelData.get(KEY_GROUP_DETAILS_NAME).toString( );
 	this.imageURL = groupModelData.get(KEY_GROUP_DETAILS_ICON).toString( );
 	this.creation_date = (Timestamp) groupModelData.get(KEY_GROUP_DETAILS_CREATION_DATE);
-	this.isPrivateMessages = Boolean.parseBoolean(groupModelData.get(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES).toString( ));
 
 	lastMessage = (Message) groupModelData.get(KEY_GROUP_DETAILS_LAST_MESSAGE);
 
 
 }
 
-public Group( String adminID, String chatID, String name, Message lastMessage, String imageURL, Timestamp creationDate, boolean isPrivateMessages ) {
+public Group( String adminID, String chatID, String name, Message lastMessage, String imageURL, Timestamp creationDate ) {
 	this.adminID = adminID;
 	this.chatID = chatID;
 	this.name = name;
 	this.lastMessage = lastMessage;
 	this.imageURL = imageURL;
 	this.creation_date = creationDate;
-	this.isPrivateMessages = isPrivateMessages;
 	//this.membersList = new ArrayList<String>();
 	//membersList.add(adminID);
 }
 
-public Group( String adminID, String chatID, String name, String imageURL, Timestamp creation_date, boolean is_private_messages, ArrayList<String> membersList ) {
+public Group( String adminID, String chatID, String name, String imageURL, Timestamp creation_date, ArrayList<String> membersList ) {
 	this.adminID = adminID;
 	this.chatID = chatID;
 	this.name = name;
 
 	this.imageURL = imageURL;
 	this.creation_date = creation_date;
-	this.isPrivateMessages = is_private_messages;
 	this.membersList = membersList;
 	this.lastMessage = FIRST_CHAT_MESSAGE;
 }
@@ -81,16 +76,6 @@ public Date getCreationDate( ) {
 */
 public void setCreation_date( Timestamp creation_date ) {
 	this.creation_date = creation_date;
-}
-
-@PropertyName ( KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES )
-public boolean getIsPrivateMessages( ) {
-	return isPrivateMessages;
-}
-
-@PropertyName ( KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES )
-public void setIsPrivateMessages( boolean isPrivateMessages ) {
-	this.isPrivateMessages = isPrivateMessages;
 }
 
 @PropertyName ( KEY_GROUP_DETAILS_ICON )

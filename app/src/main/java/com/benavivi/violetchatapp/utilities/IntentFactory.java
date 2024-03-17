@@ -4,7 +4,6 @@ import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.C
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_CREATION_DATE;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_ICON;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_ID;
-import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_LAST_MESSAGE;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_MEMBERS_LIST;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_NAME;
@@ -40,7 +39,6 @@ public static Intent GroupToIntent( Context context, Class<?> destination, Group
 		group.getName( ),
 		group.getImageURL( ),
 		String.valueOf(group.recieveTimestampNumber( )),
-		String.valueOf(group.getIsPrivateMessages( )),
 	};
 
 	String[] lastMessage = {
@@ -54,13 +52,7 @@ public static Intent GroupToIntent( Context context, Class<?> destination, Group
 	intent.putExtra(COLLECTION_GROUP_DETAILS, data);
 	intent.putExtra(KEY_GROUP_DETAILS_LAST_MESSAGE, lastMessage);
 	intent.putExtra(KEY_GROUP_DETAILS_MEMBERS_LIST, group.getMembersList( ));
-	/*intent.putExtra(KEY_GROUP_DETAILS_NAME, group.getName());
-	intent.putExtra(KEY_GROUP_DETAILS_ID, group.getChatID());
-	intent.putExtra(KEY_GROUP_DETAILS_ICON, group.getImageURL());
-	intent.putExtra(KEY_GROUP_DETAILS_MEMBERS_LIST, group.getMembersList());
-	intent.putExtra(KEY_GROUP_DETAIL_ADMIN_ID, group.getAdminID());
-	intent.putExtra(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES, group.getIsPrivateMessages());
-	intent.putExtra(KEY_GROUP_DETAILS_CREATION_DATE, group.getCreationDate());*/
+
 	return intent;
 }
 
@@ -74,9 +66,7 @@ public static Group IntentToGroup( Intent intent ) {
 		data[1],
 		data[2],
 		data[3],
-		new Timestamp(Long.parseLong(data[4]), 0),
-		Boolean.parseBoolean(data[5]),
-		membersList
+		new Timestamp(Long.parseLong(data[4]), 0), membersList
 	);
 	gp.setMessage(
 		new Message(
@@ -98,7 +88,6 @@ public static Group IntentMapToGroup( Map<String, Object> groupMap ) {
 		(String) groupMap.get(KEY_GROUP_DETAILS_NAME),
 		(String) groupMap.get(KEY_GROUP_DETAILS_ICON),
 		(Timestamp) groupMap.get(KEY_GROUP_DETAILS_CREATION_DATE),
-		(Boolean) groupMap.get(KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES),
 		(ArrayList<String>) groupMap.get(KEY_GROUP_DETAILS_MEMBERS_LIST)
 	);
 

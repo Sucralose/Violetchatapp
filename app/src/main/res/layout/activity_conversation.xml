@@ -64,7 +64,7 @@
 
         <EditText
             android:id="@+id/conversationEditText"
-            android:layout_width="@dimen/_175sdp"
+            android:layout_width="@dimen/_200sdp"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:layout_margin="@dimen/_7sdp"
@@ -96,11 +96,15 @@
             android:layout_width="@dimen/_53sdp"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:layout_margin="@dimen/_7sdp"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:layout_marginEnd="@dimen/_7sdp"
+            android:layout_marginBottom="@dimen/_7sdp"
             android:layout_toStartOf="@id/conversationEditText"
             android:background="@drawable/background_input"
             android:backgroundTint="@color/send_button"
             android:src="@drawable/attach_file_icon_24"
+            android:visibility="gone"
             app:tint="@color/primary_light"
             tools:ignore="ContentDescription" />
     </RelativeLayout>

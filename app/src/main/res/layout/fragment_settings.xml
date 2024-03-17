@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/_10sdp"
     tools:context=".fragments.SettingsFragment">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="@dimen/_15sdp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -19,12 +19,13 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/background_input"
             android:backgroundTint="@color/primary_transparent_light"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="@dimen/_5sdp">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/profileImage"
-                android:layout_width="@dimen/_90sdp"
-                android:layout_height="@dimen/_90sdp"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
                 android:scaleType="centerCrop"
                 android:src="@color/input_background"
                 app:riv_oval="true"
@@ -34,8 +35,9 @@
             <TextView
                 android:id="@+id/usernameTextview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_2sdp"
+                android:gravity="center"
                 android:maxLength="@string/MAX_NAME_DISPLAY_LENGTH"
                 android:text="User display name"
                 android:textAlignment="center"
@@ -46,15 +48,44 @@
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/signOutButton"
-            android:layout_width="@dimen/_150sdp"
+            android:id="@+id/ChangeProfileImageButton"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/_60sdp"
+            android:text="Change Profile Image"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13ssp"
+            android:textStyle="bold"
+            app:cornerRadius="@dimen/_10sdp"
+            tools:ignore="HardcodedText" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ChangeDisplayNameButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Change Display Name"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13ssp"
+            android:textStyle="bold"
+            app:cornerRadius="@dimen/_10sdp"
+            tools:ignore="HardcodedText" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/signOutButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_60sdp"
+            android:backgroundTint="@color/error"
             android:text="Sign Out"
             android:textColor="@color/white"
             android:textSize="@dimen/_13ssp"
             android:textStyle="bold"
+            app:cornerRadius="@dimen/_10sdp"
             tools:ignore="HardcodedText" />
     </LinearLayout>
 

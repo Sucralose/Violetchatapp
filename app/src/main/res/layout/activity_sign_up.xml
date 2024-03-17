@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:clipToPadding="false"
     android:overScrollMode="never"
     android:paddingLeft="@dimen/_24sdp"
-    android:paddingRight="@dimen/_24sdp"
     android:paddingTop="@dimen/_1sdp"
-    android:background="@color/white"
+    android:paddingRight="@dimen/_24sdp"
     android:scrollbars="none"
     tools:context=".activities.SignUpActivity">
 
@@ -39,11 +39,10 @@
                 android:id="@+id/profileImage"
                 android:layout_width="@dimen/_80sdp"
                 android:layout_height="@dimen/_80sdp"
-                android:src="@color/input_background"
                 android:scaleType="centerCrop"
+                android:src="@color/input_background"
                 app:riv_oval="true"
-                app:shapeAppearanceOverlay="@style/circle"
-                />
+                app:shapeAppearanceOverlay="@style/circle" />
 
             <TextView
                 android:id="@+id/addImageText"
@@ -70,8 +69,8 @@
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
             android:textColor="@color/primary_text"
-            android:textSize="@dimen/_13ssp"
             android:textColorHint="@color/secondary_text"
+            android:textSize="@dimen/_13ssp"
             tools:ignore="HardcodedText" />
 
         <EditText
@@ -97,7 +96,6 @@
             android:layout_height="@dimen/_45sdp"
             android:layout_marginTop="@dimen/_16sdp"
             android:background="@drawable/background_input"
-            android:textColorHint="@color/secondary_text"
             android:hint="Password"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
@@ -105,6 +103,7 @@
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
             android:textColor="@color/primary_text"
+            android:textColorHint="@color/secondary_text"
             android:textSize="@dimen/_13ssp"
             tools:ignore="HardcodedText" />
 
@@ -129,7 +128,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_1sdp"
-            android:animateLayoutChanges="true" >
+            android:animateLayoutChanges="true">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/signUpButton"
@@ -142,19 +141,15 @@
                 android:textStyle="bold"
                 app:cornerRadius="@dimen/_8sdp"
                 tools:ignore="HardcodedText" />
-            
+
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:layout_gravity="center"
-                android:visibility="invisible"
-                />
+                android:visibility="invisible" />
 
         </FrameLayout>
-
-
-
 
 
         <TextView

@@ -10,40 +10,39 @@ public class PreferenceManager {
 
 private final SharedPreferences sharedPreferences;
 
-public PreferenceManager ( Context context ) {
+public PreferenceManager( Context context ) {
 	sharedPreferences = context.getSharedPreferences(Constants.ApplicationConstants.KEY_PREFERENCE_NAME, Context.MODE_PRIVATE);
 }
 
 
-
-public boolean remembered ( ) {
+public boolean remembered( ) {
 	return sharedPreferences.getString("Username", null) != null;
 }
 
-public void putBoolean ( String key, Boolean value ) {
-	SharedPreferences.Editor editor = sharedPreferences.edit();
+public void putBoolean( String key, Boolean value ) {
+	SharedPreferences.Editor editor = sharedPreferences.edit( );
 	editor.putBoolean(key, value);
-	editor.apply();
+	editor.apply( );
 }
 
-public Boolean getBoolean ( String key ) {
+public Boolean getBoolean( String key ) {
 	return sharedPreferences.getBoolean(key, false);
 }
 
-public void putString ( String key, String value ) {
-	SharedPreferences.Editor editor = sharedPreferences.edit();
+public void putString( String key, String value ) {
+	SharedPreferences.Editor editor = sharedPreferences.edit( );
 	editor.putString(key, value);
-	editor.apply();
+	editor.apply( );
 }
 
-public String getString ( String key ) {
+public String getString( String key ) {
 	return sharedPreferences.getString(key, null);
 }
 
-public void clear ( ) {
-	SharedPreferences.Editor editor = sharedPreferences.edit();
-	editor.clear();
-	editor.apply();
+public void clear( ) {
+	SharedPreferences.Editor editor = sharedPreferences.edit( );
+	editor.clear( );
+	editor.apply( );
 }
 
 }

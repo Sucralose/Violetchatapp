@@ -8,7 +8,6 @@ import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.K
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_ID;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_LAST_MESSAGE;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_MEMBERS_LIST;
-import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_NAME;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_PROFILE_IMAGE_STORAGE_REFERENCE;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_DATE;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_SENDER_ID;
@@ -38,7 +37,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -61,87 +59,86 @@ import java.util.UUID;
  * @version 1.0
  */
 public class FirebaseManager {
-public static void signOut ( ) {
-	FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-	firebaseAuth.signOut();
-	FirebaseMessaging.getInstance().deleteToken();
+public static void signOut( ) {
+	FirebaseAuth firebaseAuth = FirebaseAuth.getInstance( );
+	firebaseAuth.signOut( );
+	FirebaseMessaging.getInstance( ).deleteToken( );
 }
 
-public static boolean isSignedIn ( ) {
-	return FirebaseAuth.getInstance().getCurrentUser() != null;
+public static boolean isSignedIn( ) {
+	return FirebaseAuth.getInstance( ).getCurrentUser( ) != null;
 }
 
-public static String getUserDisplayName ( ) {
-	return FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+public static String getUserDisplayName( ) {
+	return FirebaseAuth.getInstance( ).getCurrentUser( ).getDisplayName( );
 }
 
-public static String getUserEmail ( ) {
-	return FirebaseAuth.getInstance().getCurrentUser().getEmail();
-}
-
-
-public static String getCurrentUserUid ( ) {
-	return FirebaseAuth.getInstance().getCurrentUser().getUid();
-}
-
-public static String getCurrentUserDisplayName ( ) {
-	return FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-}
-
-public static Task<DocumentSnapshot> getCurrentUserData ( ) {
-	return FirebaseFirestore.getInstance().collection(COLLECTION_USER).document(getCurrentUserUid()).get();
+public static String getUserEmail( ) {
+	return FirebaseAuth.getInstance( ).getCurrentUser( ).getEmail( );
 }
 
 
-public static Task<AuthResult> signUp ( String email, String password, String displayName, Uri profilePictureImageUri ) {
-	return FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-		       .addOnSuccessListener(authResult -> {
-			       addToUserFirestore(email, displayName, profilePictureImageUri);
-		       });
+public static String getCurrentUserUid( ) {
+	return FirebaseAuth.getInstance( ).getCurrentUser( ).getUid( );
+}
+
+public static String getCurrentUserDisplayName( ) {
+	return FirebaseAuth.getInstance( ).getCurrentUser( ).getDisplayName( );
+}
+
+public static Task<DocumentSnapshot> getCurrentUserData( ) {
+	return FirebaseFirestore.getInstance( ).collection(COLLECTION_USER).document(getCurrentUserUid( )).get( );
+}
+
+
+public static Task<AuthResult> signUp( String email, String password, String displayName, Uri profilePictureImageUri ) {
+	return FirebaseAuth.getInstance( ).createUserWithEmailAndPassword(email, password)
+		.addOnSuccessListener(authResult -> {
+			addToUserFirestore(email, displayName, profilePictureImageUri);
+		});
 
 }
 
-public static Task<AuthResult> signIn ( String email, String password ) {
-	return FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password);
+public static Task<AuthResult> signIn( String email, String password ) {
+	return FirebaseAuth.getInstance( ).signInWithEmailAndPassword(email, password);
 }
 
-public static Task<Void> sendPasswordReset ( String email ) {
-	return FirebaseAuth.getInstance().sendPasswordResetEmail(email);
+public static Task<Void> sendPasswordReset( String email ) {
+	return FirebaseAuth.getInstance( ).sendPasswordResetEmail(email);
 }
 
-private static void addToUserFirestore ( String email, String displayName, Uri profilePictureImageUri ) {
-	HashMap<String,Object> user = new HashMap<>();
+private static void addToUserFirestore( String email, String displayName, Uri profilePictureImageUri ) {
+	HashMap<String, Object> user = new HashMap<>( );
 
 
-	getFCMToken().addOnSuccessListener(token -> {
+	getFCMToken( ).addOnSuccessListener(token -> {
 		user.put(KEY_USER_DISPLAY_NAME, displayName);
 		user.put(KEY_USER_EMAIL_ADDRESS, email);
 		user.put(KEY_USER_PROFILE_IMAGE, "");
 		user.put(KEY_USER_FCM_TOKEN, token);
 
-		FirebaseFirestore.getInstance().collection(COLLECTION_USER).document(getCurrentUserUid())
+		FirebaseFirestore.getInstance( ).collection(COLLECTION_USER).document(getCurrentUserUid( ))
 			.set(user)
 			.addOnSuccessListener(documentReference -> {
 				Log.d("FB_TAG", "Added user to firebase");
 				uploadUserProfileImage(profilePictureImageUri);
 			})
 			.addOnFailureListener(e -> {
-				Log.e("FB_TAG", e.getMessage());
+				Log.e("FB_TAG", e.getMessage( ));
 			});
 	});
 
 }
 
 
+public static ChatsListRecycleViewAdapter getUserGroupsDetailsAdapter( Context context ) {
 
-public static ChatsListRecycleViewAdapter getUserGroupsDetailsAdapter ( Context context ) {
+	Query query = FirebaseFirestore.getInstance( ).collection(COLLECTION_GROUP_DETAILS)
+		.whereArrayContains(KEY_GROUP_DETAILS_MEMBERS_LIST, getCurrentUserUid( ))
+		.orderBy(KEY_GROUP_DETAILS_LAST_MESSAGE + "." + KEY_MESSAGE_DATE, Query.Direction.DESCENDING);
 
-	Query query = FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS)
-		              .whereArrayContains(KEY_GROUP_DETAILS_MEMBERS_LIST, getCurrentUserUid())
-		              .orderBy(KEY_GROUP_DETAILS_LAST_MESSAGE + "." + KEY_MESSAGE_DATE, Query.Direction.DESCENDING);
-
-	FirestoreRecyclerOptions<Group> options = new FirestoreRecyclerOptions.Builder<Group>()
-		                                          .setQuery(query, Group.class).build();
+	FirestoreRecyclerOptions<Group> options = new FirestoreRecyclerOptions.Builder<Group>( )
+		.setQuery(query, Group.class).build( );
 
 
 	return new ChatsListRecycleViewAdapter(options, context);
@@ -149,26 +146,26 @@ public static ChatsListRecycleViewAdapter getUserGroupsDetailsAdapter ( Context 
 }
 
 
-public static void sendMessage ( String message, Group group ) {
+public static void sendMessage( String message, Group group ) {
 	//Convert to message format
-	HashMap<String,Object> messageMap = new HashMap<>();
+	HashMap<String, Object> messageMap = new HashMap<>( );
 
 
-	getCurrentUserData().addOnSuccessListener(documentSnapshot -> {
-		Map<String,Object> userMap = documentSnapshot.getData();
-		String groupID = group.getChatID();
+	getCurrentUserData( ).addOnSuccessListener(documentSnapshot -> {
+		Map<String, Object> userMap = documentSnapshot.getData( );
+		String groupID = group.getChatID( );
 
 		messageMap.put(KEY_MESSAGE_SENDER_IMAGE_URL, userMap.get(KEY_USER_PROFILE_IMAGE));
-		messageMap.put(KEY_MESSAGE_SENDER_ID, getCurrentUserUid());
+		messageMap.put(KEY_MESSAGE_SENDER_ID, getCurrentUserUid( ));
 		messageMap.put(KEY_MESSAGE_SENDER_NAME, userMap.get(KEY_USER_DISPLAY_NAME));
-		messageMap.put(KEY_MESSAGE_DATE, new Timestamp(new Date()));
+		messageMap.put(KEY_MESSAGE_DATE, new Timestamp(new Date( )));
 		messageMap.put(KEY_MESSAGE_TEXT, message);
-		FirebaseFirestore.getInstance()
+		FirebaseFirestore.getInstance( )
 			.collection(COLLECTION_GROUP_MESSAGES).document(groupID).collection(SUB_COLLECTION_MESSAGES)
 			.add(messageMap);
 
 		//Update Last message
-		FirebaseFirestore.getInstance()
+		FirebaseFirestore.getInstance( )
 			.collection(COLLECTION_GROUP_DETAILS).document(groupID)
 			.update(KEY_GROUP_DETAILS_LAST_MESSAGE, messageMap);
 
@@ -179,17 +176,17 @@ public static void sendMessage ( String message, Group group ) {
 }
 
 
-public static void uploadUserProfileImage ( Uri profilePictureImageUri ) {
+public static void uploadUserProfileImage( Uri profilePictureImageUri ) {
 
-	StorageReference storageReference = FirebaseStorage.getInstance().getReference(KEY_USER_PROFILE_IMAGE_STORAGE_REFERENCE + "/" + getCurrentUserUid() + ".jpg");
-	storageReference.putFile(profilePictureImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+	StorageReference storageReference = FirebaseStorage.getInstance( ).getReference(KEY_USER_PROFILE_IMAGE_STORAGE_REFERENCE + "/" + getCurrentUserUid( ) + ".jpg");
+	storageReference.putFile(profilePictureImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>( ) {
 		@Override
-		public void onComplete ( @NonNull Task<UploadTask.TaskSnapshot> task ) {
-			if ( task.isSuccessful() ) {
-				task.getResult().getStorage().getDownloadUrl()
+		public void onComplete( @NonNull Task<UploadTask.TaskSnapshot> task ) {
+			if ( task.isSuccessful( ) ) {
+				task.getResult( ).getStorage( ).getDownloadUrl( )
 					.addOnCompleteListener(uriTask -> {
-						if ( uriTask.isSuccessful() ) {
-							saveImageInUserProfile(uriTask.getResult().toString());
+						if ( uriTask.isSuccessful( ) ) {
+							saveImageInUserProfile(uriTask.getResult( ).toString( ));
 						}
 					});
 			}
@@ -197,148 +194,148 @@ public static void uploadUserProfileImage ( Uri profilePictureImageUri ) {
 	});
 }
 
-private static void saveImageInUserProfile ( String downloadURL ) {
-	HashMap<String,Object> userMap = new HashMap<>();
+private static void saveImageInUserProfile( String downloadURL ) {
+	HashMap<String, Object> userMap = new HashMap<>( );
 	userMap.put(KEY_USER_PROFILE_IMAGE, downloadURL);
-	FirebaseFirestore.getInstance().collection(COLLECTION_USER).document(getCurrentUserUid())
+	FirebaseFirestore.getInstance( ).collection(COLLECTION_USER).document(getCurrentUserUid( ))
 		.update(userMap);
 
 }
 
 
-public static Task<QuerySnapshot> getGroupDetailsData ( String chatID ) {
+public static Task<QuerySnapshot> getGroupDetailsData( String chatID ) {
 
-	return FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS)
-		       .whereEqualTo(KEY_GROUP_DETAILS_ID, chatID).get();
+	return FirebaseFirestore.getInstance( ).collection(COLLECTION_GROUP_DETAILS)
+		.whereEqualTo(KEY_GROUP_DETAILS_ID, chatID).get( );
 }
 
-public static ConversationRecyclerViewAdapter getConversationAdapter ( Context context, String chatID ) {
-	Query query = FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_MESSAGES)
-		              .document(chatID).collection(SUB_COLLECTION_MESSAGES)
-		              .orderBy(KEY_MESSAGE_DATE, Query.Direction.DESCENDING)
-		              .limit(50);
+public static ConversationRecyclerViewAdapter getConversationAdapter( Context context, String chatID ) {
+	Query query = FirebaseFirestore.getInstance( ).collection(COLLECTION_GROUP_MESSAGES)
+		.document(chatID).collection(SUB_COLLECTION_MESSAGES)
+		.orderBy(KEY_MESSAGE_DATE, Query.Direction.DESCENDING)
+		.limit(50);
 
 
-	FirestoreRecyclerOptions<Message> options = new FirestoreRecyclerOptions.Builder<Message>()
-		                                            .setQuery(query, Message.class).build();
+	FirestoreRecyclerOptions<Message> options = new FirestoreRecyclerOptions.Builder<Message>( )
+		.setQuery(query, Message.class).build( );
 
 	return new ConversationRecyclerViewAdapter(options, context);
 }
 
-public static Task<String> getFCMToken ( ) {
-	return FirebaseMessaging.getInstance().getToken();
+public static Task<String> getFCMToken( ) {
+	return FirebaseMessaging.getInstance( ).getToken( );
 }
 
-public static void updateFCMToken ( ) {
-	getFCMToken().addOnSuccessListener(token -> {
-		HashMap<String,Object> userMap = new HashMap<>();
+public static void updateFCMToken( ) {
+	getFCMToken( ).addOnSuccessListener(token -> {
+		HashMap<String, Object> userMap = new HashMap<>( );
 		userMap.put(KEY_USER_FCM_TOKEN, token);
-		FirebaseFirestore.getInstance().collection(COLLECTION_USER).document(getCurrentUserUid())
+		FirebaseFirestore.getInstance( ).collection(COLLECTION_USER).document(getCurrentUserUid( ))
 			.update(userMap);
 	});
 }
 
-public static Task<DocumentSnapshot> getUserData ( String memberID ) {
-	return FirebaseFirestore.getInstance().collection(COLLECTION_USER).document(memberID).get();
+public static Task<DocumentSnapshot> getUserData( String memberID ) {
+	return FirebaseFirestore.getInstance( ).collection(COLLECTION_USER).document(memberID).get( );
 }
 
 
-public static void removeUserFromGroup(Group group, String userID){
-	ArrayList<String> groupUserList = group.getMembersList();
+public static void removeUserFromGroup( Group group, String userID ) {
+	ArrayList<String> groupUserList = group.getMembersList( );
 	groupUserList.remove(userID);
 	group.setMembersList(groupUserList);
-	FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS).document( group.getChatID() )
+	FirebaseFirestore.getInstance( ).collection(COLLECTION_GROUP_DETAILS).document(group.getChatID( ))
 		.set(group);
 }
 
-public static void addUserToGroup(Group group, String userID){
-	ArrayList<String> groupUserList = group.getMembersList();
+public static void addUserToGroup( Group group, String userID ) {
+	ArrayList<String> groupUserList = group.getMembersList( );
 	groupUserList.add(userID);
 	group.setMembersList(groupUserList);
-	FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS).document( group.getChatID() )
+	FirebaseFirestore.getInstance( ).collection(COLLECTION_GROUP_DETAILS).document(group.getChatID( ))
 		.set(group);
 }
 
-public static Task<QuerySnapshot> doesUserExist( String email) {
+public static Task<QuerySnapshot> doesUserExist( String email ) {
 
-	return FirebaseFirestore.getInstance().collection(COLLECTION_USER)
+	return FirebaseFirestore.getInstance( ).collection(COLLECTION_USER)
 		.whereEqualTo(KEY_USER_EMAIL_ADDRESS, email)
-		.get();
+		.get( );
 }
 
-	public static String generateRandomChatID( ) {
-		return UUID.randomUUID().toString();
-	}
+public static String generateRandomChatID( ) {
+	return UUID.randomUUID( ).toString( );
+}
 
-	public static void createNewGroup( String chatName, Uri chatImageUri ) {
-		String id = generateRandomChatID();
-		ArrayList<String> membersList = new ArrayList<>();
-		membersList.add(FirebaseManager.getCurrentUserUid());
-		uploadChatImage(chatImageUri, id);
-		Group group = new Group(
-			FirebaseManager.getCurrentUserUid(),
-			id,
-			chatName,
-			"",
-			new Timestamp(new Date()),
-			false,
-			membersList
-		);
-		FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS).document(id)
-			.set(group);
+public static void createNewGroup( String chatName, Uri chatImageUri ) {
+	String id = generateRandomChatID( );
+	ArrayList<String> membersList = new ArrayList<>( );
+	membersList.add(FirebaseManager.getCurrentUserUid( ));
+	uploadChatImage(chatImageUri, id);
+	Group group = new Group(
+		FirebaseManager.getCurrentUserUid( ),
+		id,
+		chatName,
+		"",
+		new Timestamp(new Date( )),
+		false,
+		membersList
+	);
+	FirebaseFirestore.getInstance( ).collection(COLLECTION_GROUP_DETAILS).document(id)
+		.set(group);
 
-		FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_MESSAGES).document( id )
-			.collection(SUB_COLLECTION_MESSAGES)
-			.add(FIRST_CHAT_MESSAGE);
+	FirebaseFirestore.getInstance( ).collection(COLLECTION_GROUP_MESSAGES).document(id)
+		.collection(SUB_COLLECTION_MESSAGES)
+		.add(FIRST_CHAT_MESSAGE);
 
-	}
+}
 
-	private static void uploadChatImage( Uri chatImageUri, String id ) {
+private static void uploadChatImage( Uri chatImageUri, String id ) {
 
-		StorageReference storageReference = FirebaseStorage.getInstance().getReference(KEY_GROUP_PROFILE_IMAGE_STORAGE_REFERENCE + "/" + id + ".jpg");
-		storageReference.putFile(chatImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-			@Override
-			public void onComplete ( @NonNull Task<UploadTask.TaskSnapshot> task ) {
-				if ( task.isSuccessful() ) {
-					task.getResult().getStorage().getDownloadUrl()
-						.addOnCompleteListener(uriTask -> {
-							if ( uriTask.isSuccessful() ) {
-								saveImageInChatDetails(uriTask.getResult().toString(),id);
-							}
-						});
-				}
+	StorageReference storageReference = FirebaseStorage.getInstance( ).getReference(KEY_GROUP_PROFILE_IMAGE_STORAGE_REFERENCE + "/" + id + ".jpg");
+	storageReference.putFile(chatImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>( ) {
+		@Override
+		public void onComplete( @NonNull Task<UploadTask.TaskSnapshot> task ) {
+			if ( task.isSuccessful( ) ) {
+				task.getResult( ).getStorage( ).getDownloadUrl( )
+					.addOnCompleteListener(uriTask -> {
+						if ( uriTask.isSuccessful( ) ) {
+							saveImageInChatDetails(uriTask.getResult( ).toString( ), id);
+						}
+					});
 			}
-		});
+		}
+	});
 
-	}
+}
 
-	private static void saveImageInChatDetails( String imageUrl, String id ) {
-		FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS).document(id)
-			.update(KEY_GROUP_DETAILS_ICON, imageUrl);
-	}
+private static void saveImageInChatDetails( String imageUrl, String id ) {
+	FirebaseFirestore.getInstance( ).collection(COLLECTION_GROUP_DETAILS).document(id)
+		.update(KEY_GROUP_DETAILS_ICON, imageUrl);
+}
 
-	public static void createNewGroup ( Group group ) {
+public static void createNewGroup( Group group ) {
 
-		String groupID = group.getChatID() == null ? generateRandomChatID() : group.getChatID();
-		group.setChatID(groupID);
-		FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS).document(groupID)
-			.set(group);
+	String groupID = group.getChatID( ) == null ? generateRandomChatID( ) : group.getChatID( );
+	group.setChatID(groupID);
+	FirebaseFirestore.getInstance( ).collection(COLLECTION_GROUP_DETAILS).document(groupID)
+		.set(group);
 
-		FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_MESSAGES).document( group.getChatID() )
-			.collection(SUB_COLLECTION_MESSAGES)
-			.add(FIRST_CHAT_MESSAGE);
+	FirebaseFirestore.getInstance( ).collection(COLLECTION_GROUP_MESSAGES).document(group.getChatID( ))
+		.collection(SUB_COLLECTION_MESSAGES)
+		.add(FIRST_CHAT_MESSAGE);
 
 
-	}
+}
 
-	public static void setGroupName( Group currentGroup, String newName ) {
-		currentGroup.setName(newName);
+public static void setGroupName( Group currentGroup, String newName ) {
+	currentGroup.setName(newName);
 
-		FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS).document(currentGroup.getChatID())
-			.set(currentGroup);
-	}
+	FirebaseFirestore.getInstance( ).collection(COLLECTION_GROUP_DETAILS).document(currentGroup.getChatID( ))
+		.set(currentGroup);
+}
 
-	public static void changeGroupImage( Group currentGroup, Uri newChatImageUri ) {
-		uploadChatImage(newChatImageUri, currentGroup.getChatID());
-	}
+public static void changeGroupImage( Group currentGroup, Uri newChatImageUri ) {
+	uploadChatImage(newChatImageUri, currentGroup.getChatID( ));
+}
 }

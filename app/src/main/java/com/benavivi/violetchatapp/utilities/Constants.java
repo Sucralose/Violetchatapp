@@ -58,7 +58,7 @@ public static class FirebaseConstants {
 	public static final String NOTIFICATION_PUSH_URL = "https://fcm.googleapis.com/fcm/send";
 	public static final String NOTIFICATION_API_KEY = "AAAAC4X48r8:APA91bEdbOMkUYcbwiWP7Y6vnLSTKU4dtgF625A0xsfvjfZNZmuxbDIlR-HcoLYJ0kmE_EWeF5WzWV3e6SuU6s_9qjWXtMPS-6WktO7k6f9yhfb6PEjQdeAL44d_q_MRBv7daENVOhaq";
 
-	public static final Message FIRST_CHAT_MESSAGE = new Message( "Created this chat" , "-1", "Admin", "invalidImage" , Timestamp.now());
+	public static final Message FIRST_CHAT_MESSAGE = new Message("Created this chat", "-1", "Admin", "invalidImage", Timestamp.now( ));
 }
 
 public static class ApplicationConstants {

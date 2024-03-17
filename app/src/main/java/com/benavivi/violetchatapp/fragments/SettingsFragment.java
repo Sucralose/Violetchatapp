@@ -27,49 +27,49 @@ public class SettingsFragment extends Fragment {
 private FragmentSettingsBinding binding;
 
 @Override
-public void onCreate ( Bundle savedInstanceState ) {
+public void onCreate( Bundle savedInstanceState ) {
 	super.onCreate(savedInstanceState);
 }
 
 @Override
-public void onViewCreated ( @NonNull View view, @Nullable Bundle savedInstanceState ) {
+public void onViewCreated( @NonNull View view, @Nullable Bundle savedInstanceState ) {
 	super.onViewCreated(view, savedInstanceState);
-	setListeners();
-	personalizeTextAndImage();
+	setListeners( );
+	personalizeTextAndImage( );
 }
 
-private void personalizeTextAndImage ( ) {
-	FirebaseManager.getCurrentUserData()
+private void personalizeTextAndImage( ) {
+	FirebaseManager.getCurrentUserData( )
 		.addOnCompleteListener(
-			new OnCompleteListener<DocumentSnapshot>() {
+			new OnCompleteListener<DocumentSnapshot>( ) {
 				@Override
-				public void onComplete ( @NonNull Task<DocumentSnapshot> task ) {
-					if ( task.isSuccessful() ) {
-						Map<String,Object> userData = task.getResult().getData();
-						if ( !userData.get(KEY_USER_PROFILE_IMAGE).toString().isEmpty() )
-							Picasso.get().load(userData.get(KEY_USER_PROFILE_IMAGE).toString()).into(binding.profileImage);
-						binding.usernameTextview.setText(userData.get(KEY_USER_DISPLAY_NAME).toString());
+				public void onComplete( @NonNull Task<DocumentSnapshot> task ) {
+					if ( task.isSuccessful( ) ) {
+						Map<String, Object> userData = task.getResult( ).getData( );
+						if ( !userData.get(KEY_USER_PROFILE_IMAGE).toString( ).isEmpty( ) )
+							Picasso.get( ).load(userData.get(KEY_USER_PROFILE_IMAGE).toString( )).into(binding.profileImage);
+						binding.usernameTextview.setText(userData.get(KEY_USER_DISPLAY_NAME).toString( ));
 
 					}
 				}
 			});
 }
 
-private void setListeners ( ) {
+private void setListeners( ) {
 	binding.signOutButton.setOnClickListener(view -> {
-		FirebaseManager.signOut();
-		Intent returnToSignInIntent = new Intent(getContext(), SignInActivity.class);
+		FirebaseManager.signOut( );
+		Intent returnToSignInIntent = new Intent(getContext( ), SignInActivity.class);
 		startActivity(returnToSignInIntent);
 	});
 }
 
 @Override
-public View onCreateView ( LayoutInflater inflater, ViewGroup container,
-                           Bundle savedInstanceState ) {
+public View onCreateView( LayoutInflater inflater, ViewGroup container,
+			  Bundle savedInstanceState ) {
 	super.onCreateView(inflater, container, savedInstanceState);
 	binding = FragmentSettingsBinding.inflate(inflater, container, false);
 
 
-	return binding.getRoot();
+	return binding.getRoot( );
 }
 }

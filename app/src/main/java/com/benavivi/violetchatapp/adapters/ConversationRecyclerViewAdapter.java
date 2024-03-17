@@ -16,41 +16,40 @@ import com.benavivi.violetchatapp.utilities.FirebaseManager;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.imageview.ShapeableImageView;
-import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
-public class ConversationRecyclerViewAdapter extends FirestoreRecyclerAdapter<Message,ConversationRecyclerViewAdapter.MessageViewHolder> {
+public class ConversationRecyclerViewAdapter extends FirestoreRecyclerAdapter<Message, ConversationRecyclerViewAdapter.MessageViewHolder> {
 
 private final Context context;
-private final String currentUserUid = FirebaseManager.getCurrentUserUid();
+private final String currentUserUid = FirebaseManager.getCurrentUserUid( );
 
-public ConversationRecyclerViewAdapter ( @NonNull FirestoreRecyclerOptions<Message> options, Context context ) {
+public ConversationRecyclerViewAdapter( @NonNull FirestoreRecyclerOptions<Message> options, Context context ) {
 	super(options);
 	this.context = context;
 }
 
 @Override
-protected void onBindViewHolder ( @NonNull ConversationRecyclerViewAdapter.MessageViewHolder holder, int position, @NonNull Message model ) {
+protected void onBindViewHolder( @NonNull ConversationRecyclerViewAdapter.MessageViewHolder holder, int position, @NonNull Message model ) {
 
-	if ( model.getSenderID().equals(currentUserUid) ) { //The author is the user
-		holder.userMessageText.setText(model.getMessageText());
-		holder.userMessageTime.setText(model.getFormattedDate());
+	if ( model.getSenderID( ).equals(currentUserUid) ) { //The author is the user
+		holder.userMessageText.setText(model.getMessageText( ));
+		holder.userMessageTime.setText(model.getFormattedDate( ));
 		holder.userMessageFrame.setVisibility(View.VISIBLE);
 		holder.senderMessageFrame.setVisibility(View.INVISIBLE);
 	} else { //The author is not the user
-		holder.senderMessageText.setText(model.getMessageText());
-		holder.senderMessageTime.setText(model.getFormattedDate());
-		holder.senderName.setText(model.getSenderName());
+		holder.senderMessageText.setText(model.getMessageText( ));
+		holder.senderMessageTime.setText(model.getFormattedDate( ));
+		holder.senderName.setText(model.getSenderName( ));
 		holder.senderMessageFrame.setVisibility(View.VISIBLE);
 		holder.userMessageFrame.setVisibility(View.INVISIBLE);
-		if ( model.getSenderImageURL() != null && !model.getSenderImageURL().isEmpty() )
-			Picasso.get().load(model.getSenderImageURL()).into(holder.senderImage);
+		if ( model.getSenderImageURL( ) != null && !model.getSenderImageURL( ).isEmpty( ) )
+			Picasso.get( ).load(model.getSenderImageURL( )).into(holder.senderImage);
 	}
 }
 
 @NonNull
 @Override
-public ConversationRecyclerViewAdapter.MessageViewHolder onCreateViewHolder ( @NonNull ViewGroup parent, int viewType ) {
+public ConversationRecyclerViewAdapter.MessageViewHolder onCreateViewHolder( @NonNull ViewGroup parent, int viewType ) {
 	LayoutInflater layoutInflater = LayoutInflater.from(context);
 	View view = layoutInflater.inflate(R.layout.layout_message_item, parent, false);
 	return new ConversationRecyclerViewAdapter.MessageViewHolder(view);
@@ -61,7 +60,7 @@ static class MessageViewHolder extends RecyclerView.ViewHolder {
 	TextView senderName, senderMessageText, senderMessageTime, userMessageText, userMessageTime;
 	FrameLayout senderMessageFrame, userMessageFrame;
 
-	public MessageViewHolder ( @NonNull View itemView ) {
+	public MessageViewHolder( @NonNull View itemView ) {
 		super(itemView);
 		senderImage = itemView.findViewById(R.id.recievedMessageProfileImage);
 		senderMessageText = itemView.findViewById(R.id.recievedMessageText);

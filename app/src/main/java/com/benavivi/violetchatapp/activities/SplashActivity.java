@@ -3,7 +3,6 @@ package com.benavivi.violetchatapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,56 +16,55 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.Map;
 import java.util.Objects;
 
 public class SplashActivity extends AppCompatActivity {
 
 @Override
-protected void onCreate ( Bundle savedInstanceState ) {
+protected void onCreate( Bundle savedInstanceState ) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_splash);
 
-	if ( isValidNotificationIntent() )
-		MoveUserToNotificationChat();
+	if ( isValidNotificationIntent( ) )
+		MoveUserToNotificationChat( );
 	else {
-		MoveUserDependingOnAuth();
+		MoveUserDependingOnAuth( );
 	}
 
 }
 
-void MoveUserDependingOnAuth ( ) {
-	new Handler().postDelayed(( ) -> {
-		if ( FirebaseManager.isSignedIn() ) {
+void MoveUserDependingOnAuth( ) {
+	new Handler( ).postDelayed(( ) -> {
+		if ( FirebaseManager.isSignedIn( ) ) {
 			startActivity(new Intent(SplashActivity.this, MainActivity.class));
 		} else {
 			startActivity(new Intent(SplashActivity.this, SignInActivity.class));
 		}
-		finish();
+		finish( );
 	}, Constants.ApplicationConstants.SPLASH_DELAY_MILLISECONDS);
 }
 
-void MoveUserToNotificationChat ( ) {
-	String notificationGroupID = getIntent().getExtras().getString(Constants.FirebaseConstants.NOTIFICATION_EXTRA_SENTFROMID);
+void MoveUserToNotificationChat( ) {
+	String notificationGroupID = getIntent( ).getExtras( ).getString(Constants.FirebaseConstants.NOTIFICATION_EXTRA_SENTFROMID);
 	FirebaseManager.getGroupDetailsData(notificationGroupID)
-		.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+		.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>( ) {
 			@Override
-			public void onComplete ( @NonNull Task<QuerySnapshot> task ) {
-				if ( task.isSuccessful() ) {
-					Group group = IntentFactory.IntentMapToGroup(Objects.requireNonNull( task.getResult( ).getDocuments( ).get(0).getData( ) ));
+			public void onComplete( @NonNull Task<QuerySnapshot> task ) {
+				if ( task.isSuccessful( ) ) {
+					Group group = IntentFactory.IntentMapToGroup(Objects.requireNonNull(task.getResult( ).getDocuments( ).get(0).getData( )));
 					Intent goToChatIntent = IntentFactory.GroupToIntent(SplashActivity.this, ConversationActivity.class, group);
 					goToChatIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 					startActivity(goToChatIntent);
-					finish();
+					finish( );
 				}
 			}
 		});
 }
 
-boolean isValidNotificationIntent ( ) {
-	return getIntent().getExtras() != null
-		       && getIntent().getExtras().getString(Constants.FirebaseConstants.NOTIFICATION_EXTRA_SENTFROMID) != null
-		       && !getIntent().getExtras().getString(Constants.FirebaseConstants.NOTIFICATION_EXTRA_SENTFROMID).isEmpty();
+boolean isValidNotificationIntent( ) {
+	return getIntent( ).getExtras( ) != null
+		&& getIntent( ).getExtras( ).getString(Constants.FirebaseConstants.NOTIFICATION_EXTRA_SENTFROMID) != null
+		&& !getIntent( ).getExtras( ).getString(Constants.FirebaseConstants.NOTIFICATION_EXTRA_SENTFROMID).isEmpty( );
 }
 
 }

@@ -9,24 +9,24 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import java.util.ArrayList;
 
 public class MyViewPagerAdapter extends FragmentStateAdapter {
-private final ArrayList<Fragment> fragments = new ArrayList<>();
+private final ArrayList<Fragment> fragments = new ArrayList<>( );
 
-public MyViewPagerAdapter ( @NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle ) {
+public MyViewPagerAdapter( @NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle ) {
 	super(fragmentManager, lifecycle);
 }
 
 @NonNull
 @Override
-public Fragment createFragment ( int position ) {
+public Fragment createFragment( int position ) {
 	return fragments.get(position);
 }
 
 @Override
-public int getItemCount ( ) {
-	return fragments.size();
+public int getItemCount( ) {
+	return fragments.size( );
 }
 
-public void addFragment ( Fragment fragment ) {
+public void addFragment( Fragment fragment ) {
 	fragments.add(fragment);
 }
 }

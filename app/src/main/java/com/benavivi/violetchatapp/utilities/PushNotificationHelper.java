@@ -28,22 +28,22 @@ import okhttp3.Response;
 public class PushNotificationHelper {
 
 
-public static void sendPushNotification ( String message, Group group ) {
-	String currentUserUid = FirebaseManager.getCurrentUserUid();
-	ArrayList<String> groupMembersList = group.getMembersList();
+public static void sendPushNotification( String message, Group group ) {
+	String currentUserUid = FirebaseManager.getCurrentUserUid( );
+	ArrayList<String> groupMembersList = group.getMembersList( );
 	groupMembersList.remove(currentUserUid);
 
 	for ( String memberID : groupMembersList ) {
 		Log.i("Push Notification", memberID);
-		FirebaseManager.getUserData(memberID).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+		FirebaseManager.getUserData(memberID).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>( ) {
 			@Override
-			public void onSuccess ( DocumentSnapshot documentSnapshot ) {
-				String otherUserFCMToken = documentSnapshot.getData().get(KEY_USER_FCM_TOKEN).toString();
+			public void onSuccess( DocumentSnapshot documentSnapshot ) {
+				String otherUserFCMToken = documentSnapshot.getData( ).get(KEY_USER_FCM_TOKEN).toString( );
 				try {
 					JSONObject messageJsonObject = CreateJsonObject(otherUserFCMToken, group, message);
 					callAPI(messageJsonObject);
 				} catch ( JSONException e ) {
-					Log.e("Push Notification", "Json object" + e.getMessage());
+					Log.e("Push Notification", "Json object" + e.getMessage( ));
 				}
 			}
 		});
@@ -53,15 +53,15 @@ public static void sendPushNotification ( String message, Group group ) {
 	//currentUsername , Chat ID , Message, otherUserToken
 }
 
-private static JSONObject CreateJsonObject ( String otherUserFCMToken, Group group, String message ) throws JSONException {
-	JSONObject jsonObject = new JSONObject();
+private static JSONObject CreateJsonObject( String otherUserFCMToken, Group group, String message ) throws JSONException {
+	JSONObject jsonObject = new JSONObject( );
 
-	JSONObject notificationObject = new JSONObject();
-	notificationObject.put("title", group.getName());
+	JSONObject notificationObject = new JSONObject( );
+	notificationObject.put("title", group.getName( ));
 	notificationObject.put("body", message);
 
-	JSONObject extraDataObject = new JSONObject();
-	extraDataObject.put(NOTIFICATION_EXTRA_SENTFROMID, group.getChatID());
+	JSONObject extraDataObject = new JSONObject( );
+	extraDataObject.put(NOTIFICATION_EXTRA_SENTFROMID, group.getChatID( ));
 
 	jsonObject.put("notification", notificationObject);
 	jsonObject.put("data", extraDataObject);
@@ -81,25 +81,25 @@ private static JSONObject CreateJsonObject ( String otherUserFCMToken, Group gro
 	}
 }*/
 
-private static void callAPI ( JSONObject jsonObject ) {
+private static void callAPI( JSONObject jsonObject ) {
 	MediaType JSON = MediaType.get("application/json");
-	OkHttpClient client = new OkHttpClient();
+	OkHttpClient client = new OkHttpClient( );
 	String url = Constants.FirebaseConstants.NOTIFICATION_PUSH_URL;
-	RequestBody body = RequestBody.create(jsonObject.toString(), JSON);
-	Request request = new Request.Builder()
-		                  .url(url)
-		                  .post(body)
-		                  .header("Authorization", "Bearer " + Constants.FirebaseConstants.NOTIFICATION_API_KEY)
-		                  .build();
+	RequestBody body = RequestBody.create(jsonObject.toString( ), JSON);
+	Request request = new Request.Builder( )
+		.url(url)
+		.post(body)
+		.header("Authorization", "Bearer " + Constants.FirebaseConstants.NOTIFICATION_API_KEY)
+		.build( );
 
-	client.newCall(request).enqueue(new Callback() {
+	client.newCall(request).enqueue(new Callback( ) {
 		@Override
-		public void onFailure ( @NonNull Call call, @NonNull IOException e ) {
+		public void onFailure( @NonNull Call call, @NonNull IOException e ) {
 			//Failed to send Message
 		}
 
 		@Override
-		public void onResponse ( @NonNull Call call, @NonNull Response response ) throws IOException {
+		public void onResponse( @NonNull Call call, @NonNull Response response ) throws IOException {
 			//Sent Message
 		}
 	});

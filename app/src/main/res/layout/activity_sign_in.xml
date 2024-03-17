@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:clipToPadding="false"
     android:overScrollMode="never"
     android:padding="@dimen/_24sdp"
     android:scrollbars="none"
-    android:background="@color/white"
     tools:context=".activities.SignInActivity">
 
     <LinearLayout
@@ -70,11 +70,12 @@
             android:textColorHint="@color/secondary_text"
             android:textSize="@dimen/_13ssp"
             tools:ignore="HardcodedText" />
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_16sdp"
-            android:animateLayoutChanges="true" >
+            android:animateLayoutChanges="true">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/signInButton"
@@ -93,10 +94,10 @@
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:layout_gravity="center"
-                android:visibility="invisible"
-                />
+                android:visibility="invisible" />
 
         </FrameLayout>
+
         <TextView
             android:id="@+id/createNewAccountText"
             android:layout_width="wrap_content"

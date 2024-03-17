@@ -39,23 +39,23 @@ public class CameraHandler {
 	}
 
 	public static void selectImage( Context context, ActivityResultLauncher<Intent> pickImageFromGallery, ActivityResultLauncher<Intent> takePicture ) {
-		final String[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+		final String[] options = { "Take Photo", "Choose from Gallery", "Cancel" };
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle("Choose a method");
 
-		builder.setItems(options, new DialogInterface.OnClickListener() {
+		builder.setItems(options, new DialogInterface.OnClickListener( ) {
 
 			@Override
-			public void onClick(DialogInterface dialog, int item) {
+			public void onClick( DialogInterface dialog, int item ) {
 
 				switch ( options[item] ) {
 					case "Take Photo":
-						if(hasCameraPermission(context)){
+						if ( hasCameraPermission(context) ) {
 							Intent takeImageIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 							takeImageIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 							takePicture.launch(takeImageIntent);
-						}else
+						} else
 							requestCameraPermission(context);
 
 						break;
@@ -71,7 +71,7 @@ public class CameraHandler {
 				}
 			}
 		});
-		builder.show();
+		builder.show( );
 	}
 }
 

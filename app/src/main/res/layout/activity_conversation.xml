@@ -32,11 +32,11 @@
                 android:id="@+id/conversationChatImage"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:src="@color/input_background"
                 android:scaleType="centerCrop"
-                app:shapeAppearance="@style/circle"
+                android:src="@color/input_background"
                 app:riv_oval="true"
-                />
+                app:shapeAppearance="@style/circle" />
+
             <TextView
                 android:id="@+id/conversationTitle"
                 android:layout_width="wrap_content"

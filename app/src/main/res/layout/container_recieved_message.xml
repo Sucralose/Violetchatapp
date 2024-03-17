@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:padding="@dimen/_4sdp">
 
 
@@ -15,8 +14,8 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@id/recievedMessageText"
         app:layout_constraintStart_toStartOf="parent"
-        app:shapeAppearance="@style/circle"
-        app:riv_oval="true" />
+        app:riv_oval="true"
+        app:shapeAppearance="@style/circle" />
 
     <TextView
         android:id="@+id/recievedMessageText"

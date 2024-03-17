@@ -31,29 +31,29 @@ import java.util.Map;
 
 public class IntentFactory {
 
-public static Intent GroupToIntent ( Context context, Class<?> destination, Group group ) {
+public static Intent GroupToIntent( Context context, Class<?> destination, Group group ) {
 	Intent intent = new Intent(context, destination);
 
 	String[] data = {
-		group.getAdminID(),
-		group.getChatID(),
-		group.getName(),
+		group.getAdminID( ),
+		group.getChatID( ),
+		group.getName( ),
 		group.getImageURL( ),
-		String.valueOf(group.recieveTimestampNumber()),
-		String.valueOf(group.getIsPrivateMessages()),
+		String.valueOf(group.recieveTimestampNumber( )),
+		String.valueOf(group.getIsPrivateMessages( )),
 	};
 
 	String[] lastMessage = {
-		group.getLastMessage().getMessageText(),
-		group.getLastMessage().getSenderID(),
-		group.getLastMessage().getSenderName(),
-		group.getLastMessage().getSenderImageURL(),
-		String.valueOf(group.getLastMessage().recieveTimestampNumber())
+		group.getLastMessage( ).getMessageText( ),
+		group.getLastMessage( ).getSenderID( ),
+		group.getLastMessage( ).getSenderName( ),
+		group.getLastMessage( ).getSenderImageURL( ),
+		String.valueOf(group.getLastMessage( ).recieveTimestampNumber( ))
 	};
 
-	intent.putExtra(COLLECTION_GROUP_DETAILS,data);
-	intent.putExtra(KEY_GROUP_DETAILS_LAST_MESSAGE,lastMessage);
-	intent.putExtra(KEY_GROUP_DETAILS_MEMBERS_LIST, group.getMembersList());
+	intent.putExtra(COLLECTION_GROUP_DETAILS, data);
+	intent.putExtra(KEY_GROUP_DETAILS_LAST_MESSAGE, lastMessage);
+	intent.putExtra(KEY_GROUP_DETAILS_MEMBERS_LIST, group.getMembersList( ));
 	/*intent.putExtra(KEY_GROUP_DETAILS_NAME, group.getName());
 	intent.putExtra(KEY_GROUP_DETAILS_ID, group.getChatID());
 	intent.putExtra(KEY_GROUP_DETAILS_ICON, group.getImageURL());
@@ -64,17 +64,17 @@ public static Intent GroupToIntent ( Context context, Class<?> destination, Grou
 	return intent;
 }
 
-public static Group IntentToGroup ( Intent intent ) {
+public static Group IntentToGroup( Intent intent ) {
 
 	String[] data = intent.getStringArrayExtra(COLLECTION_GROUP_DETAILS);
 	String[] lastMessage = intent.getStringArrayExtra(KEY_GROUP_DETAILS_LAST_MESSAGE);
 	ArrayList<String> membersList = intent.getStringArrayListExtra(KEY_GROUP_DETAILS_MEMBERS_LIST);
-	Group gp =  new Group(
+	Group gp = new Group(
 		data[0],
 		data[1],
 		data[2],
 		data[3],
-		new Timestamp(Long.parseLong(data[4]),0),
+		new Timestamp(Long.parseLong(data[4]), 0),
 		Boolean.parseBoolean(data[5]),
 		membersList
 	);
@@ -84,13 +84,13 @@ public static Group IntentToGroup ( Intent intent ) {
 			lastMessage[1],
 			lastMessage[2],
 			lastMessage[3],
-			new Timestamp(Long.parseLong(lastMessage[4]),0))
+			new Timestamp(Long.parseLong(lastMessage[4]), 0))
 	);
 
-		return gp;
+	return gp;
 }
 
-public static Group IntentMapToGroup( Map<String,Object> groupMap ) {
+public static Group IntentMapToGroup( Map<String, Object> groupMap ) {
 
 	Group group = new Group(
 		(String) groupMap.get(KEY_GROUP_DETAIL_ADMIN_ID),

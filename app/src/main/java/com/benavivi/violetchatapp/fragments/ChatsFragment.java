@@ -17,44 +17,44 @@ public class ChatsFragment extends Fragment {
 FragmentChatsBinding binding;
 ChatsListRecycleViewAdapter adapter;
 
-public ChatsFragment ( ) {
+public ChatsFragment( ) {
 	// Required empty public constructor
 }
 
 
 @Override
-public View onCreateView ( LayoutInflater inflater, ViewGroup container,
-                           Bundle savedInstanceState ) {
+public View onCreateView( LayoutInflater inflater, ViewGroup container,
+			  Bundle savedInstanceState ) {
 	// Inflate the layout for this fragment
 	binding = FragmentChatsBinding.inflate(inflater, container, false);
 
-	setUpRecyclerView();
+	setUpRecyclerView( );
 
 
-	return binding.getRoot();
+	return binding.getRoot( );
 }
 
 
-private void setUpRecyclerView ( ) {
-	LinearLayoutManager linearLayoutManager = new LinearLayoutManagerWrapper(getContext());
+private void setUpRecyclerView( ) {
+	LinearLayoutManager linearLayoutManager = new LinearLayoutManagerWrapper(getContext( ));
 	binding.chatsRecyclerView.setLayoutManager(linearLayoutManager);
 	binding.chatsRecyclerView.setHasFixedSize(true);
 
-	adapter = FirebaseManager.getUserGroupsDetailsAdapter(getContext());
+	adapter = FirebaseManager.getUserGroupsDetailsAdapter(getContext( ));
 	binding.chatsRecyclerView.setAdapter(adapter);
-	adapter.startListening();
+	adapter.startListening( );
 }
 
-public void onStart ( ) {
-	super.onStart();
+public void onStart( ) {
+	super.onStart( );
 	if ( adapter != null )
-		adapter.startListening();
+		adapter.startListening( );
 }
 
-public void onStop ( ) {
-	super.onStop();
+public void onStop( ) {
+	super.onStop( );
 	if ( adapter != null )
-		adapter.stopListening();
+		adapter.stopListening( );
 }
 
 }

@@ -3,6 +3,7 @@ package com.benavivi.violetchatapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -51,9 +53,7 @@ void MoveUserToNotificationChat ( ) {
 			@Override
 			public void onComplete ( @NonNull Task<QuerySnapshot> task ) {
 				if ( task.isSuccessful() ) {
-					Map<String,Object> groupModelData = task.getResult().getDocuments().get(0).getData();
-					assert groupModelData != null;
-					Group group = new Group(groupModelData);
+					Group group = IntentFactory.IntentMapToGroup(Objects.requireNonNull( task.getResult( ).getDocuments( ).get(0).getData( ) ));
 					Intent goToChatIntent = IntentFactory.GroupToIntent(SplashActivity.this, ConversationActivity.class, group);
 					goToChatIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 					startActivity(goToChatIntent);

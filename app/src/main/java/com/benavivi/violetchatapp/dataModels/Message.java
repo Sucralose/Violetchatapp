@@ -104,7 +104,15 @@ public String getFormattedMessage( ) {
 }
 
 public String getFormattedDate( ) {
-	String pattern = "dd/MM/yyyy HH:mm:ss";
+	String pattern = "dd/MM/yyyy";
+	Date currentTime = new Date(  );
+	Date messageDate = this.date.toDate();
+
+	DateFormat dateFormater = new SimpleDateFormat(pattern, java.util.Locale.ENGLISH);
+	if(dateFormater.format(currentTime).equals(dateFormater.format(messageDate))) {
+		pattern = "HH:mm";
+	}
+
 	return new SimpleDateFormat(pattern, java.util.Locale.ENGLISH).format(date.toDate());
 }
 

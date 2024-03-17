@@ -45,7 +45,8 @@ protected void onBindViewHolder ( @NonNull GroupViewHolder holder, int position,
 	holder.groupName.setText(model.getName());
 	holder.groupLastMessage.setText(model.getLastMessage().getFormattedMessage());
 	holder.groupLastMessageTime.setText(model.getLastMessage().getFormattedDate());
-	Picasso.get().load(model.getImageURL()).into(holder.roundedImageView);
+	if(!model.getImageURL().isEmpty())
+		Picasso.get().load(model.getImageURL()).into(holder.roundedImageView);
 	holder.itemView.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick ( View v ) {

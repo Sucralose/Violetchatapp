@@ -8,6 +8,7 @@ import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.K
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_ID;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_LAST_MESSAGE;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_MEMBERS_LIST;
+import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_DETAILS_NAME;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_GROUP_PROFILE_IMAGE_STORAGE_REFERENCE;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_DATE;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_MESSAGE_SENDER_ID;
@@ -289,8 +290,6 @@ public static Task<QuerySnapshot> doesUserExist( String email) {
 			.collection(SUB_COLLECTION_MESSAGES)
 			.add(FIRST_CHAT_MESSAGE);
 
-		uploadChatImage(chatImageUri, id);
-
 	}
 
 	private static void uploadChatImage( Uri chatImageUri, String id ) {
@@ -331,4 +330,14 @@ public static Task<QuerySnapshot> doesUserExist( String email) {
 
 	}
 
+	public static void setGroupName( Group currentGroup, String newName ) {
+		currentGroup.setName(newName);
+
+		FirebaseFirestore.getInstance().collection(COLLECTION_GROUP_DETAILS).document(currentGroup.getChatID())
+			.set(currentGroup);
+	}
+
+	public static void changeGroupImage( Group currentGroup, Uri newChatImageUri ) {
+		uploadChatImage(newChatImageUri, currentGroup.getChatID());
+	}
 }

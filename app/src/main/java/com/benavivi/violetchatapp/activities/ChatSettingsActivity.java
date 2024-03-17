@@ -4,11 +4,15 @@ import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.K
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_USER_EMAIL_ADDRESS;
 import static com.benavivi.violetchatapp.utilities.Constants.FirebaseConstants.KEY_USER_PROFILE_IMAGE;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +22,7 @@ import android.widget.Toast;
 import com.benavivi.violetchatapp.dataModels.Group;
 import com.benavivi.violetchatapp.databinding.ActivityChatSettingsBinding;
 import com.benavivi.violetchatapp.databinding.LayoutGroupItemBinding;
+import com.benavivi.violetchatapp.utilities.Constants;
 import com.benavivi.violetchatapp.utilities.FirebaseManager;
 import com.benavivi.violetchatapp.utilities.IntentFactory;
 import com.squareup.picasso.Picasso;
@@ -25,6 +30,8 @@ import com.squareup.picasso.Picasso;
 public class ChatSettingsActivity extends AppCompatActivity {
         ActivityChatSettingsBinding binding;
         Group currentGroup;
+        private Uri newChatImageUri;
+
         @Override
         protected void onCreate( Bundle savedInstanceState ) {
                 super.onCreate(savedInstanceState);
@@ -72,6 +79,46 @@ public class ChatSettingsActivity extends AppCompatActivity {
 
                         }
                 });
+
+                binding.settingsChangeChatName.setOnClickListener(new View.OnClickListener( ) {
+                        @Override
+                        public void onClick( View v ) {
+                                openChangeChatNameAlertDialog();
+                        }
+                });
+
+                binding.settingsChangeChatIcon.setOnClickListener(new View.OnClickListener( ) {
+                        @Override
+                        public void onClick( View v ) {
+                                Intent pickImageIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                pickImageIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                pickImage.launch(pickImageIntent);
+                        }
+                });
+        }
+
+        private void openChangeChatNameAlertDialog( ) {
+                AlertDialog.Builder ChangeNameDialogBuilder = new AlertDialog.Builder(this);
+                ChangeNameDialogBuilder.setTitle("Change Chat Name");
+
+                final EditText changeNameEditText = new EditText(this);
+                changeNameEditText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+
+                ChangeNameDialogBuilder.setView(changeNameEditText);
+                ChangeNameDialogBuilder.setCancelable(true);
+                ChangeNameDialogBuilder.setNegativeButton("Cancel", ( dialog, which ) -> dialog.dismiss());
+                ChangeNameDialogBuilder.setPositiveButton("Change", ( dialog, which ) -> {
+                        if(changeNameEditText.getText().length() > Constants.UserConstants.MIN_DISPLAY_NAME_LENGTH){
+                                String newName = changeNameEditText.getText().toString();
+                                FirebaseManager.setGroupName(currentGroup,newName);
+                                binding.settingsChangeChatName.setText(newName);
+                                showShortToast("Groupchat name Changed");
+                        }
+                        else
+                                showShortToast("groupchat name must be at least"+Constants.UserConstants.MIN_DISPLAY_NAME_LENGTH+ " characters long");
+                });
+
+                ChangeNameDialogBuilder.show();
         }
 
         private void openAddUserAlertDialog( ) {
@@ -183,6 +230,17 @@ public class ChatSettingsActivity extends AppCompatActivity {
                                         binding.chatSettingsMembersListContainer.addView(memberViewBinding.getRoot());
                                 });
         }
+
+        private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                        if ( result.getData() != null ) {
+                                newChatImageUri = result.getData().getData();
+                                binding.SettingsChatImage.setImageURI(newChatImageUri);
+                                FirebaseManager.changeGroupImage(currentGroup, newChatImageUri);
+                        }
+                }
+        );
 
         private void showShortToast(String message) {
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();

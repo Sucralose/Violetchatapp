@@ -10,16 +10,21 @@ public static class UserConstants {
 	public static final int MAX_DISPLAY_NAME_LENGTH = 25;
 	public static final int MIN_DISPLAY_NAME_LENGTH = 2;
 
+	public static final int MAX_GROUP_NAME_LENGTH = 25;
+	public static final int MIN_GROUP_NAME_LENGTH = 2;
+
 }
 
 public static class FirebaseConstants {
 
+	//--- User Constants ---
 	public static final String COLLECTION_USER = "Users";
 	public static final String KEY_USER_DISPLAY_NAME = "DisplayName";
 	public static final String KEY_USER_EMAIL_ADDRESS = "EmailAddress";
 	public static final String KEY_USER_PROFILE_IMAGE = "ProfileImage";
 	public static final String KEY_USER_FCM_TOKEN = "FCM_Token";
 
+	//--- Group Details Constants ---
 	public static final String COLLECTION_GROUP_DETAILS = "GroupsDetails";
 	public static final String KEY_GROUP_DETAILS_NAME = "GroupName";
 	public static final String KEY_GROUP_DETAILS_ICON = "GroupIcon";
@@ -34,17 +39,20 @@ public static class FirebaseConstants {
 	public static final String COLLECTION_GROUP_MESSAGES = "GroupMessages";
 	public static final String SUB_COLLECTION_MESSAGES = "MessageCollection";
 
+	//--- Messages Constants ---
 	public static final String KEY_MESSAGE_SENDER_ID = "SenderID";
 	public static final String KEY_MESSAGE_SENDER_NAME = "SenderName";
 	public static final String KEY_MESSAGE_DATE = "Date";
 	public static final String KEY_MESSAGE_TEXT = "Text";
 	public static final String KEY_MESSAGE_SENDER_IMAGE_URL = "SenderImageURL";
 
+	//--- Firebase Storage ---
 	public static final String KEY_USER_PROFILE_IMAGE_STORAGE_REFERENCE = "UserProfileImages";
 	public static final String KEY_GROUP_PROFILE_IMAGE_STORAGE_REFERENCE = "GroupProfileImages";
 	public static final String KEY_GROUP_ATTACHMENT_STORAGE_REFERENCE = "GroupAttachments";
 
 
+	//--- Firebase Notifications ---
 	public static final String NOTIFICATION_CHANNEL_ID = "notify";
 	public static final String NOTIFICATION_EXTRA_SENTFROMID = "sentFromID";
 	public static final String NOTIFICATION_PUSH_URL = "https://fcm.googleapis.com/fcm/send";
@@ -57,6 +65,7 @@ public static class ApplicationConstants {
 
 	public static final String KEY_PREFERENCE_NAME = "VioletChatAppPreference";
 	public static final int SPLASH_DELAY_MILLISECONDS = 500;
+	public static final int CREATE_GROUP_DELAY_MILLISECONDS = 500;
 }
 
 }

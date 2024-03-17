@@ -6,6 +6,7 @@ import static com.benavivi.violetchatapp.utilities.Constants.UserConstants.MIN_D
 import static com.benavivi.violetchatapp.utilities.Constants.UserConstants.MIN_PASSWORD_LENGTH;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.benavivi.violetchatapp.R;
 import com.benavivi.violetchatapp.databinding.ActivitySignUpBinding;
+import com.benavivi.violetchatapp.utilities.CameraHandler;
 import com.benavivi.violetchatapp.utilities.FirebaseManager;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -32,6 +34,18 @@ private final ActivityResultLauncher<Intent> pickImage = registerForActivityResu
 	result -> {
 		if ( result.getData() != null ) {
 			profilePictureImageUri = result.getData().getData();
+			binding.profileImage.setImageURI(profilePictureImageUri);
+			binding.addImageText.setVisibility(View.INVISIBLE);
+		}
+	}
+);
+
+private final ActivityResultLauncher<Intent> openCamera = registerForActivityResult(
+	new ActivityResultContracts.StartActivityForResult(),
+	result -> {
+		if ( result.getResultCode() == RESULT_OK && result.getData() != null ) {
+
+			profilePictureImageUri = CameraHandler.getImageUriFromBitmap( SignUpActivity.this, (Bitmap) result.getData().getExtras().get("data"));
 			binding.profileImage.setImageURI(profilePictureImageUri);
 			binding.addImageText.setVisibility(View.INVISIBLE);
 		}
@@ -53,9 +67,7 @@ private void setListeners ( ) {
 		if ( isValidSignUpDetails() ) signUp();
 	});
 	binding.layoutImage.setOnClickListener(view -> {
-		Intent pickImageIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-		pickImageIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-		pickImage.launch(pickImageIntent);
+		CameraHandler.selectImage(this, openCamera, pickImage);
 	});
 }
 

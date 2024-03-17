@@ -5,6 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,14 +13,10 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Toast;
 
-import com.benavivi.violetchatapp.R;
-import com.benavivi.violetchatapp.dataModels.Group;
 import com.benavivi.violetchatapp.databinding.ActivityCreateGroupBinding;
 import com.benavivi.violetchatapp.utilities.Constants;
 import com.benavivi.violetchatapp.utilities.FirebaseManager;
-import com.google.firebase.Timestamp;
-
-import java.util.ArrayList;
+import com.benavivi.violetchatapp.utilities.CameraHandler;
 
 public class CreateGroupActivity extends AppCompatActivity {
 	ActivityCreateGroupBinding binding;
@@ -53,9 +50,10 @@ public class CreateGroupActivity extends AppCompatActivity {
 		});
 
 		binding.groupProfileImage.setOnClickListener(view -> {
-			Intent pickImageIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+			/*Intent pickImageIntent = new Intent(Intent.ACTION_PICK,MediaStore.ACTION_IMAGE_CAPTURE);
 			pickImageIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-			pickImage.launch(pickImageIntent);
+			openCamera.launch(pickImageIntent);*/
+			CameraHandler.selectImage(this, pickImage, openCamera);
 		});
 
 		binding.createGroupBack.setOnClickListener(view -> {
@@ -85,6 +83,18 @@ public class CreateGroupActivity extends AppCompatActivity {
 		result -> {
 			if ( result.getData() != null ) {
 				chatImageUri = result.getData().getData();
+				binding.groupProfileImage.setImageURI(chatImageUri);
+				binding.addChatImageText.setVisibility(View.INVISIBLE);
+			}
+		}
+	);
+
+	private final ActivityResultLauncher<Intent> openCamera = registerForActivityResult(
+		new ActivityResultContracts.StartActivityForResult(),
+		result -> {
+			if ( result.getResultCode() == RESULT_OK && result.getData() != null ) {
+
+				chatImageUri = CameraHandler.getImageUriFromBitmap( CreateGroupActivity.this, (Bitmap) result.getData().getExtras().get("data"));
 				binding.groupProfileImage.setImageURI(chatImageUri);
 				binding.addChatImageText.setVisibility(View.INVISIBLE);
 			}

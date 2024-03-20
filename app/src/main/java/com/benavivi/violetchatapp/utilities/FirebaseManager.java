@@ -170,7 +170,7 @@ public static void sendMessage( String message, Group group ) {
 			.collection(COLLECTION_GROUP_DETAILS).document(groupID)
 			.update(KEY_GROUP_DETAILS_LAST_MESSAGE, messageMap);
 
-		PushNotificationHelper.sendPushNotification(message, group);
+		PushNotificationHelper.sendPushNotification(userMap.get(KEY_USER_DISPLAY_NAME) + ": " + message, group);
 	});
 
 
@@ -179,7 +179,7 @@ public static void sendMessage( String message, Group group ) {
 
 public static void uploadUserProfileImage( Uri profilePictureImageUri ) {
 
-	StorageReference storageReference = FirebaseStorage.getInstance( ).getReference(KEY_USER_PROFILE_IMAGE_STORAGE_REFERENCE + "/" + getCurrentUserUid( ) + ".jpg");
+	StorageReference storageReference = FirebaseStorage.getInstance( ).getReference(KEY_USER_PROFILE_IMAGE_STORAGE_REFERENCE + "/" + getCurrentUserUid( ) + ".png");
 	storageReference.putFile(profilePictureImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>( ) {
 		@Override
 		public void onComplete( @NonNull Task<UploadTask.TaskSnapshot> task ) {
@@ -292,7 +292,7 @@ public static void createNewGroup( String chatName, Uri chatImageUri ) {
 
 private static void uploadChatImage( Uri chatImageUri, String id ) {
 
-	StorageReference storageReference = FirebaseStorage.getInstance( ).getReference(KEY_GROUP_PROFILE_IMAGE_STORAGE_REFERENCE + "/" + id + ".jpg");
+	StorageReference storageReference = FirebaseStorage.getInstance( ).getReference(KEY_GROUP_PROFILE_IMAGE_STORAGE_REFERENCE + "/" + id + ".png");
 	storageReference.putFile(chatImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>( ) {
 		@Override
 		public void onComplete( @NonNull Task<UploadTask.TaskSnapshot> task ) {

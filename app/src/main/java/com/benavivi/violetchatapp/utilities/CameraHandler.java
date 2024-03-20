@@ -1,5 +1,6 @@
 package com.benavivi.violetchatapp.utilities;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,8 +35,19 @@ public static boolean hasCameraPermission( Context context ) {
 	return context.checkSelfPermission(android.Manifest.permission.CAMERA) == android.content.pm.PackageManager.PERMISSION_GRANTED;
 }
 
+public static boolean hasStoragePermission( Context context ) {
+	return context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == android.content.pm.PackageManager.PERMISSION_GRANTED;
+}
+
 public static void requestCameraPermission( Context context ) {
 	( (AppCompatActivity) context ).requestPermissions(new String[]{ android.Manifest.permission.CAMERA }, 0);
+}
+
+public static void requestStoragePermission( Context context ) {
+	( (AppCompatActivity) context ).requestPermissions(
+		new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE,
+			Manifest.permission.WRITE_EXTERNAL_STORAGE
+			, Manifest.permission.READ_MEDIA_IMAGES }, 0);
 }
 
 
@@ -68,8 +80,14 @@ private static void alertDialogOnClick( DialogInterface dialog, int item, Contex
 			break;
 
 		case "Choose from Gallery":
+			if ( hasStoragePermission(context) ) {
+				requestStoragePermission(context);
+				break;
+			}
+
 			Intent pickImageIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 			pickImageIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+			pickImageIntent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
 			pickImageFromGallery.launch(pickImageIntent);
 			break;
 

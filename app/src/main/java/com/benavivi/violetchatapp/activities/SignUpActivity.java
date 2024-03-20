@@ -27,10 +27,10 @@ private ActivitySignUpBinding binding;
 private Uri profilePictureImageUri;
 //Image Picker handler
 private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
-	new ActivityResultContracts.StartActivityForResult(),
+	new ActivityResultContracts.StartActivityForResult( ),
 	result -> {
-		if ( result.getData() != null ) {
-			profilePictureImageUri = result.getData().getData();
+		if ( result.getData( ) != null ) {
+			profilePictureImageUri = result.getData( ).getData( );
 			binding.profileImage.setImageURI(profilePictureImageUri);
 			binding.addImageText.setVisibility(View.INVISIBLE);
 		}
@@ -38,11 +38,11 @@ private final ActivityResultLauncher<Intent> pickImage = registerForActivityResu
 );
 
 private final ActivityResultLauncher<Intent> openCamera = registerForActivityResult(
-	new ActivityResultContracts.StartActivityForResult(),
+	new ActivityResultContracts.StartActivityForResult( ),
 	result -> {
-		if ( result.getResultCode() == RESULT_OK && result.getData() != null ) {
+		if ( result.getResultCode( ) == RESULT_OK && result.getData( ) != null ) {
 
-			profilePictureImageUri = CameraHandler.getImageUriFromBitmap( SignUpActivity.this, (Bitmap) result.getData().getExtras().get("data"));
+			profilePictureImageUri = CameraHandler.getImageUriFromBitmap(SignUpActivity.this, (Bitmap) result.getData( ).getExtras( ).get("data"));
 			binding.profileImage.setImageURI(profilePictureImageUri);
 			binding.addImageText.setVisibility(View.INVISIBLE);
 		}
@@ -50,77 +50,77 @@ private final ActivityResultLauncher<Intent> openCamera = registerForActivityRes
 );
 
 @Override
-protected void onCreate ( Bundle savedInstanceState ) {
+protected void onCreate( Bundle savedInstanceState ) {
 	super.onCreate(savedInstanceState);
-	binding = ActivitySignUpBinding.inflate(getLayoutInflater());
-	setContentView(binding.getRoot());
-	setListeners();
+	binding = ActivitySignUpBinding.inflate(getLayoutInflater( ));
+	setContentView(binding.getRoot( ));
+	setListeners( );
 }
 
 
-private void setListeners ( ) {
+private void setListeners( ) {
 	binding.signInText.setOnClickListener(view -> startActivity(new Intent(this, SignInActivity.class)));
 	binding.signUpButton.setOnClickListener(view -> {
-		if ( isValidSignUpDetails() ) signUp();
+		if ( isValidSignUpDetails( ) ) signUp( );
 	});
 	binding.layoutImage.setOnClickListener(view -> {
-		CameraHandler.selectImage(this, openCamera, pickImage);
+		CameraHandler.selectImage(this, pickImage, openCamera);
 	});
 }
 
-private void showShortToast ( String message ) {
-	Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+private void showShortToast( String message ) {
+	Toast.makeText(getApplicationContext( ), message, Toast.LENGTH_SHORT).show( );
 }
 
-private void signUp ( ) {
+private void signUp( ) {
 	loading(true);
 
-	FirebaseManager.signUp(binding.inputEmailAddress.getText().toString(),
-			binding.inputPassword.getText().toString(),
-			binding.inputDisplayName.getText().toString(),
+	FirebaseManager.signUp(binding.inputEmailAddress.getText( ).toString( ),
+			binding.inputPassword.getText( ).toString( ),
+			binding.inputDisplayName.getText( ).toString( ),
 			profilePictureImageUri)
 		.addOnCompleteListener(task -> {
 			loading(false);
-			if ( task.isSuccessful() ) {
+			if ( task.isSuccessful( ) ) {
 				Intent goToChatsIntent = new Intent(this, MainActivity.class);
 				startActivity(goToChatsIntent);
-				finish();
+				finish( );
 			} else
-				showShortToast(task.getException().getLocalizedMessage());
+				showShortToast(task.getException( ).getLocalizedMessage( ));
 		});
 
 }
 
-private boolean isValidSignUpDetails ( ) {
+private boolean isValidSignUpDetails( ) {
 	String displayName, emailAddress, password, confirmPassword;
-	displayName = binding.inputDisplayName.getText().toString();
-	emailAddress = binding.inputEmailAddress.getText().toString();
-	password = binding.inputPassword.getText().toString();
-	confirmPassword = binding.inputConfirmPassword.getText().toString();
+	displayName = binding.inputDisplayName.getText( ).toString( );
+	emailAddress = binding.inputEmailAddress.getText( ).toString( );
+	password = binding.inputPassword.getText( ).toString( );
+	confirmPassword = binding.inputConfirmPassword.getText( ).toString( );
 
 	if ( profilePictureImageUri == null ) {
 		showShortToast("Please select a profile picture");
 		return false;
 	}
-	if ( displayName.length() < MIN_DISPLAY_NAME_LENGTH || displayName.length() > MAX_DISPLAY_NAME_LENGTH ) {
+	if ( displayName.length( ) < MIN_DISPLAY_NAME_LENGTH || displayName.length( ) > MAX_DISPLAY_NAME_LENGTH ) {
 		showShortToast("Your display name must be between " + MIN_DISPLAY_NAME_LENGTH + " and "
-			               + MAX_DISPLAY_NAME_LENGTH + " Characters.");
+			+ MAX_DISPLAY_NAME_LENGTH + " Characters.");
 		return false;
 	}
-	if ( emailAddress.isEmpty() ) {
+	if ( emailAddress.isEmpty( ) ) {
 		showShortToast("Please enter your email address");
 		return false;
 	}
 	//Use builtin regex to determine if is valid address
-	if ( !Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches() ) {
+	if ( !Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches( ) ) {
 		showShortToast("Please enter a valid email address");
 		return false;
 	}
-	if ( password.length() < MIN_PASSWORD_LENGTH || password.length() > MAX_PASSWORD_LENGTH ) {
+	if ( password.length( ) < MIN_PASSWORD_LENGTH || password.length( ) > MAX_PASSWORD_LENGTH ) {
 		showShortToast("Your password must be between " + MIN_PASSWORD_LENGTH + " and " + MAX_PASSWORD_LENGTH + " Characters.");
 		return false;
 	}
-	if ( confirmPassword.isEmpty() ) {
+	if ( confirmPassword.isEmpty( ) ) {
 		showShortToast("Please confirm your passwords");
 		return false;
 	}
@@ -133,7 +133,7 @@ private boolean isValidSignUpDetails ( ) {
 
 }
 
-private void loading ( Boolean isLoading ) {
+private void loading( Boolean isLoading ) {
 	if ( isLoading ) {
 		binding.signUpButton.setVisibility(View.INVISIBLE);
 		binding.progressBar.setVisibility(View.VISIBLE);

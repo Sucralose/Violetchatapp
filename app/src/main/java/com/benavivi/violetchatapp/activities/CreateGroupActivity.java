@@ -53,26 +53,25 @@ protected void onCreate( Bundle savedInstanceState ) {
 
 private void setListeners( ) {
 	binding.createGroupButton.setOnClickListener(view -> {
-		if ( validSignupData( ) ) {
-			loading(true);
+		buttonActionLoading(true);
+		if ( validGroupData( ) ) {
+
 			FirebaseManager.createNewGroup(
 				binding.inputChatName.getText( ).toString( ),
 				chatImageUri
 			);
+			//Delay inorder to ensure that the image has been uploaded.
 			new Handler( ).postDelayed(( ) -> {
-				loading(false);
 				Intent intent = new Intent(CreateGroupActivity.this, MainActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 				startActivity(intent);
 				finish( );
 			}, Constants.ApplicationConstants.CREATE_GROUP_DELAY_MILLISECONDS);
 		}
+		buttonActionLoading(false);
 	});
 
 	binding.groupProfileImage.setOnClickListener(view -> {
-			/*Intent pickImageIntent = new Intent(Intent.ACTION_PICK,MediaStore.ACTION_IMAGE_CAPTURE);
-			pickImageIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-			openCamera.launch(pickImageIntent);*/
 		CameraHandler.selectImage(this, pickImage, openCamera);
 	});
 
@@ -86,7 +85,7 @@ private void setListeners( ) {
 
 }
 
-private boolean validSignupData( ) {
+private boolean validGroupData( ) {
 	if ( binding.inputChatName.getText( ).length( ) < Constants.UserConstants.MIN_DISPLAY_NAME_LENGTH || binding.inputChatName.getText( ).length( ) > Constants.UserConstants.MAX_DISPLAY_NAME_LENGTH ) {
 		showShortToast("Group name must be between " + Constants.UserConstants.MIN_DISPLAY_NAME_LENGTH + " and " + Constants.UserConstants.MAX_DISPLAY_NAME_LENGTH + " Characters.");
 		return false;
@@ -102,7 +101,7 @@ private void showShortToast( String message ) {
 	Toast.makeText(this, message, Toast.LENGTH_SHORT).show( );
 }
 
-private void loading( Boolean isLoading ) {
+private void buttonActionLoading( Boolean isLoading ) {
 	if ( isLoading ) {
 		binding.createGroupButton.setVisibility(View.INVISIBLE);
 		binding.progressBar.setVisibility(View.VISIBLE);

@@ -140,7 +140,7 @@ private void openAddUserAlertDialog( ) {
 	addUserDialogBuilder.setCancelable(true);
 	addUserDialogBuilder.setNegativeButton("Cancel", ( dialog, which ) -> dialog.dismiss( ));
 	addUserDialogBuilder.setPositiveButton("Add", ( dialog, which ) -> {
-		ChatSettingsActivity.this.callAddUser(addUserEditText.getText( ).toString( ));
+		ChatSettingsActivity.this.addUserToFireBase(addUserEditText.getText( ).toString( ));
 
 	});
 
@@ -159,13 +159,13 @@ private void removeUserAlertDialog( ) {
 	removeUserDialogBuilder.setNegativeButton("Cancel", ( dialog, which ) -> dialog.dismiss( ));
 	removeUserDialogBuilder.setPositiveButton("Remove", ( dialog, which ) -> {
 		String userToRemove = removeUserEditText.getText( ).toString( );
-		ChatSettingsActivity.this.callRemoveUser(userToRemove);
+		ChatSettingsActivity.this.removeUserFromFireBase(userToRemove);
 	});
 
 	removeUserDialogBuilder.show( );
 }
 
-private void callAddUser( String userEmail ) {
+private void addUserToFireBase( String userEmail ) {
 	FirebaseManager.doesUserExist(userEmail)
 		.addOnSuccessListener(documentSnapshot -> {
 			if ( documentSnapshot.isEmpty( ) || currentGroup.getMembersList( ).contains(documentSnapshot.getDocuments( ).get(0).getId( )) )
@@ -179,7 +179,7 @@ private void callAddUser( String userEmail ) {
 		});
 }
 
-private void callRemoveUser( String userEmail ) {
+private void removeUserFromFireBase( String userEmail ) {
 	if ( userEmail.equals(FirebaseManager.getUserEmail( )) ) {
 		showShortToast("You cannot remove yourself from the group.");
 		return;

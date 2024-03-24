@@ -39,16 +39,6 @@ public Group( Map<String, Object> groupModelData ) {
 
 }
 
-public Group( String adminID, String chatID, String name, Message lastMessage, String imageURL, Timestamp creationDate ) {
-	this.adminID = adminID;
-	this.chatID = chatID;
-	this.name = name;
-	this.lastMessage = lastMessage;
-	this.imageURL = imageURL;
-	this.creation_date = creationDate;
-	//this.membersList = new ArrayList<String>();
-	//membersList.add(adminID);
-}
 
 public Group( String adminID, String chatID, String name, String imageURL, Timestamp creation_date, ArrayList<String> membersList ) {
 	this.adminID = adminID;

@@ -20,25 +20,12 @@ public class Group {
 private String adminID, chatID, name, imageURL;
 private Message lastMessage;
 private ArrayList<String> membersList;
-private Timestamp creation_date;
+private Timestamp creationDate;
 
 
 public Group( ) {
 	//Empty constructor for Firebase. (REQUIRED)
 }
-
-public Group( Map<String, Object> groupModelData ) {
-	this.adminID = groupModelData.get(KEY_GROUP_DETAIL_ADMIN_ID).toString( );
-	this.chatID = groupModelData.get(KEY_GROUP_DETAILS_ID).toString( );
-	this.name = groupModelData.get(KEY_GROUP_DETAILS_NAME).toString( );
-	this.imageURL = groupModelData.get(KEY_GROUP_DETAILS_ICON).toString( );
-	this.creation_date = (Timestamp) groupModelData.get(KEY_GROUP_DETAILS_CREATION_DATE);
-
-	lastMessage = (Message) groupModelData.get(KEY_GROUP_DETAILS_LAST_MESSAGE);
-
-
-}
-
 
 public Group( String adminID, String chatID, String name, String imageURL, Timestamp creation_date, ArrayList<String> membersList ) {
 	this.adminID = adminID;
@@ -46,7 +33,7 @@ public Group( String adminID, String chatID, String name, String imageURL, Times
 	this.name = name;
 
 	this.imageURL = imageURL;
-	this.creation_date = creation_date;
+	this.creationDate = creation_date;
 	this.membersList = membersList;
 	this.lastMessage = FIRST_CHAT_MESSAGE;
 }
@@ -58,14 +45,13 @@ public void setMessage( Message lastMessage ) {
 
 @PropertyName ( KEY_GROUP_DETAILS_CREATION_DATE )
 public Date getCreationDate( ) {
-	return creation_date.toDate( );
+	return creationDate.toDate( );
 }
 
-/*
-@PropertyName(KEY_GROUP_DETAILS_CREATION_DATE)
-*/
-public void setCreation_date( Timestamp creation_date ) {
-	this.creation_date = creation_date;
+
+@PropertyName ( KEY_GROUP_DETAILS_CREATION_DATE )
+public void setCreationDate( Timestamp creation_date ) {
+	this.creationDate = creation_date;
 }
 
 @PropertyName ( KEY_GROUP_DETAILS_ICON )
@@ -114,16 +100,10 @@ public Message getLastMessage( ) {
 }
 
 
-//This is strictly for the firebase auto constructor.
-//Collection returns Map of string object
 @PropertyName ( KEY_GROUP_DETAILS_LAST_MESSAGE )
 public void setLastMessage( Map<String, Object> message ) {
 	this.lastMessage = new Message(message);
 }
-
-/*public void setLastMessage( Message lastMessage ) {
-	this.lastMessage = lastMessage;
-}*/
 
 @PropertyName ( KEY_GROUP_DETAILS_MEMBERS_LIST )
 public ArrayList<String> getMembersList( ) {
@@ -135,9 +115,8 @@ public void setMembersList( ArrayList<String> membersList ) {
 	this.membersList = membersList;
 }
 
-public long recieveTimestampNumber( ) {
-	//return creation_date.getSeconds();
-	return 1;
-}
 
+public long recieveTimestampNumber( ) {
+	return this.creationDate.getSeconds( );
+}
 }

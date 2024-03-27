@@ -32,7 +32,6 @@ public static class FirebaseConstants {
 	public static final String KEY_GROUP_DETAILS_LAST_MESSAGE = "LastMessage";
 	public static final String KEY_GROUP_DETAILS_CREATION_DATE = "CreationDate";
 	public static final String KEY_GROUP_DETAIL_ADMIN_ID = "AdminID";
-	public static final String KEY_GROUP_DETAILS_IS_PRIVATE_MESSAGES = "IsPrivateMessages";
 	public static final String KEY_GROUP_DETAILS_ID = "GroupID";
 
 
@@ -53,7 +52,6 @@ public static class FirebaseConstants {
 
 
 	//--- Firebase Notifications ---
-	public static final String NOTIFICATION_CHANNEL_ID = "notify";
 	public static final String NOTIFICATION_EXTRA_SENTFROMID = "sentFromID";
 	public static final String NOTIFICATION_PUSH_URL = "https://fcm.googleapis.com/fcm/send";
 	public static final String NOTIFICATION_API_KEY = "AAAAC4X48r8:APA91bEdbOMkUYcbwiWP7Y6vnLSTKU4dtgF625A0xsfvjfZNZmuxbDIlR-HcoLYJ0kmE_EWeF5WzWV3e6SuU6s_9qjWXtMPS-6WktO7k6f9yhfb6PEjQdeAL44d_q_MRBv7daENVOhaq";
@@ -63,7 +61,7 @@ public static class FirebaseConstants {
 
 public static class ApplicationConstants {
 
-	public static final String KEY_PREFERENCE_NAME = "VioletChatAppPreference";
+	//public static final String KEY_PREFERENCE_NAME = "VioletChatAppPreference";
 	public static final int SPLASH_DELAY_MILLISECONDS = 500;
 	public static final int CREATE_GROUP_DELAY_MILLISECONDS = 500;
 }

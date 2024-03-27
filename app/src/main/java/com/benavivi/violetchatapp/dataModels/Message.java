@@ -26,15 +26,7 @@ private Timestamp date;
 
 
 public Message( ) {
-
-}
-
-public Message( String message, String senderID, Timestamp date, String senderName ) {
-	this.message = message;
-	this.senderID = senderID;
-	this.date = date;
-	this.senderName = senderName;
-
+	//Empty Constructor. REQUIRED for firebase.
 }
 
 public Message( String message, String senderID, String senderName, String senderImageURL, Timestamp date ) {

@@ -70,9 +70,6 @@ public static boolean isSignedIn( ) {
 	return FirebaseAuth.getInstance( ).getCurrentUser( ) != null;
 }
 
-public static String getUserDisplayName( ) {
-	return FirebaseAuth.getInstance( ).getCurrentUser( ).getDisplayName( );
-}
 
 public static String getUserEmail( ) {
 	return FirebaseAuth.getInstance( ).getCurrentUser( ).getEmail( );
@@ -314,19 +311,6 @@ private static void saveImageInChatDetails( String imageUrl, String id ) {
 		.update(KEY_GROUP_DETAILS_ICON, imageUrl);
 }
 
-public static void createNewGroup( Group group ) {
-
-	String groupID = group.getChatID( ) == null ? generateRandomChatID( ) : group.getChatID( );
-	group.setChatID(groupID);
-	FirebaseFirestore.getInstance( ).collection(COLLECTION_GROUP_DETAILS).document(groupID)
-		.set(group);
-
-	FirebaseFirestore.getInstance( ).collection(COLLECTION_GROUP_MESSAGES).document(group.getChatID( ))
-		.collection(SUB_COLLECTION_MESSAGES)
-		.add(FIRST_CHAT_MESSAGE);
-
-
-}
 
 public static void setGroupName( Group currentGroup, String newName ) {
 	currentGroup.setName(newName);
@@ -346,7 +330,4 @@ public static void changeCurrentUserDisplayName( String name ) {
 		.update(KEY_USER_DISPLAY_NAME, name);
 }
 
-public static void changeCurrentUserImage( Uri imageUri ) {
-	uploadUserProfileImage(imageUri);
-}
 }

@@ -14,7 +14,6 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@id/recievedMessageText"
         app:layout_constraintStart_toStartOf="parent"
-        app:riv_oval="true"
         app:shapeAppearance="@style/circle" />
 
     <TextView

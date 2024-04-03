@@ -28,7 +28,6 @@
                 android:layout_height="@dimen/_100sdp"
                 android:scaleType="centerCrop"
                 android:src="@color/input_background"
-                app:riv_oval="true"
                 app:shapeAppearanceOverlay="@style/circle" />
 
 

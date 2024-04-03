@@ -30,7 +30,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/chatSettingsBackButton"
         app:layout_constraintTop_toTopOf="parent"
-        app:riv_oval="true"
         app:shapeAppearance="@style/circle" />
 
     <TextView

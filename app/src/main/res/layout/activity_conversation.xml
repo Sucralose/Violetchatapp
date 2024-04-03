@@ -34,7 +34,6 @@
                 android:layout_height="@dimen/_35sdp"
                 android:scaleType="centerCrop"
                 android:src="@color/input_background"
-                app:riv_oval="true"
                 app:shapeAppearance="@style/circle" />
 
             <TextView

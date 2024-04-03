@@ -51,7 +51,6 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:scaleType="centerCrop"
                 android:src="@color/input_background"
-                app:riv_oval="true"
                 app:shapeAppearance="@style/circle" />
 
             <TextView

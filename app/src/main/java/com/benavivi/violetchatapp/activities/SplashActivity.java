@@ -42,6 +42,7 @@ void MoveUserDependingOnAuth( ) {
 		}
 		finish( );
 	}, Constants.ApplicationConstants.SPLASH_DELAY_MILLISECONDS);
+	
 }
 
 void MoveUserToNotificationChat( ) {

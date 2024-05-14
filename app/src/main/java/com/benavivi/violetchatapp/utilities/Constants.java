@@ -53,10 +53,12 @@ public static class FirebaseConstants {
 
 	//--- Firebase Notifications ---
 	public static final String NOTIFICATION_EXTRA_SENTFROMID = "sentFromID";
-	public static final String NOTIFICATION_PUSH_URL = "https://fcm.googleapis.com/fcm/send";
+	public static final String NOTIFICATION_PUSH_URL = "https://fcm.googleapis.com/v1/projects/voilet-chatapp/messages:send";
 	public static final String NOTIFICATION_API_KEY = "AAAAC4X48r8:APA91bEdbOMkUYcbwiWP7Y6vnLSTKU4dtgF625A0xsfvjfZNZmuxbDIlR-HcoLYJ0kmE_EWeF5WzWV3e6SuU6s_9qjWXtMPS-6WktO7k6f9yhfb6PEjQdeAL44d_q_MRBv7daENVOhaq";
-
+	//public static final String ADMIN_SDK_LOCATION = "/home/o7/StudioProjects/Violetchatapp/app/service_account_key.json";
 	public static final Message FIRST_CHAT_MESSAGE = new Message("Created this chat", "-1", "Admin", "invalidImage", Timestamp.now( ));
+	private static final String NOTIFICATION_MESSAGING_SCOPE = "https://www.googleapis.com/auth/firebase.messaging";
+	public static final String[] NOTIFICATION_SCOPES = { NOTIFICATION_MESSAGING_SCOPE };
 }
 
 public static class ApplicationConstants {

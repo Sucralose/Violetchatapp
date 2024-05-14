@@ -34,6 +34,9 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
 }
 
 dependencies {
@@ -53,7 +56,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-storage")
     implementation("com.google.firebase:firebase-messaging")
-
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.19.0")
     //Firebase UI
     implementation("com.firebaseui:firebase-ui-storage:8.0.2")
     implementation("com.firebaseui:firebase-ui-firestore:8.0.2")

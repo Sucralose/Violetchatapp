@@ -115,6 +115,6 @@ private void clearInput( ) {
 
 private void sendMessage( ) {
 	String message = binding.conversationEditText.getText( ).toString( );
-	FirebaseManager.sendMessage(message, currentGroup);
+	FirebaseManager.sendMessage(message, currentGroup, this);
 }
 }

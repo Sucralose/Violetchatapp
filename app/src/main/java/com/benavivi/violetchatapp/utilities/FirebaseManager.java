@@ -144,7 +144,7 @@ public static ChatsListRecycleViewAdapter getUserGroupsDetailsAdapter( Context c
 }
 
 
-public static void sendMessage( String message, Group group ) {
+public static void sendMessage( String message, Group group, Context context ) {
 	//Convert to message format
 	HashMap<String, Object> messageMap = new HashMap<>( );
 
@@ -167,7 +167,7 @@ public static void sendMessage( String message, Group group ) {
 			.collection(COLLECTION_GROUP_DETAILS).document(groupID)
 			.update(KEY_GROUP_DETAILS_LAST_MESSAGE, messageMap);
 
-		PushNotificationHelper.sendPushNotification(userMap.get(KEY_USER_DISPLAY_NAME) + ": " + message, group);
+		PushNotificationHelper.sendPushNotification(userMap.get(KEY_USER_DISPLAY_NAME) + ": " + message, group, context);
 	});
 
 
@@ -225,11 +225,22 @@ public static Task<String> getFCMToken( ) {
 }
 
 public static void updateFCMToken( ) {
-	getFCMToken( ).addOnSuccessListener(token -> {
-		HashMap<String, Object> userMap = new HashMap<>( );
-		userMap.put(KEY_USER_FCM_TOKEN, token);
-		FirebaseFirestore.getInstance( ).collection(COLLECTION_USER).document(getCurrentUserUid( ))
-			.update(userMap);
+	getFCMToken( ).addOnCompleteListener(new OnCompleteListener<String>( ) {
+		@Override
+		public void onComplete( @NonNull Task<String> task ) {
+			if ( !task.isSuccessful( ) ) {
+				Log.w("TAG", "Fetching FCM registration token failed", task.getException( ));
+				return;
+			}
+
+			// Get new FCM registration token
+			String token = task.getResult( );
+
+			HashMap<String, Object> userMap = new HashMap<>( );
+			userMap.put(KEY_USER_FCM_TOKEN, token);
+			FirebaseFirestore.getInstance( ).collection(COLLECTION_USER).document(getCurrentUserUid( ))
+				.update(userMap);
+		}
 	});
 }
 

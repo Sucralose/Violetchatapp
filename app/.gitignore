@@ -1,3 +1,5 @@
 /build
 
-src/main/java/com/benavivi/violetchatapp/utilities/Constants.java
+/src/main/java/com/benavivi/violetchatapp/utilities/Constants.java
+/src/main/assets/service_account_key.json
+/google-services.json

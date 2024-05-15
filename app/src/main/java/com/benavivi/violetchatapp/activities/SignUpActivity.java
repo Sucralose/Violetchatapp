@@ -18,11 +18,15 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.benavivi.violetchatapp.databinding.ActivitySignUpBinding;
+import com.benavivi.violetchatapp.services.InternetConnectionBroadcastReceiver;
 import com.benavivi.violetchatapp.utilities.CameraHandler;
 import com.benavivi.violetchatapp.utilities.FirebaseManager;
+import com.benavivi.violetchatapp.utilities.InternetBroadcastHelper;
 
 public class SignUpActivity extends AppCompatActivity {
 
+InternetConnectionBroadcastReceiver networkReceiver;
+InternetBroadcastHelper internetBroadcastHelper;
 private ActivitySignUpBinding binding;
 private Uri profilePictureImageUri;
 //Image Picker handler
@@ -55,6 +59,9 @@ protected void onCreate( Bundle savedInstanceState ) {
 	binding = ActivitySignUpBinding.inflate(getLayoutInflater( ));
 	setContentView(binding.getRoot( ));
 	setListeners( );
+
+	internetBroadcastHelper = new InternetBroadcastHelper(this);
+	internetBroadcastHelper.registerInternetBroadcast( );
 }
 
 
@@ -142,5 +149,10 @@ private void loading( Boolean isLoading ) {
 		binding.progressBar.setVisibility(View.INVISIBLE);
 	}
 
+}
+
+protected void onDestroy( ) {
+	internetBroadcastHelper.unregisterInternetBroadcast( );
+	super.onDestroy( );
 }
 }

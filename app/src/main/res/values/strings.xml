@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Violet Chat</string>
     <string name="MAX_NAME_DISPLAY_LENGTH">25</string>
+    <string name="InternetUnavailableExplanation">You will not be able to send\\nmessages or receive\\n updates until you connect\\nto the Internet.</string>
+    <string name="ConnectionWifiExplanation">You are now able to send\nmessages and receive\n updates.</string>
+    <string name="ConnectionMobileDataExplanation">You are now able to send messages\n and receive updates. Please mind that \n you might be charged, depending on your data plan.</string>
 
 </resources>

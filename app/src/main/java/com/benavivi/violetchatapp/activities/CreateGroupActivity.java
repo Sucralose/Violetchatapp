@@ -16,9 +16,11 @@ import com.benavivi.violetchatapp.databinding.ActivityCreateGroupBinding;
 import com.benavivi.violetchatapp.utilities.CameraHandler;
 import com.benavivi.violetchatapp.utilities.Constants;
 import com.benavivi.violetchatapp.utilities.FirebaseManager;
+import com.benavivi.violetchatapp.utilities.InternetBroadcastHelper;
 
 public class CreateGroupActivity extends AppCompatActivity {
 ActivityCreateGroupBinding binding;
+InternetBroadcastHelper internetBroadcastHelper;
 private Uri chatImageUri;
 private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
 	new ActivityResultContracts.StartActivityForResult( ),
@@ -49,6 +51,9 @@ protected void onCreate( Bundle savedInstanceState ) {
 	setContentView(binding.getRoot( ));
 
 	setListeners( );
+
+	internetBroadcastHelper = new InternetBroadcastHelper(this);
+	internetBroadcastHelper.registerInternetBroadcast( );
 }
 
 private void setListeners( ) {
@@ -109,6 +114,12 @@ private void buttonActionLoading( Boolean isLoading ) {
 		binding.createGroupButton.setVisibility(View.VISIBLE);
 		binding.progressBar.setVisibility(View.INVISIBLE);
 	}
+}
+
+
+protected void onDestroy( ) {
+	internetBroadcastHelper.unregisterInternetBroadcast( );
+	super.onDestroy( );
 }
 
 }

@@ -24,11 +24,13 @@ import com.benavivi.violetchatapp.databinding.LayoutGroupItemBinding;
 import com.benavivi.violetchatapp.utilities.Constants;
 import com.benavivi.violetchatapp.utilities.FirebaseManager;
 import com.benavivi.violetchatapp.utilities.IntentFactory;
+import com.benavivi.violetchatapp.utilities.InternetBroadcastHelper;
 import com.squareup.picasso.Picasso;
 
 public class ChatSettingsActivity extends AppCompatActivity {
 ActivityChatSettingsBinding binding;
 Group currentGroup;
+InternetBroadcastHelper internetBroadcastHelper;
 private Uri newChatImageUri;
 private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
 	new ActivityResultContracts.StartActivityForResult( ),
@@ -48,6 +50,9 @@ protected void onCreate( Bundle savedInstanceState ) {
 	setContentView(binding.getRoot( ));
 
 	currentGroup = IntentFactory.IntentToGroup(getIntent( ));
+
+	internetBroadcastHelper = new InternetBroadcastHelper(this);
+	internetBroadcastHelper.registerInternetBroadcast( );
 
 	setupPanel( );
 	setListeners( );
@@ -240,5 +245,11 @@ private void addMemberToScrollView( String member ) {
 private void showShortToast( String message ) {
 	Toast.makeText(this, message, Toast.LENGTH_SHORT).show( );
 }
+
+protected void onDestroy( ) {
+	internetBroadcastHelper.unregisterInternetBroadcast( );
+	super.onDestroy( );
+}
+
 
 }

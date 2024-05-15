@@ -149,13 +149,4 @@ public static void sendPushNotification( String message, Group group, Context cu
 }
 
 
-//private static String getAccessToken( ) throws IOException {
-//	GoogleCredentials googleCredentials = GoogleCredentials
-//		.fromStream(new FileInputStream("service-account.json"))
-//		.createScoped(Arrays.asList(SCOPES));
-//	googleCredentials.refresh( );
-//	return googleCredentials.getAccessToken( ).getTokenValue( );
-//}
-
-
 }

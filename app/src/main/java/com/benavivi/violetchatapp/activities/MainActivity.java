@@ -16,11 +16,13 @@ import com.benavivi.violetchatapp.adapters.MyViewPagerAdapter;
 import com.benavivi.violetchatapp.databinding.ActivityMainBinding;
 import com.benavivi.violetchatapp.fragments.ChatsFragment;
 import com.benavivi.violetchatapp.fragments.SettingsFragment;
+import com.benavivi.violetchatapp.utilities.InternetBroadcastHelper;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 public class MainActivity extends AppCompatActivity {
 
+InternetBroadcastHelper internetBroadcastHelper;
 private ActivityMainBinding binding;
 private MyViewPagerAdapter myAdapter;
 
@@ -34,6 +36,9 @@ protected void onCreate( Bundle savedInstanceState ) {
 	BindViewPager( );
 	CreateTabLayoutMediator( );
 	setListeners( );
+
+	internetBroadcastHelper = new InternetBroadcastHelper(this);
+	internetBroadcastHelper.registerInternetBroadcast( );
 }
 
 private void CreateTabLayoutMediator( ) {
@@ -107,6 +112,12 @@ public boolean onMenuItemClick( MenuItem item ) {
 	}
 
 	return handledClick;
+}
+
+
+protected void onDestroy( ) {
+	internetBroadcastHelper.unregisterInternetBroadcast( );
+	super.onDestroy( );
 }
 
 }

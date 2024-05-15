@@ -13,6 +13,7 @@ import com.benavivi.violetchatapp.dataModels.Group;
 import com.benavivi.violetchatapp.databinding.ActivityConversationBinding;
 import com.benavivi.violetchatapp.utilities.FirebaseManager;
 import com.benavivi.violetchatapp.utilities.IntentFactory;
+import com.benavivi.violetchatapp.utilities.InternetBroadcastHelper;
 import com.benavivi.violetchatapp.utilities.LinearLayoutManagerWrapper;
 import com.squareup.picasso.Picasso;
 
@@ -20,6 +21,9 @@ public class ConversationActivity extends AppCompatActivity {
 ActivityConversationBinding binding;
 ConversationRecyclerViewAdapter adapter;
 LinearLayoutManager linearLayoutManager;
+InternetBroadcastHelper internetBroadcastHelper;
+
+
 Group currentGroup;
 
 
@@ -28,6 +32,9 @@ protected void onCreate( Bundle savedInstanceState ) {
 	super.onCreate(savedInstanceState);
 	binding = ActivityConversationBinding.inflate(getLayoutInflater( ));
 	setContentView(binding.getRoot( ));
+
+	internetBroadcastHelper = new InternetBroadcastHelper(this);
+	internetBroadcastHelper.registerInternetBroadcast( );
 
 	currentGroup = IntentFactory.IntentToGroup(getIntent( ));
 	setRecyclerView( );
@@ -116,5 +123,10 @@ private void clearInput( ) {
 private void sendMessage( ) {
 	String message = binding.conversationEditText.getText( ).toString( );
 	FirebaseManager.sendMessage(message, currentGroup, this);
+}
+
+protected void onDestroy( ) {
+	internetBroadcastHelper.unregisterInternetBroadcast( );
+	super.onDestroy( );
 }
 }

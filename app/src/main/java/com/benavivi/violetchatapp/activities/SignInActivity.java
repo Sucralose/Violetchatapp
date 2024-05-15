@@ -10,9 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.benavivi.violetchatapp.databinding.ActivitySignInBinding;
 import com.benavivi.violetchatapp.utilities.FirebaseManager;
+import com.benavivi.violetchatapp.utilities.InternetBroadcastHelper;
 
 public class SignInActivity extends AppCompatActivity {
 
+
+InternetBroadcastHelper internetBroadcastHelper;
 private ActivitySignInBinding binding;
 
 @Override
@@ -22,6 +25,9 @@ protected void onCreate( Bundle savedInstanceState ) {
 	binding = ActivitySignInBinding.inflate(getLayoutInflater( ));
 	setContentView(binding.getRoot( ));
 	setListeners( );
+
+	internetBroadcastHelper = new InternetBroadcastHelper(this);
+	internetBroadcastHelper.registerInternetBroadcast( );
 }
 
 
@@ -104,4 +110,8 @@ private void showShortToast( String message ) {
 	Toast.makeText(this, message, Toast.LENGTH_SHORT).show( );
 }
 
+protected void onDestroy( ) {
+	internetBroadcastHelper.unregisterInternetBroadcast( );
+	super.onDestroy( );
+}
 }

@@ -68,4 +68,11 @@ public static class ApplicationConstants {
 	public static final int CREATE_GROUP_DELAY_MILLISECONDS = 500;
 }
 
+public static class InternetBroadcastReceiverConstants {
+	public static final String INTERNET_UNAVAILABLE_CODE = "Internet is unavailable";
+	public static final String INTERNET_CONNECTED_WITH_WIFI_CODE = "Internet is available with WiFi";
+	public static final String INTERNET_CONNECTED_WITH_MOBILE_DATA_CODE = "Internet is available with Mobile Data";
+
+}
+
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/_10sdp"
+    tools:context=".activities.InstructionsActivity">
+
+    <ImageButton
+        android:id="@+id/instructionsBack"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:background="@drawable/arrow_back_icon_24"
+        android:backgroundTint="@color/primary_dark" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="-35sp"
+        android:text="Instructions"
+        android:textSize="@dimen/_25ssp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/instructionsText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_1sdp"
+        android:text="Lorem Ipsum"
+        android:textSize="@dimen/_11ssp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:gravity="center"
+        android:text="Have you noticed a bug?\nPlease let me know by reporting it!"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/_12ssp" />
+
+    <Button
+        android:id="@+id/reportABugButton"
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:backgroundTint="@color/error"
+        android:text="Report a bug"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_13ssp"
+        android:textStyle="bold" />
+
+</LinearLayout>

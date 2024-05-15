@@ -106,8 +106,10 @@ public boolean onMenuItemClick( MenuItem item ) {
 		startActivity(intent);
 		finish( );
 	}
-	if ( clickedItemId == R.id.aboutOption && !handledClick ) {
-		showShortToast("About");
+	if ( clickedItemId == R.id.instrcutionsOption && !handledClick ) {
+		Intent intent = new Intent(this, InstructionsActivity.class);
+		startActivity(intent);
+		finish( );
 		handledClick = true;
 	}
 

@@ -1,5 +1,6 @@
 package com.benavivi.violetchatapp.utilities;
 
+import com.benavivi.violetchatapp.R;
 import com.benavivi.violetchatapp.dataModels.Message;
 import com.google.firebase.Timestamp;
 
@@ -73,6 +74,12 @@ public static class InternetBroadcastReceiverConstants {
 	public static final String INTERNET_CONNECTED_WITH_WIFI_CODE = "Internet is available with WiFi";
 	public static final String INTERNET_CONNECTED_WITH_MOBILE_DATA_CODE = "Internet is available with Mobile Data";
 
+
+}
+
+public static class InstructionActivityConstants {
+	public final static int INSTRUCTIONS_FILE_ID = R.raw.application_instructions;
+	public final static String DEVELOPER_EMAIL_ADDRESS = "ben.avivi15@gmail.com";
 }
 
 }

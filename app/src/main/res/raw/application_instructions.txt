@@ -1,0 +1,13 @@
+In order you start chatting, there is one of two possible options.
+    1. You are added to a group by a different user
+    2. You create a group, and add members to that group.
+
+To create a group, click on the three Dots in the top right of the home page, then Click "New group".
+This will lead to a group creation screen. Afterwards, When you complete the creation, click on the name of that group.
+Doing so, will open the chat conversation. (You will see a system message notifying of the successful creation.)
+Inside the conversation you could type a message and click on the arrow to send it. To access the settings, you may click on the group name to access its settings.
+Please know that only the creator of the group can add/remove members, as well as change the name and picture of the chat.
+However, all members of that group may leave the chat through the 'Leave chat button'.
+
+In the home page, you may swipe right to enter to enter the settings. On the settings page, you will see information about your account, and you may choose to change your image or display name there.
+Additionally, you could sign out on that page.

@@ -5,17 +5,14 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-
     <uses-feature
         android:name="android.hardware.camera.autofocus"
         android:required="true" />
-
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
 
     <application
         android:allowBackup="true"
@@ -27,6 +24,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Violetchatapp"
         tools:targetApi="31">
+        <activity
+            android:name=".activities.InstructionsActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
@@ -38,11 +38,9 @@
         <activity
             android:name=".activities.ChatSettingsActivity"
             android:exported="false" />
-
         <activity
             android:name=".activities.SplashActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,7 +51,6 @@
             android:name=".activities.CreateGroupActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".activities.ConversationActivity"
             android:exported="false"
@@ -71,16 +68,6 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
-        <receiver
-            android:name=".services.InternetConnectionBroadcastReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action
-                    android:name="android.net.conn.CONNECTIVITY_CHANGE"
-                    tools:ignore="BatteryLife" />
-            </intent-filter>
-        </receiver>
 
     </application>
 

@@ -12,11 +12,9 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.benavivi.violetchatapp.R;
+import com.benavivi.violetchatapp.databinding.LayoutInternetAlertDialogBinding;
 
 public class InternetConnectionBroadcastReceiver extends BroadcastReceiver {
 static String connectionStatus = "";
@@ -38,37 +36,32 @@ public void onReceive( Context context, Intent intent ) {
 
 
 private void createInternetStatusAlertDialog( Context currentContext ) {
-	TextView connectionStatusText, connectionStatusExplanation;
-	ImageView connectionStatusIcon;
-	Button connectionStatusButton;
+	LayoutInternetAlertDialogBinding layoutInternetAlertDialogBinding;
 	boolean isConnected = !connectionStatus.equals(INTERNET_UNAVAILABLE_CODE);
 
-	//TODO: create dialog here
 	final Dialog internetDialog = new Dialog(currentContext);
+	layoutInternetAlertDialogBinding = LayoutInternetAlertDialogBinding.inflate(internetDialog.getLayoutInflater( ));
+
+	internetDialog.setContentView(layoutInternetAlertDialogBinding.getRoot( ));
 	internetDialog.setCancelable(false);
-	internetDialog.setContentView(R.layout.layout_internet_alert_dialog);
 	internetDialog.getWindow( ).setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
 	internetDialog.getWindow( ).getAttributes( ).windowAnimations = android.R.style.Animation_Dialog;
+	internetDialog.getWindow( ).setBackgroundDrawableResource(android.R.color.transparent);
 
-	connectionStatusText = internetDialog.findViewById(R.id.layout_internet_alert_dialog_connection_status);
-	connectionStatusExplanation = internetDialog.findViewById(R.id.layout_internet_alert_dialog_connection_status_explanation);
-	connectionStatusIcon = internetDialog.findViewById(R.id.layout_internet_alert_dialog_connection_icon);
-	connectionStatusButton = internetDialog.findViewById(R.id.layout_internet_alert_dialog_connection_button);
+	layoutInternetAlertDialogBinding.layoutInternetAlertDialogConnectionIcon.setImageResource(isConnected ? R.drawable.connected_internet_icon_24 : R.drawable.disconnected_internet_icon_24);
 
-	connectionStatusIcon.setImageResource(isConnected ? R.drawable.connected_internet_icon_24 : R.drawable.disconnected_internet_icon_24);
+	layoutInternetAlertDialogBinding.layoutInternetAlertDialogConnectionStatus.setText(connectionStatus);
 
-	connectionStatusText.setText(connectionStatus);
-
-	connectionStatusButton.setOnClickListener(v -> {
+	layoutInternetAlertDialogBinding.layoutInternetAlertDialogConnectionButton.setOnClickListener(v -> {
 		internetDialog.dismiss( );
 	});
 
 	if ( connectionStatus.equals(INTERNET_CONNECTED_WITH_WIFI_CODE) )
-		connectionStatusExplanation.setText(R.string.ConnectionWifiExplanation);
+		layoutInternetAlertDialogBinding.layoutInternetAlertDialogConnectionStatusExplanation.setText(R.string.ConnectionWifiExplanation);
 	if ( connectionStatus.equals(INTERNET_CONNECTED_WITH_MOBILE_DATA_CODE) )
-		connectionStatusExplanation.setText(R.string.ConnectionMobileDataExplanation);
+		layoutInternetAlertDialogBinding.layoutInternetAlertDialogConnectionStatusExplanation.setText(R.string.ConnectionMobileDataExplanation);
 	if ( connectionStatus.equals(INTERNET_UNAVAILABLE_CODE) )
-		connectionStatusExplanation.setText(R.string.InternetUnavailableExplanation);
+		layoutInternetAlertDialogBinding.layoutInternetAlertDialogConnectionStatusExplanation.setText(R.string.InternetUnavailableExplanation);
 
 
 	internetDialog.show( );
